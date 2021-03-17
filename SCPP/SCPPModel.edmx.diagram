@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="eef7878fb08b424fba86ee33d0de2cd9" Name="Diagram1">
+        <EntityTypeShape EntityType="SCPPModel.Archivo" Width="1.5" PointX="7.5" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCPPModel.Estudiante" Width="1.5" PointX="0.75" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCPPModel.Expediente" Width="1.5" PointX="5.25" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCPPModel.Grupo" Width="1.5" PointX="0.75" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCPPModel.Inscripción" Width="1.5" PointX="3" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCPPModel.Organización" Width="1.5" PointX="1.5" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCPPModel.Periodo" Width="1.5" PointX="1.5" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCPPModel.Profesor" Width="1.5" PointX="1.5" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCPPModel.Proyecto" Width="1.5" PointX="0.75" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCPPModel.Reporte" Width="1.5" PointX="9.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCPPModel.Selecciónproyecto" Width="1.5" PointX="6" PointY="3.125" IsExpanded="true" />
+        <AssociationConnector Association="SCPPModel.FK_Archivo_Expediente" ManuallyRouted="false" />
+        <AssociationConnector Association="SCPPModel.FK_Reporte_Archivo" ManuallyRouted="false" />
+        <AssociationConnector Association="SCPPModel.FK_Inscripción_Estudiante" ManuallyRouted="false" />
+        <AssociationConnector Association="SCPPModel.FK_SelecciónProyecto_Estudiante" ManuallyRouted="false" />
+        <AssociationConnector Association="SCPPModel.FK_Expediente_Inscripción" ManuallyRouted="false" />
+        <AssociationConnector Association="SCPPModel.FK_Grupo_Periodo" ManuallyRouted="false" />
+        <AssociationConnector Association="SCPPModel.FK_Grupo_Profesor" ManuallyRouted="false" />
+        <AssociationConnector Association="SCPPModel.FK_Inscripción_Grupo" ManuallyRouted="false" />
+        <AssociationConnector Association="SCPPModel.FK_Inscripción_Proyecto" ManuallyRouted="false" />
+        <AssociationConnector Association="SCPPModel.FK_Proyecto_Organización" ManuallyRouted="false" />
+        <AssociationConnector Association="SCPPModel.FK_SelecciónProyecto_Proyecto" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
