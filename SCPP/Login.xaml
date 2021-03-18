@@ -13,7 +13,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SCPP"
         mc:Ignorable="d"
-        Title="Login" Height="450" Width="800">
+        Title="Iniiciar sesión" Height="450" Width="800">
 
     <Grid FlowDirection="LeftToRight" Background="#FFFFFF" RenderTransformOrigin="0,1">
         <Grid.ColumnDefinitions>
@@ -26,24 +26,29 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="10"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
 
-        <materialDesign:ColorZone Mode="Custom" Background="#0756CA" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="6">
-            <TextBlock Text="Sistema de Control de Prácticas Profesionales" HorizontalAlignment="Center"
+        <materialDesign:ColorZone Mode="Custom" Background="#04539c" Grid.Column="0" 
+                                  Grid.Row="0" Grid.ColumnSpan="6" Height="40">
+            <TextBlock Text="Universidad Veracruzana" HorizontalAlignment="Center"
                        Foreground="#FFFFFF"
-                       FontSize="23" VerticalAlignment="Bottom" Margin="0 10 0 10">
+                       FontSize="23" VerticalAlignment="Center" Margin="0 10 0 10">
             </TextBlock>
         </materialDesign:ColorZone>
+        
+        
+        <Image Source="/Imágenes/LogoSCPP.png" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1"/>
+
 
         <TextBox 
             x:Name="UserTextBox" materialDesign:HintAssist.Hint="Usuario" 
@@ -76,21 +81,23 @@
 
         <Button
             x:Name="LoginButton"
+            Background="#049c33"
+            BorderBrush="#049c33"
             BorderThickness="3"
             Content="Iniciar sesión"
             HorizontalAlignment="Center"  Grid.Column="3" Grid.Row="7"
             materialDesign:ButtonAssist.CornerRadius ="10"
-            Margin="0 0 0 0" Width="110"
+            Margin="0 0 0 0" Width="115"
             Click="LoginButtonClicked"/>
 
         <Button
             x:Name="RegisterButton"
-            Background="#656565"
-            BorderBrush="#656565"
+            Background="#04539c"
+            BorderBrush="#04539c"
             BorderThickness="3"
             Content="Registrarse"
             HorizontalAlignment="Center"  Grid.Column="2" Grid.Row="7"
             materialDesign:ButtonAssist.CornerRadius ="10"
-            Margin="0 0 0 0" Width="110"/>
+            Margin="0 0 0 0" Width="115"/>
     </Grid>
 </Window>

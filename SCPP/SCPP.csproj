@@ -175,6 +175,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Imágenes\LogoSCPP.png" />
     <Content Include="SCPPModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SCPPModel.Context.cs</LastGenOutput>

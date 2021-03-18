@@ -35,7 +35,6 @@ namespace SCPP
                 MessageBox.Show("Campos incompletos. Por favor asegurese de no dejar campos vacíos.");
                 return false;
             }
-
             return true;
         }
     }
