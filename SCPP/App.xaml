@@ -32,6 +32,18 @@
                 <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="10"/>
                 <Setter Property="HorizontalAlignment" Value="Center"/>
             </Style>
+
+            <Style x:Key="TextBox" BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}" TargetType="{x:Type TextBox}">
+                <Setter Property="materialDesign:HintAssist.IsFloating" Value="True"/>
+                <Setter Property="materialDesign:HintAssist.Foreground" Value="#04539c"/>
+                <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="#04539c"/>
+            </Style>
+
+            <Style x:Key="PasswordBox" BasedOn="{StaticResource MaterialDesignFloatingHintPasswordBox}" TargetType="{x:Type PasswordBox}">
+                <Setter Property="materialDesign:HintAssist.IsFloating" Value="True"/>
+                <Setter Property="materialDesign:HintAssist.Foreground" Value="#04539c"/>
+                <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="#04539c"/>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
