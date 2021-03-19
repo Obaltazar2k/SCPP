@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Windows;
 
 
 namespace SCPP
@@ -16,10 +18,44 @@ namespace SCPP
 
         private void LoginButtonClicked (object sender, RoutedEventArgs e)
         {
-            if (FieldsValidation())
+            try
             {
-                MessageBox.Show("Vamos bien");
-            }
+                if (FieldsValidation())
+                {
+                    GetDataFromFields();
+                    using(SCPPContext context = new SCPPContext())
+                    {
+                        if ((_user.Substring(0, 1)).Equals("S"))
+                        {
+                            var student = context.Estudiante.FirstOrDefault(u => u.Matricula == _user);
+                            if((student != null))
+                            {
+                                MessageBox.Show(student.Nombre + " " + student.Apellidopaterno + " " + student.Apellidomaterno);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Usuario no encontrado. Por favor verifique que sus datos sean correctos.");
+                            }                            
+                        }
+                        else
+                        {
+                            var profesor = context.Profesor.FirstOrDefault(u => u.Rfc == _user);
+                            if ((profesor != null))
+                            {
+                                MessageBox.Show(profesor.Nombre + " " + profesor.Apellidopaterno + " " + profesor.Apellidomaterno);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Usuario no encontrado. Por favor verifique que sus datos sean correctos.");
+                            }
+                        }
+                    }
+                }
+                        
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }          
         }
 
         private void GetDataFromFields()
