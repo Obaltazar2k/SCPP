@@ -10,19 +10,19 @@
 namespace SCPP
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     
     public partial class Inscripción
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Inscripción()
         {
-            this.Expediente = new HashSet<Expediente>();
+            this.Expediente = new ObservableCollection<Expediente>();
         }
     
         public string Estatus { get; set; }
         public Nullable<System.DateTime> Fecha { get; set; }
-        public string PeriodoID { get; set; }
+        public string Periodo { get; set; }
         public string Tipo { get; set; }
         public int InscripciónID { get; set; }
         public string Matriculaestudiante { get; set; }
@@ -31,7 +31,7 @@ namespace SCPP
     
         public virtual Estudiante Estudiante { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Expediente> Expediente { get; set; }
+        public virtual ObservableCollection<Expediente> Expediente { get; set; }
         public virtual Grupo Grupo { get; set; }
         public virtual Proyecto Proyecto { get; set; }
     }

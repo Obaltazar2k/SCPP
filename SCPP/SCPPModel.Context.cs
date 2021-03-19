@@ -26,12 +26,12 @@ namespace SCPP
         }
     
         public virtual DbSet<Archivo> Archivo { get; set; }
+        public virtual DbSet<Coordinador> Coordinador { get; set; }
         public virtual DbSet<Estudiante> Estudiante { get; set; }
         public virtual DbSet<Expediente> Expediente { get; set; }
         public virtual DbSet<Grupo> Grupo { get; set; }
         public virtual DbSet<Inscripción> Inscripción { get; set; }
         public virtual DbSet<Organización> Organización { get; set; }
-        public virtual DbSet<Periodo> Periodo { get; set; }
         public virtual DbSet<Profesor> Profesor { get; set; }
         public virtual DbSet<Proyecto> Proyecto { get; set; }
         public virtual DbSet<Reporte> Reporte { get; set; }

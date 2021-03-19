@@ -16,6 +16,16 @@
           <Property Name="ArchivoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ExpedienteID" Type="int" />
         </EntityType>
+        <EntityType Name="Coordinador">
+          <Key>
+            <PropertyRef Name="Rfc" />
+          </Key>
+          <Property Name="Apellidomaterno" Type="varchar" MaxLength="50" />
+          <Property Name="Apellidopaterno" Type="varchar" MaxLength="50" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Rfc" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contraseña" Type="varchar" MaxLength="150" />
+        </EntityType>
         <EntityType Name="Estudiante">
           <Key>
             <PropertyRef Name="Matricula" />
@@ -28,6 +38,7 @@
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
           <Property Name="Promedio" Type="float" />
           <Property Name="Telefono" Type="varchar" MaxLength="50" />
+          <Property Name="Contraseña" Type="varchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="Expediente">
           <Key>
@@ -50,7 +61,7 @@
           <Property Name="Seccion" Type="varchar" MaxLength="50" />
           <Property Name="GrupoID" Type="int" Nullable="false" />
           <Property Name="Rfcprofesor" Type="varchar" MaxLength="50" />
-          <Property Name="PeriodoID" Type="int" />
+          <Property Name="Periodo" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Inscripción">
           <Key>
@@ -58,7 +69,7 @@
           </Key>
           <Property Name="Estatus" Type="varchar" MaxLength="50" />
           <Property Name="Fecha" Type="date" />
-          <Property Name="PeriodoID" Type="varchar" MaxLength="50" />
+          <Property Name="Periodo" Type="varchar" MaxLength="50" />
           <Property Name="Tipo" Type="varchar" MaxLength="50" />
           <Property Name="InscripciónID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Matriculaestudiante" Type="varchar" MaxLength="50" />
@@ -78,15 +89,6 @@
           <Property Name="Telefono" Type="varchar" MaxLength="50" />
           <Property Name="OrganizaciónID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
-        <EntityType Name="Periodo">
-          <Key>
-            <PropertyRef Name="PeriodoID" />
-          </Key>
-          <Property Name="Año" Type="int" />
-          <Property Name="Mesfin" Type="varchar" MaxLength="50" />
-          <Property Name="Mesinicio" Type="varchar" MaxLength="50" />
-          <Property Name="PeriodoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-        </EntityType>
         <EntityType Name="Profesor">
           <Key>
             <PropertyRef Name="Rfc" />
@@ -95,6 +97,7 @@
           <Property Name="Apellidopaterno" Type="varchar" MaxLength="50" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
           <Property Name="Rfc" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contraseña" Type="varchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="Proyecto">
           <Key>
@@ -148,18 +151,6 @@
             </Principal>
             <Dependent Role="Expediente">
               <PropertyRef Name="InscripciónID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Grupo_Periodo">
-          <End Role="Periodo" Type="Self.Periodo" Multiplicity="0..1" />
-          <End Role="Grupo" Type="Self.Grupo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Periodo">
-              <PropertyRef Name="PeriodoID" />
-            </Principal>
-            <Dependent Role="Grupo">
-              <PropertyRef Name="PeriodoID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -261,12 +252,12 @@
         </Association>
         <EntityContainer Name="SCPPModelStoreContainer">
           <EntitySet Name="Archivo" EntityType="Self.Archivo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Coordinador" EntityType="Self.Coordinador" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estudiante" EntityType="Self.Estudiante" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Expediente" EntityType="Self.Expediente" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Grupo" EntityType="Self.Grupo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inscripción" EntityType="Self.Inscripción" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organización" EntityType="Self.Organización" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Periodo" EntityType="Self.Periodo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Profesor" EntityType="Self.Profesor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Reporte" EntityType="Self.Reporte" Schema="dbo" store:Type="Tables" />
@@ -278,10 +269,6 @@
           <AssociationSet Name="FK_Expediente_Inscripción" Association="Self.FK_Expediente_Inscripción">
             <End Role="Inscripción" EntitySet="Inscripción" />
             <End Role="Expediente" EntitySet="Expediente" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Grupo_Periodo" Association="Self.FK_Grupo_Periodo">
-            <End Role="Periodo" EntitySet="Periodo" />
-            <End Role="Grupo" EntitySet="Grupo" />
           </AssociationSet>
           <AssociationSet Name="FK_Grupo_Profesor" Association="Self.FK_Grupo_Profesor">
             <End Role="Profesor" EntitySet="Profesor" />
@@ -334,6 +321,16 @@
           <NavigationProperty Name="Expediente" Relationship="Self.FK_Archivo_Expediente" FromRole="Archivo" ToRole="Expediente" />
           <NavigationProperty Name="Reporte" Relationship="Self.FK_Reporte_Archivo" FromRole="Archivo" ToRole="Reporte" />
         </EntityType>
+        <EntityType Name="Coordinador">
+          <Key>
+            <PropertyRef Name="Rfc" />
+          </Key>
+          <Property Name="Apellidomaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Apellidopaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Rfc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contraseña" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="Estudiante">
           <Key>
             <PropertyRef Name="Matricula" />
@@ -346,6 +343,7 @@
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Promedio" Type="Double" />
           <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Contraseña" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Inscripción" Relationship="Self.FK_Inscripción_Estudiante" FromRole="Estudiante" ToRole="Inscripción" />
           <NavigationProperty Name="Selecciónproyecto" Relationship="Self.FK_SelecciónProyecto_Estudiante" FromRole="Estudiante" ToRole="Selecciónproyecto" />
         </EntityType>
@@ -372,8 +370,7 @@
           <Property Name="Seccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="GrupoID" Type="Int32" Nullable="false" />
           <Property Name="Rfcprofesor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PeriodoID" Type="Int32" />
-          <NavigationProperty Name="Periodo" Relationship="Self.FK_Grupo_Periodo" FromRole="Grupo" ToRole="Periodo" />
+          <Property Name="Periodo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Profesor" Relationship="Self.FK_Grupo_Profesor" FromRole="Grupo" ToRole="Profesor" />
           <NavigationProperty Name="Inscripción" Relationship="Self.FK_Inscripción_Grupo" FromRole="Grupo" ToRole="Inscripción" />
         </EntityType>
@@ -383,7 +380,7 @@
           </Key>
           <Property Name="Estatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Fecha" Type="DateTime" Precision="0" />
-          <Property Name="PeriodoID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Periodo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="InscripciónID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Matriculaestudiante" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -408,16 +405,6 @@
           <Property Name="OrganizaciónID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Proyecto" Relationship="Self.FK_Proyecto_Organización" FromRole="Organización" ToRole="Proyecto" />
         </EntityType>
-        <EntityType Name="Periodo">
-          <Key>
-            <PropertyRef Name="PeriodoID" />
-          </Key>
-          <Property Name="Año" Type="Int32" />
-          <Property Name="Mesfin" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Mesinicio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PeriodoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Grupo" Relationship="Self.FK_Grupo_Periodo" FromRole="Periodo" ToRole="Grupo" />
-        </EntityType>
         <EntityType Name="Profesor">
           <Key>
             <PropertyRef Name="Rfc" />
@@ -426,6 +413,7 @@
           <Property Name="Apellidopaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Rfc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contraseña" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Grupo" Relationship="Self.FK_Grupo_Profesor" FromRole="Profesor" ToRole="Grupo" />
         </EntityType>
         <EntityType Name="Proyecto">
@@ -525,18 +513,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Grupo_Periodo">
-          <End Role="Periodo" Type="Self.Periodo" Multiplicity="0..1" />
-          <End Role="Grupo" Type="Self.Grupo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Periodo">
-              <PropertyRef Name="PeriodoID" />
-            </Principal>
-            <Dependent Role="Grupo">
-              <PropertyRef Name="PeriodoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Grupo_Profesor">
           <End Role="Profesor" Type="Self.Profesor" Multiplicity="0..1" />
           <End Role="Grupo" Type="Self.Grupo" Multiplicity="*" />
@@ -599,12 +575,12 @@
         </Association>
         <EntityContainer Name="SCPPContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Archivo" EntityType="Self.Archivo" />
+          <EntitySet Name="Coordinador" EntityType="Self.Coordinador" />
           <EntitySet Name="Estudiante" EntityType="Self.Estudiante" />
           <EntitySet Name="Expediente" EntityType="Self.Expediente" />
           <EntitySet Name="Grupo" EntityType="Self.Grupo" />
           <EntitySet Name="Inscripción" EntityType="Self.Inscripción" />
           <EntitySet Name="Organización" EntityType="Self.Organización" />
-          <EntitySet Name="Periodo" EntityType="Self.Periodo" />
           <EntitySet Name="Profesor" EntityType="Self.Profesor" />
           <EntitySet Name="Proyecto" EntityType="Self.Proyecto" />
           <EntitySet Name="Reporte" EntityType="Self.Reporte" />
@@ -628,10 +604,6 @@
           <AssociationSet Name="FK_Expediente_Inscripción" Association="Self.FK_Expediente_Inscripción">
             <End Role="Inscripción" EntitySet="Inscripción" />
             <End Role="Expediente" EntitySet="Expediente" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Grupo_Periodo" Association="Self.FK_Grupo_Periodo">
-            <End Role="Periodo" EntitySet="Periodo" />
-            <End Role="Grupo" EntitySet="Grupo" />
           </AssociationSet>
           <AssociationSet Name="FK_Grupo_Profesor" Association="Self.FK_Grupo_Profesor">
             <End Role="Profesor" EntitySet="Profesor" />
@@ -672,6 +644,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Coordinador">
+            <EntityTypeMapping TypeName="SCPPModel.Coordinador">
+              <MappingFragment StoreEntitySet="Coordinador">
+                <ScalarProperty Name="Apellidomaterno" ColumnName="Apellidomaterno" />
+                <ScalarProperty Name="Apellidopaterno" ColumnName="Apellidopaterno" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Rfc" ColumnName="Rfc" />
+                <ScalarProperty Name="Contraseña" ColumnName="Contraseña" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Estudiante">
             <EntityTypeMapping TypeName="SCPPModel.Estudiante">
               <MappingFragment StoreEntitySet="Estudiante">
@@ -683,6 +666,7 @@
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Promedio" ColumnName="Promedio" />
                 <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Contraseña" ColumnName="Contraseña" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -707,7 +691,7 @@
                 <ScalarProperty Name="Seccion" ColumnName="Seccion" />
                 <ScalarProperty Name="GrupoID" ColumnName="GrupoID" />
                 <ScalarProperty Name="Rfcprofesor" ColumnName="Rfcprofesor" />
-                <ScalarProperty Name="PeriodoID" ColumnName="PeriodoID" />
+                <ScalarProperty Name="Periodo" ColumnName="Periodo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -716,7 +700,7 @@
               <MappingFragment StoreEntitySet="Inscripción">
                 <ScalarProperty Name="Estatus" ColumnName="Estatus" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="PeriodoID" ColumnName="PeriodoID" />
+                <ScalarProperty Name="Periodo" ColumnName="Periodo" />
                 <ScalarProperty Name="Tipo" ColumnName="Tipo" />
                 <ScalarProperty Name="InscripciónID" ColumnName="InscripciónID" />
                 <ScalarProperty Name="Matriculaestudiante" ColumnName="Matriculaestudiante" />
@@ -739,16 +723,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Periodo">
-            <EntityTypeMapping TypeName="SCPPModel.Periodo">
-              <MappingFragment StoreEntitySet="Periodo">
-                <ScalarProperty Name="Año" ColumnName="Año" />
-                <ScalarProperty Name="Mesfin" ColumnName="Mesfin" />
-                <ScalarProperty Name="Mesinicio" ColumnName="Mesinicio" />
-                <ScalarProperty Name="PeriodoID" ColumnName="PeriodoID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Profesor">
             <EntityTypeMapping TypeName="SCPPModel.Profesor">
               <MappingFragment StoreEntitySet="Profesor">
@@ -756,6 +730,7 @@
                 <ScalarProperty Name="Apellidopaterno" ColumnName="Apellidopaterno" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Rfc" ColumnName="Rfc" />
+                <ScalarProperty Name="Contraseña" ColumnName="Contraseña" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

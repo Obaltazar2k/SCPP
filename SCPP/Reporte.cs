@@ -10,7 +10,7 @@
 namespace SCPP
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     
     public partial class Reporte
     {
