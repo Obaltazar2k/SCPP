@@ -10,14 +10,14 @@
 namespace SCPP
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     
     public partial class Grupo
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Grupo()
         {
-            this.Inscripción = new HashSet<Inscripción>();
+            this.Inscripción = new ObservableCollection<Inscripción>();
         }
     
         public string Bloque { get; set; }
@@ -26,11 +26,10 @@ namespace SCPP
         public string Seccion { get; set; }
         public int GrupoID { get; set; }
         public string Rfcprofesor { get; set; }
-        public Nullable<int> PeriodoID { get; set; }
+        public string Periodo { get; set; }
     
-        public virtual Periodo Periodo { get; set; }
         public virtual Profesor Profesor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Inscripción> Inscripción { get; set; }
+        public virtual ObservableCollection<Inscripción> Inscripción { get; set; }
     }
 }

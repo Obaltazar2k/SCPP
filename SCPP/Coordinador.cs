@@ -12,21 +12,12 @@ namespace SCPP
     using System;
     using System.Collections.ObjectModel;
     
-    public partial class Profesor
+    public partial class Coordinador
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Profesor()
-        {
-            this.Grupo = new ObservableCollection<Grupo>();
-        }
-    
         public string Apellidomaterno { get; set; }
         public string Apellidopaterno { get; set; }
         public string Nombre { get; set; }
         public string Rfc { get; set; }
         public string Contraseña { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ObservableCollection<Grupo> Grupo { get; set; }
     }
 }

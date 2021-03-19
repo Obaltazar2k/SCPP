@@ -10,14 +10,14 @@
 namespace SCPP
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     
     public partial class Organización
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Organización()
         {
-            this.Proyecto = new HashSet<Proyecto>();
+            this.Proyecto = new ObservableCollection<Proyecto>();
         }
     
         public string Calle { get; set; }
@@ -30,6 +30,6 @@ namespace SCPP
         public int OrganizaciónID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Proyecto> Proyecto { get; set; }
+        public virtual ObservableCollection<Proyecto> Proyecto { get; set; }
     }
 }

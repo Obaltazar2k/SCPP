@@ -10,14 +10,14 @@
 namespace SCPP
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     
     public partial class Expediente
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Expediente()
         {
-            this.Archivo = new HashSet<Archivo>();
+            this.Archivo = new ObservableCollection<Archivo>();
         }
     
         public Nullable<System.DateTime> Fechafinpp { get; set; }
@@ -28,7 +28,7 @@ namespace SCPP
         public int InscripciónID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Archivo> Archivo { get; set; }
+        public virtual ObservableCollection<Archivo> Archivo { get; set; }
         public virtual Inscripción Inscripción { get; set; }
     }
 }

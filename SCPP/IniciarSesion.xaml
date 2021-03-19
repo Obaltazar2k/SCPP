@@ -1,4 +1,4 @@
-﻿<Window x:Class="SCPP.Login"
+﻿<Window x:Class="SCPP.IniciarSesion"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         

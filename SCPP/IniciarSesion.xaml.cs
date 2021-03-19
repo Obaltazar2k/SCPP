@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
+using SCPP.Utilities;
 
 
 namespace SCPP
@@ -8,10 +9,10 @@ namespace SCPP
     /// <summary>
     /// Lógica de interacción para Login.xaml
     /// </summary>
-    public partial class Login : Window
+    public partial class IniciarSesion : Window
     {
         private string _user, _password;
-        public Login()
+        public IniciarSesion()
         {
             InitializeComponent();
         }
@@ -55,7 +56,9 @@ namespace SCPP
             }catch(Exception ex)
             {
                 MessageBox.Show(ex.ToString());
-            }          
+            }
+
+                           
         }
 
         private void GetDataFromFields()
