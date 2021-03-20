@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using SCPP.Utilities;
 
 
@@ -9,7 +10,7 @@ namespace SCPP
     /// <summary>
     /// Lógica de interacción para Login.xaml
     /// </summary>
-    public partial class IniciarSesion : Window
+    public partial class IniciarSesion : Page
     {
         private string _user, _password;
         public IniciarSesion()
@@ -19,6 +20,10 @@ namespace SCPP
 
         private void LoginButtonClicked (object sender, RoutedEventArgs e)
         {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new AsignarProyectoEstudiante());
+            return;
+
             try
             {
                 if (FieldsValidation())
