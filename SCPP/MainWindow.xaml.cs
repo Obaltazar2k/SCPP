@@ -18,7 +18,7 @@ namespace SCPP
 
         private void OnMainWindowLoaded(object sender, RoutedEventArgs e)
         {
-            ChangeView(new IniciarSesion());
+            ChangeView(new MenuCoordinador());
         }
 
         public void ChangeView(Page view)
