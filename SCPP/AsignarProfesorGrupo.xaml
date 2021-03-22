@@ -109,7 +109,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 IsEnabled="False" Click="AssignButton_Click"
-                Style="{DynamicResource PrimaryyButton }" />
+                Style="{DynamicResource PrimaryButton }" />
 
     </Grid>
 </Page>

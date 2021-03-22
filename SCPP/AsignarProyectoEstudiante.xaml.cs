@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SCPP.Utilities;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -43,33 +44,12 @@ namespace SCPP
         private void AddInformationToLabels()
         {
             LabelFecha.Content += thisDay.ToString("d");
-            var year = thisDay.Year;
-            var month = thisDay.Month;
-            string startMonth;
-            string endtMonth;
-            string startYear;
-            string endYear;
-            if (month < 7)
-            {
-                startMonth = "FEB";
-                startYear = year.ToString();
-                endtMonth = "JUL";
-                endYear = startYear;
-            }
-            else
-            {
-                startMonth = "AGO";
-                startYear = year.ToString();
-                endtMonth = "ENE";
-                endYear = thisDay.AddYears(1).ToString();
-            }
-            periodo = startMonth + startYear + "-" + endtMonth + endYear;
-            LabelPeriodo.Content += periodo;
+            LabelPeriodo.Content += Period.GetPeriod(); ;
         }
 
         private void AssignButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (proyectSelected == null || studentSelected == null)
+            if (proyectSelected == null && studentSelected == null)
                 return;
 
             MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que desea asignar al ESTUDIANTE "

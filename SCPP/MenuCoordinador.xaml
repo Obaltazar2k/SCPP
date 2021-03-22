@@ -45,9 +45,17 @@
                 HorizontalAlignment="Stretch"
                 Click="AssignProjectButton_Click"/>
 
-        <Button x:Name="RegisterStudentButton"
+        <Button x:Name="AssignGroupButton"
                 Style="{DynamicResource PrimaryyButton }"
                 Grid.Column="2" Grid.Row="3"
+                Grid.ColumnSpan="2"
+                Content="Asignar profesor a grupo"
+                HorizontalAlignment="Stretch"
+                Click="AssignGroupButton_Click"/>
+
+        <Button x:Name="RegisterStudentButton"
+                Style="{DynamicResource PrimaryyButton }"
+                Grid.Column="2" Grid.Row="4"
                 Grid.ColumnSpan="2"
                 Content="Registrar estudiante"
                 HorizontalAlignment="Stretch"

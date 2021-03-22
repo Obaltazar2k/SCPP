@@ -40,7 +40,7 @@
                 Content="Asignar"
                 HorizontalAlignment="Left"
                 IsEnabled="False" Click="AssignButton_Click"
-                Style="{DynamicResource PrimaryyButton }" />
+                Style="{DynamicResource PrimaryButton }" />
 
         <DataGrid Name="ProyectsList" AutoGenerateColumns = "False" ItemsSource="{Binding}"
                   Grid.Row ="1" Grid.ColumnSpan="6" Grid.RowSpan="3"

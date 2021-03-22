@@ -1,4 +1,5 @@
-﻿using SCPP.Utilities;
+﻿using MemoryGameService.Utilities;
+using SCPP.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -96,15 +97,23 @@ namespace SCPP
         private void SendEmail()
         {
             MailTemplate mt = new MailTemplate();
-            mt.SetReceiver(name, emailAddress);
-            mt.SetMessage(subjectOfTheMessage, bodyOfTheMessage + ": " + verificationToken);
+            mt.SetReceiver(TextBoxNombre.Text + " " + TextBoxApellidoPaterno.Text, TextBoxCorreo.Text);
+            mt.SetMessage("Contraseña de de SCPP", "Estudiante con matricula " + TextBoxMatricula.Text + ", tu contraseña para el SCPP es: " + TextBoxContraseña.Text);
+            try
+            {
+                mt.Send();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void StudentRegisteredMessage(Estudiante student)
         {
-            MessageBoxResult confirmation = CustomMessageBox.ShowYesNoCancel("El registro se ha realizado con éxito", "Registro exitoso", 
-                "Asignar proyecto a estudiante", 
-                "Gestionar estudiante", 
+            MessageBoxResult confirmation = CustomMessageBox.ShowYesNoCancel("El registro se ha realizado con éxito", "Registro exitoso",
+                "Asignar proyecto a estudiante",
+                "Gestionar estudiante",
                 "Finalizar");
             if (confirmation == MessageBoxResult.Yes)
             {
@@ -136,7 +145,7 @@ namespace SCPP
 
         private bool VerificateFields()
         {
-            return VerificateEmail() && VerificateMatricula();
+            return VerificateEmail() && VerificateMatricula() && VerificatePromedio();
         }
 
         private bool VerificateMatricula()
@@ -149,6 +158,21 @@ namespace SCPP
                 CustomMessageBox.ShowOK("Asegurese que la matricula es una S seguida de 8 números", "Error de formato de matricula", "Aceptar");
                 return false;
             }
+        }
+
+        private bool VerificatePromedio()
+        {
+            try
+            {
+                var promedio = Convert.ToDouble(TextBoxPromedio.Text);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.ShowOK("El promedio no tiene el formato correcto", "Error de formato de matricula", "Aceptar");
+                MessageBox.Show(ex.ToString());
+            }
+            return false;
         }
     }
 }
