@@ -1,21 +1,14 @@
 ﻿<Page x:Class="SCPP.IniciarSesion"
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        Background="{DynamicResource MaterialDesignPaper}"
-        
-        TextElement.FontWeight="Medium"
-        TextElement.FontSize="14"
-        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SCPP"
-        mc:Ignorable="d"
-        Title="Iniciar sesión" Height="450" Width="800">
+          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+          mc:Ignorable="d"
+          d:DesignHeight="450" d:DesignWidth="800"
+          Title="Iniciar sesión">
 
-    <Grid FlowDirection="LeftToRight" Background="#FFFFFF" RenderTransformOrigin="0,1">
+    <Grid Margin="20 10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -26,10 +19,10 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="150"/>
-            <RowDefinition Height="20"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
@@ -47,7 +40,8 @@
         </materialDesign:ColorZone>
         
         
-        <Image Source="/Imágenes/LogoSCPP.png" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1"/>
+        <Image Source="/Imágenes/LogoSCPP.png" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1"
+               Height="150"/>
 
 
         <TextBox 
@@ -81,7 +75,7 @@
             Content="Iniciar sesión"
             Grid.Column="3" Grid.Row="7"
             Margin="0 0 0 0" Width="115"
-            Click="LoginButtonClicked"/>
+            Click="LoginButton_Clicked"/>
         
         <Button
             x:Name="RegisterButton"

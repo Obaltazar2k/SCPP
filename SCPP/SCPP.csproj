@@ -106,6 +106,15 @@
     <Compile Include="IniciarSesion.xaml.cs">
       <DependentUpon>IniciarSesion.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MenuCoordinador.xaml.cs">
+      <DependentUpon>MenuCoordinador.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MenuEstudiante.xaml.cs">
+      <DependentUpon>MenuEstudiante.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MenuProfesor.xaml.cs">
+      <DependentUpon>MenuProfesor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Organización.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
@@ -157,6 +166,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MenuCoordinador.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MenuEstudiante.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MenuProfesor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
