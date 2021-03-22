@@ -1,5 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SCPP.Utilities;
+using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,9 +15,10 @@ namespace SCPP
     {
         private readonly DateTime thisDay = DateTime.Today;
         private string periodo;
+        private ObservableCollection<Proyecto> proyectsCollection;
         private Proyecto proyectSelected = null;
+        private ObservableCollection<Estudiante> studentsCollection;
         private Estudiante studentSelected = null;
-
         public AsignarProyectoEstudiante()
         {
             InitializeComponent();
@@ -25,36 +27,29 @@ namespace SCPP
             GetProyects();
         }
 
+        public AsignarProyectoEstudiante(Estudiante student)
+        {
+            InitializeComponent();
+            AddInformationToLabels();
+            GetStudents();
+            GetProyects();
+
+            var studentSelection = (from i in studentsCollection
+                                    where i.Matricula == student.Matricula
+                                    select i).FirstOrDefault();
+            if (studentSelection != null)
+                StudentsList.SelectedItem = studentSelection;
+        }
+
         private void AddInformationToLabels()
         {
             LabelFecha.Content += thisDay.ToString("d");
-            var year = thisDay.Year;
-            var month = thisDay.Month;
-            string startMonth;
-            string endtMonth;
-            string startYear;
-            string endYear;
-            if (month < 7)
-            {
-                startMonth = "FEB";
-                startYear = year.ToString();
-                endtMonth = "JUL";
-                endYear = startYear;
-            }
-            else
-            {
-                startMonth = "AGO";
-                startYear = year.ToString();
-                endtMonth = "ENE";
-                endYear = thisDay.AddYears(1).ToString();
-            }
-            periodo = startMonth + startYear + "-" + endtMonth + endYear;
-            LabelPeriodo.Content += periodo;
+            LabelPeriodo.Content += Period.GetPeriod(); ;
         }
 
         private void AssignButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (proyectSelected == null || studentSelected == null)
+            if (proyectSelected == null && studentSelected == null)
                 return;
 
             MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que desea asignar al ESTUDIANTE "
@@ -79,16 +74,17 @@ namespace SCPP
                 }
                 else
                 {
-                    //go back
+                    CancelButton_Click(new object(), new RoutedEventArgs());
                 }
             }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            var mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow?.ChangeView(new MenuCoordinador());
-            return;
+            if (NavigationService.CanGoBack)
+                NavigationService.GoBack();
+            else
+                CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");
         }
 
         private void CheckSelecctions()
@@ -99,7 +95,14 @@ namespace SCPP
 
         private Expediente CreateExpedient(int inscripciónID)
         {
-            var expedient = new Expediente { Fechafinpp = null, Fechainiciopp = thisDay, Horasacumuladas = 0, Numreportesentregados = 0, InscripciónID = inscripciónID };
+            var expedient = new Expediente
+            {
+                Fechafinpp = null,
+                Fechainiciopp = thisDay,
+                Horasacumuladas = 0,
+                Numreportesentregados = 0,
+                InscripciónID = inscripciónID
+            };
             using (SCPPContext context = new SCPPContext())
             {
                 context.Expediente.Add(expedient);
@@ -110,7 +113,15 @@ namespace SCPP
 
         private Inscripción CreateInscription(string matricula, int clave)
         {
-            var inscription = new Inscripción { Estatus = "Cursando", Fecha = thisDay, Periodo = periodo, Tipo = "A tiempo", Matriculaestudiante = matricula, Claveproyecto = clave }; ;
+            var inscription = new Inscripción
+            {
+                Estatus = "Cursando",
+                Fecha = thisDay,
+                Periodo = periodo,
+                Tipo = "A tiempo",
+                Matriculaestudiante = matricula,
+                Claveproyecto = clave
+            };
             using (SCPPContext context = new SCPPContext())
             {
                 context.Inscripción.Add(inscription);
@@ -121,7 +132,7 @@ namespace SCPP
 
         private void GetProyects()
         {
-            List<Proyecto> proyectsCollection = new List<Proyecto>();
+            proyectsCollection = new ObservableCollection<Proyecto>();
             using (SCPPContext context = new SCPPContext())
             {
                 var proyectsList = context.Proyecto.Where(p => p.Inscripción.Count == 0);
@@ -135,11 +146,12 @@ namespace SCPP
                 }
             }
             ProyectsList.ItemsSource = proyectsCollection;
+            DataContext = proyectsCollection;
         }
 
         private void GetStudents()
         {
-            List<Estudiante> studentsCollection = new List<Estudiante>();
+            studentsCollection = new ObservableCollection<Estudiante>();
             using (SCPPContext context = new SCPPContext())
             {
                 var studentsListWithLessThan2Periods = context.Estudiante.Where(s => s.Inscripción.Count < 2);
@@ -165,6 +177,7 @@ namespace SCPP
                 }
             }
             StudentsList.ItemsSource = studentsCollection;
+            DataContext = studentsCollection;
         }
 
         private void ProyectsList_SelectionChanged(object sender, SelectionChangedEventArgs e)

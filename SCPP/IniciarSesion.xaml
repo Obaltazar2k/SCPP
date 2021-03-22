@@ -71,7 +71,7 @@
 
         <Button
             x:Name="LoginButton"
-            Style="{DynamicResource PrimaryyButton }"
+            Style="{DynamicResource PrimaryButton }"
             Content="Iniciar sesión"
             Grid.Column="3" Grid.Row="7"
             Margin="0 0 0 0" Width="115"
