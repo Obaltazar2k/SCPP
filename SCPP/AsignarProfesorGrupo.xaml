@@ -8,7 +8,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AsignarProfesorGrupo">
 
-    <Grid Margin="20 10">
+    <Grid Margin="20 5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
@@ -32,6 +32,7 @@
         <DataGrid Name="ProfesorsList" AutoGenerateColumns = "False" ItemsSource="{Binding}"
                   Grid.Row ="1" Grid.ColumnSpan="6" Grid.RowSpan="3"
                   Margin="10, 0, 10, 0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                  SelectionChanged="ProfesorsList_SelectionChanged"
                   SelectionMode="Single" IsReadOnly="True"
                   BorderThickness="3"
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserResizeColumns="False"
@@ -62,23 +63,23 @@
         </DataGrid>
 
 
-        <!--<DataGrid Name="GroupList" AutoGenerateColumns = "False" ItemsSource="{Binding}"
+        <DataGrid Name="GroupsList" AutoGenerateColumns = "False" ItemsSource="{Binding}"
                   Grid.Row ="5" Grid.ColumnSpan="6" Grid.RowSpan="3"
                   Margin="10, 0, 10, 0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                  SelectionChanged="GroupList_SelectionChanged"
+                  SelectionChanged="GroupsList_SelectionChanged"
                   SelectionMode="Single" IsReadOnly="True"
                   BorderThickness="3"
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserResizeColumns="False"
                   CanUserReorderColumns="False" CanUserSortColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Rfc" IsReadOnly="True" Width="130" 
-                                    Binding="{Binding Matricula }"/>
-                <DataGridTextColumn Header="Nombre" IsReadOnly="True" Width="*" 
-                                    Binding="{Binding Nombre }" />
-                <DataGridTextColumn Header="Apellido paterno" IsReadOnly="True" Width="*" 
-                                    Binding="{Binding ApellidoPaterno }"/>
-                <DataGridTextColumn Header="Apellido materno" IsReadOnly="True" Width="*" 
-                                    Binding="{Binding ApellidoMaterno }"/>
+                <DataGridTextColumn Header="Nrc" IsReadOnly="True" Width="130" 
+                                    Binding="{Binding Nrc }"/>
+                <DataGridTextColumn Header="Bloque" IsReadOnly="True" Width="*" 
+                                    Binding="{Binding Bloque }" />
+                <DataGridTextColumn Header="Sección" IsReadOnly="True" Width="*" 
+                                    Binding="{Binding Seccion }"/>
+                <DataGridTextColumn Header="Cupo" IsReadOnly="True" Width="*" 
+                                    Binding="{Binding Cupo }"/>
             </DataGrid.Columns>
             <DataGrid.Resources>
                 <Style TargetType="DataGridCell">
@@ -93,7 +94,7 @@
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" 
                                  Color="#04539c" />
             </DataGrid.Resources>
-        </DataGrid>-->
+        </DataGrid>
 
         <Button x:Name="CancelButton"
                 Grid.Column="4" Grid.Row="8" Margin="15 5"
