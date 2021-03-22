@@ -103,11 +103,11 @@
     <Compile Include="Grupo.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Inscripción.cs">
-      <DependentUpon>SCPPModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="IniciarSesion.xaml.cs">
       <DependentUpon>IniciarSesion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Inscripción.cs">
+      <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="MenuCoordinador.xaml.cs">
       <DependentUpon>MenuCoordinador.xaml</DependentUpon>
@@ -149,6 +149,7 @@
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Encrypt.cs" />
+    <Compile Include="Utilities\Period.cs" />
     <Page Include="AsignarProfesorGrupo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

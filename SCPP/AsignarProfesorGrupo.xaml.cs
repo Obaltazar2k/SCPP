@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using WPFCustomMessageBox;
+using SCPP.Utilities;
 
 namespace SCPP
 {
@@ -11,17 +12,17 @@ namespace SCPP
     /// Lógica de interacción para AsignarProfesorGrupo.xaml
     /// </summary>
     public partial class AsignarProfesorGrupo : Page
-    {
-        private readonly DateTime _thisDay = DateTime.Today;
-        private string _periodo;
+    {     
         private Profesor profesorSelected = null;
         private Grupo groupSelected = null;
+        private string _period;
 
         public AsignarProfesorGrupo()
         {
             InitializeComponent();
             GetProfesors();
-            GetGroups();
+            _period = Period.GetPeriod();
+            GetGroups();         
         }        
         private void AssignButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -40,7 +41,7 @@ namespace SCPP
                 grupoAsignado.Nrc = groupSelected.Nrc;
                 grupoAsignado.Seccion = groupSelected.Seccion;
                 grupoAsignado.Rfcprofesor = profesorSelected.Rfc;
-                grupoAsignado.Periodo = GetPeriod();
+                grupoAsignado.Periodo = _period;
                 grupoAsignado.GrupoID = 5;
                 using(SCPPContext context = new SCPPContext())
                 {
@@ -56,6 +57,9 @@ namespace SCPP
             if (assignDone == true)
             {
                 MessageBoxResult result = CustomMessageBox.Show("La asignación ha sido realizada con éxito.");
+                var mainWindow = (MainWindow)Application.Current.MainWindow;
+                mainWindow?.ChangeView(new MenuCoordinador());
+                return;
             }
         }
 
@@ -89,14 +93,43 @@ namespace SCPP
             List<Grupo> groupsCollection = new List<Grupo>();
             using (SCPPContext context = new SCPPContext())
             {
-                var groupList = context.Grupo.Where(p => p.Rfcprofesor == null).Where(p => p.Periodo == null);
+                var groupList = context.Grupo.Where(p => p.Rfcprofesor == null && p.Periodo == null);
+                var groupAssginedList = context.Grupo.Where(g => g.Periodo != null && g.Periodo.Equals(_period));
+                
                 if (groupList != null)
                 {
-                    foreach (Grupo grupo in groupList)
+                    if(groupAssginedList != null)
                     {
-                        if (grupo != null)
-                            groupsCollection.Add(grupo);
+                        foreach (Grupo grupo in groupList)
+                        {
+                            bool alreadyAssigned = false;
+                            foreach (Grupo grupoAsignado in groupAssginedList)
+                            {
+                                Console.WriteLine(grupoAsignado.Nrc);
+                                if (grupo != null && (grupo.Nrc.Equals(grupoAsignado.Nrc)))
+                                {
+                                    alreadyAssigned = true;
+                                }
+                            }
+
+                            if (alreadyAssigned == false)
+                            {
+                                groupsCollection.Add(grupo);
+                            }
+
+                        }
                     }
+                    else
+                    {
+                        foreach (Grupo grupo in groupList)
+                        {
+                            if (grupo != null)
+                            {
+                                groupsCollection.Add(grupo);
+                            }
+                        }
+                    }
+                    
                 }
             }
             GroupsList.ItemsSource = groupsCollection;
@@ -120,31 +153,6 @@ namespace SCPP
             DataGrid dataGrid = sender as DataGrid;
             groupSelected = (Grupo)dataGrid.SelectedItems[0];
             CheckSelecctions();
-        }
-
-        private string GetPeriod()
-        {
-            var year = _thisDay.Year;
-            var month = _thisDay.Month;
-            string startMonth;
-            string endtMonth;
-            string startYear;
-            string endYear;
-            if (month < 7)
-            {
-                startMonth = "FEB";
-                startYear = year.ToString();
-                endtMonth = "JUL";
-                endYear = startYear;
-            }
-            else
-            {
-                startMonth = "AGO";
-                startYear = year.ToString();
-                endtMonth = "ENE";
-                endYear = _thisDay.AddYears(1).ToString();
-            }
-            return startMonth + startYear + "-" + endtMonth + endYear;
         }
     }
 }

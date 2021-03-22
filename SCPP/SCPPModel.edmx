@@ -24,6 +24,7 @@
           <Property Name="Apellidopaterno" Type="varchar" MaxLength="50" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
           <Property Name="Rfc" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Correopersonal" Type="varchar" MaxLength="50" />
           <Property Name="Contraseña" Type="varchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="Estudiante">
@@ -59,7 +60,7 @@
           <Property Name="Cupo" Type="int" />
           <Property Name="Nrc" Type="int" />
           <Property Name="Seccion" Type="varchar" MaxLength="50" />
-          <Property Name="GrupoID" Type="int" Nullable="false" />
+          <Property Name="GrupoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Rfcprofesor" Type="varchar" MaxLength="50" />
           <Property Name="Periodo" Type="varchar" MaxLength="50" />
         </EntityType>
@@ -96,6 +97,7 @@
           <Property Name="Apellidomaterno" Type="varchar" MaxLength="50" />
           <Property Name="Apellidopaterno" Type="varchar" MaxLength="50" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Correopersonal" Type="varchar" MaxLength="50" />
           <Property Name="Rfc" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Contraseña" Type="varchar" MaxLength="150" />
         </EntityType>
@@ -329,6 +331,7 @@
           <Property Name="Apellidopaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Rfc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Correopersonal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Contraseña" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Estudiante">
@@ -368,7 +371,7 @@
           <Property Name="Cupo" Type="Int32" />
           <Property Name="Nrc" Type="Int32" />
           <Property Name="Seccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="GrupoID" Type="Int32" Nullable="false" />
+          <Property Name="GrupoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Rfcprofesor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Periodo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Profesor" Relationship="Self.FK_Grupo_Profesor" FromRole="Grupo" ToRole="Profesor" />
@@ -412,6 +415,7 @@
           <Property Name="Apellidomaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Apellidopaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Correopersonal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Rfc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Contraseña" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Grupo" Relationship="Self.FK_Grupo_Profesor" FromRole="Profesor" ToRole="Grupo" />
@@ -651,6 +655,7 @@
                 <ScalarProperty Name="Apellidopaterno" ColumnName="Apellidopaterno" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Rfc" ColumnName="Rfc" />
+                <ScalarProperty Name="Correopersonal" ColumnName="Correopersonal" />
                 <ScalarProperty Name="Contraseña" ColumnName="Contraseña" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -729,6 +734,7 @@
                 <ScalarProperty Name="Apellidomaterno" ColumnName="Apellidomaterno" />
                 <ScalarProperty Name="Apellidopaterno" ColumnName="Apellidopaterno" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Correopersonal" ColumnName="Correopersonal" />
                 <ScalarProperty Name="Rfc" ColumnName="Rfc" />
                 <ScalarProperty Name="Contraseña" ColumnName="Contraseña" />
               </MappingFragment>

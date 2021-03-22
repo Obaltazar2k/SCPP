@@ -22,11 +22,7 @@ namespace SCPP
         }
 
         private void LoginButton_Clicked(object sender, RoutedEventArgs e)
-        {
-            /*var mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow?.ChangeView(new AsignarProyectoEstudiante());
-            return;*/
-            
+        {           
             try
             {
                 if (FieldsValidation() && _lockedLogin == false)
@@ -89,6 +85,10 @@ namespace SCPP
             {
                 MessageBox.Show(ex.ToString());
             }                           
+        }
+
+        private void RegisterButton_Clicked(object sender, RoutedEventArgs e)
+        {
         }
 
         private void GetDataFromFields()
