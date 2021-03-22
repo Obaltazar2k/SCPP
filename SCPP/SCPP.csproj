@@ -85,6 +85,9 @@
     <Compile Include="Archivo.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AsignarProfesorGrupo.xaml.cs">
+      <DependentUpon>AsignarProfesorGrupo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AsignarProyectoEstudiante.xaml.cs">
       <DependentUpon>AsignarProyectoEstudiante.xaml</DependentUpon>
     </Compile>
@@ -146,6 +149,10 @@
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Encrypt.cs" />
+    <Page Include="AsignarProfesorGrupo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AsignarProyectoEstudiante.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
