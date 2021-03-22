@@ -97,6 +97,9 @@
     <Compile Include="Archivo.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AsignarProfesorGrupo.xaml.cs">
+      <DependentUpon>AsignarProfesorGrupo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AsignarProyectoEstudiante.xaml.cs">
       <DependentUpon>AsignarProyectoEstudiante.xaml</DependentUpon>
     </Compile>
@@ -112,11 +115,11 @@
     <Compile Include="Grupo.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Inscripción.cs">
-      <DependentUpon>SCPPModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="IniciarSesion.xaml.cs">
       <DependentUpon>IniciarSesion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Inscripción.cs">
+      <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="MenuCoordinador.xaml.cs">
       <DependentUpon>MenuCoordinador.xaml</DependentUpon>
@@ -161,6 +164,11 @@
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Encrypt.cs" />
+    <Compile Include="Utilities\Period.cs" />
+    <Page Include="AsignarProfesorGrupo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Compile Include="Utilities\MailTemplate.cs" />
     <Page Include="AsignarProyectoEstudiante.xaml">
       <SubType>Designer</SubType>
