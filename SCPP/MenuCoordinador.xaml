@@ -47,5 +47,15 @@
                 Click="AssignProjectButton_Click"
         ></Button>
 
+        <Button x:Name="AssignGroupButton"
+                Style="{DynamicResource PrimaryyButton }"
+                Grid.Column="2" Grid.Row="3"
+                Grid.ColumnSpan="2"
+                Content="Asignar profesor a grupo"
+                HorizontalAlignment="Center"
+                Width="230"
+                Click="AssignGroupButton_Click"
+        ></Button>
+
     </Grid>
 </Page>

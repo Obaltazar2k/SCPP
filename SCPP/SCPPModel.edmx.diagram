@@ -4,16 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="5d45c5d78dcf4bc8996ad8f4fff55c06" Name="Diagram1">
+      <Diagram DiagramId="94e8c3d42f0a48b6a236abdaab6d3527" Name="Diagram1">
         <EntityTypeShape EntityType="SCPPModel.Archivo" Width="1.5" PointX="7.5" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SCPPModel.Coordinador" Width="1.5" PointX="8.75" PointY="2.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SCPPModel.Estudiante" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SCPPModel.Expediente" Width="1.5" PointX="5.25" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SCPPModel.Grupo" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SCPPModel.Inscripción" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="SCPPModel.Organización" Width="1.5" PointX="1.5" PointY="16.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SCPPModel.Profesor" Width="1.5" PointX="1.5" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="SCPPModel.Proyecto" Width="1.5" PointX="0.75" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCPPModel.Organización" Width="1.5" PointX="1.5" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCPPModel.Profesor" Width="1.5" PointX="1.5" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCPPModel.Proyecto" Width="1.5" PointX="0.75" PointY="14.25" IsExpanded="true" />
         <EntityTypeShape EntityType="SCPPModel.Reporte" Width="1.5" PointX="9.75" PointY="9.125" IsExpanded="true" />
         <EntityTypeShape EntityType="SCPPModel.Selecciónproyecto" Width="1.5" PointX="6" PointY="4.875" IsExpanded="true" />
         <AssociationConnector Association="SCPPModel.FK_Archivo_Expediente" ManuallyRouted="false" />

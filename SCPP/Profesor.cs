@@ -23,6 +23,7 @@ namespace SCPP
         public string Apellidomaterno { get; set; }
         public string Apellidopaterno { get; set; }
         public string Nombre { get; set; }
+        public string Correopersonal { get; set; }
         public string Rfc { get; set; }
         public string Contraseña { get; set; }
     
