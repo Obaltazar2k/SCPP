@@ -38,7 +38,7 @@
         </materialDesign:ColorZone>
 
         <Button x:Name="AssignProjectButton"
-                Style="{DynamicResource PrimaryyButton }"
+                Style="{DynamicResource PrimaryButton }"
                 Grid.Column="2" Grid.Row="2"
                 Grid.ColumnSpan="2"
                 Content="Asignar proyecto a estudiante"
@@ -46,16 +46,24 @@
                 Click="AssignProjectButton_Click"/>
 
         <Button x:Name="AssignGroupButton"
-                Style="{DynamicResource PrimaryyButton }"
+                Style="{DynamicResource PrimaryButton }"
                 Grid.Column="2" Grid.Row="3"
                 Grid.ColumnSpan="2"
                 Content="Asignar profesor a grupo"
                 HorizontalAlignment="Stretch"
                 Click="AssignGroupButton_Click"/>
 
-        <Button x:Name="RegisterStudentButton"
-                Style="{DynamicResource PrimaryyButton }"
+        <Button x:Name="DesassignGroupButton"
+                Style="{DynamicResource PrimaryButton }"
                 Grid.Column="2" Grid.Row="4"
+                Grid.ColumnSpan="2"
+                Content="Desasignar profesor de grupo"
+                HorizontalAlignment="Stretch"
+                Click="DesassignGroupButton_Click"/>
+
+        <Button x:Name="RegisterStudentButton"
+                Style="{DynamicResource PrimaryButton }"
+                Grid.Column="2" Grid.Row="5"
                 Grid.ColumnSpan="2"
                 Content="Registrar estudiante"
                 HorizontalAlignment="Stretch"
