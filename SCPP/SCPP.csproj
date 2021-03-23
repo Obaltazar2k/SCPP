@@ -142,6 +142,9 @@
     <Compile Include="RegistrarEstudiante.xaml.cs">
       <DependentUpon>RegistrarEstudiante.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RegistrarProyecto.xaml.cs">
+      <DependentUpon>RegistrarProyecto.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Reporte.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
@@ -203,6 +206,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MenuProfesor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RegistrarProyecto.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
