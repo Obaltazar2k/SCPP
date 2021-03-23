@@ -35,5 +35,23 @@ namespace SCPP
             mainWindow?.ChangeView(new MenuCoordinador());
             return;
         }
+
+        private void GetProfesors()
+        {
+            /*List<Profesor> profesorsCollection = new List<Profesor>();
+            using (SCPPContext context = new SCPPContext())
+            {
+                //var profesorsList = context.Profesor.Where(p => );
+                if (profesorsList != null)
+                {
+                    foreach (Profesor profesor in profesorsList)
+                    {
+                        if (profesor != null)
+                            profesorsCollection.Add(profesor);
+                    }
+                }
+            }
+            ProfesorsList.ItemsSource = profesorsCollection;*/
+        }
     }
 }
