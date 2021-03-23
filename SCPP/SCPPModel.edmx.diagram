@@ -9,7 +9,7 @@
         <EntityTypeShape EntityType="SCPPModel.Coordinador" Width="1.5" PointX="8.75" PointY="2.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SCPPModel.Estudiante" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SCPPModel.Expediente" Width="1.5" PointX="5.25" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SCPPModel.Grupo" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCPPModel.Grupo" Width="1.875" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SCPPModel.Inscripción" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
         <EntityTypeShape EntityType="SCPPModel.Organización" Width="1.5" PointX="1.5" PointY="18.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SCPPModel.Profesor" Width="1.5" PointX="1.5" PointY="9.25" IsExpanded="true" />

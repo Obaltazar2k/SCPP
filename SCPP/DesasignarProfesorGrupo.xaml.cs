@@ -36,7 +36,9 @@ namespace SCPP
             {
                 using (SCPPContext context = new SCPPContext())
                 {
-                    context.Grupo.Remove(groupSelected);
+                    //context.Grupo.Remove(groupSelected);
+                    var grupo = context.Grupo.Where(p => p.Rfcprofesor.Equals(groupSelected.Rfcprofesor) && p.Periodo.Equals(_period));
+                    context.Grupo.RemoveRange(grupo);
                     context.SaveChanges();
                     assignDone = true;
                 }
