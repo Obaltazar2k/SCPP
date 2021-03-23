@@ -39,42 +39,65 @@
 
         <Button x:Name="AssignProjectButton"
                 Style="{DynamicResource PrimaryButton }"
-                Grid.Column="2" Grid.Row="2"
+                Grid.Column="1" Grid.Row="2"
                 Grid.ColumnSpan="2"
                 Content="Asignar proyecto a estudiante"
                 HorizontalAlignment="Stretch"
+                Margin="10 0 10 0"
                 Click="AssignProjectButton_Click"/>
 
         <Button x:Name="AssignGroupButton"
                 Style="{DynamicResource PrimaryButton }"
-                Grid.Column="2" Grid.Row="3"
+                Grid.Column="3" Grid.Row="2"
                 Grid.ColumnSpan="2"
                 Content="Asignar profesor a grupo"
                 HorizontalAlignment="Stretch"
+                Margin="10 0 10 0"
                 Click="AssignGroupButton_Click"/>
 
         <Button x:Name="DesassignGroupButton"
                 Style="{DynamicResource PrimaryButton }"
-                Grid.Column="2" Grid.Row="4"
+                Grid.Column="1" Grid.Row="3"
                 Grid.ColumnSpan="2"
                 Content="Desasignar profesor a grupo"
                 HorizontalAlignment="Stretch"
+                Margin="10 0 10 0"
                 Click="DesassignGroupButton_Click"/>
 
         <Button x:Name="RegisterStudentButton"
                 Style="{DynamicResource PrimaryButton }"
-                Grid.Column="2" Grid.Row="5"
+                Grid.Column="3" Grid.Row="3"
                 Grid.ColumnSpan="2"
                 Content="Registrar estudiante"
                 HorizontalAlignment="Stretch"
+                Margin="10 0 10 0"
                 Click="RegisterStudentButton_Click"/>
 
         <Button x:Name="RegisterProyectButton"
                 Style="{DynamicResource PrimaryButton }"
-                Grid.Column="2" Grid.Row="6"
+                Grid.Column="1" Grid.Row="4"
                 Grid.ColumnSpan="2"
                 Content="Registrar proyecto"
                 HorizontalAlignment="Stretch"
+                Margin="10 0 10 0"
                 Click="RegisterProyectButton_Click"/>
+
+        <Button x:Name="RegisterProfesorButton"
+                Style="{DynamicResource PrimaryButton }"
+                Grid.Column="3" Grid.Row="4"
+                Grid.ColumnSpan="2"
+                Content="Registrar profesor"
+                HorizontalAlignment="Stretch"
+                Margin="10 0 10 0"
+                Click="RegisterProfesorButton_Click"/>
+
+        <Button x:Name="RegisterOrganizationButton"
+                Style="{DynamicResource PrimaryButton }"
+                Grid.Column="1" Grid.Row="5"
+                Grid.ColumnSpan="2"
+                Content="Registrar organización"
+                HorizontalAlignment="Stretch"
+                Margin="10 0 10 0"
+                Click="RegisterOrganizationButton_Click"/>
     </Grid>
 </Page>

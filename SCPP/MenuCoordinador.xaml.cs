@@ -47,5 +47,19 @@ namespace SCPP
             mainWindow?.ChangeView(new RegistrarProyecto());
             return;
         }
+
+        private void RegisterProfesorButton_Click(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new RegistrarProfesor());
+            return;
+        }
+
+        private void RegisterOrganizationButton_Click(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new RegistrarOrganizacion());
+            return;
+        }
     }   
 }
