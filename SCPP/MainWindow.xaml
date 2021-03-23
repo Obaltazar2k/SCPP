@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SCPP"
         mc:Ignorable="d"
         Title="MainWindow" Height="550" Width="900"  WindowStartupLocation="CenterScreen">
-    <Frame Name ="FrameContent"> 
+    <Frame Name ="FrameContent" NavigationUIVisibility="Hidden"> 
         
     </Frame>
 </Window>

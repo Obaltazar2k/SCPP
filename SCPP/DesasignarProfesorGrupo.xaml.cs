@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -36,9 +37,8 @@ namespace SCPP
             {
                 using (SCPPContext context = new SCPPContext())
                 {
-                    //context.Grupo.Remove(groupSelected);
-                    var grupo = context.Grupo.Where(p => p.Rfcprofesor.Equals(groupSelected.Rfcprofesor) && p.Periodo.Equals(_period));
-                    context.Grupo.RemoveRange(grupo);
+                    context.Grupo.Attach(groupSelected);
+                    context.Entry(groupSelected).State = EntityState.Deleted;
                     context.SaveChanges();
                     assignDone = true;
                 }
@@ -99,22 +99,34 @@ namespace SCPP
         private void CheckSelecctions()
         {
             if ((profesorSelected != null) && (groupSelected != null))
-                DesassignButton.IsEnabled = true;
+                DesassignButton.IsEnabled = true;            
+            else
+                DesassignButton.IsEnabled = false;
         }
 
         private void ProfesorsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (groupSelected != null)
+            {              
+                GroupsList.SelectedIndex = -1;
+                groupSelected = null;
+            }
+
             DataGrid dataGrid = sender as DataGrid;
             profesorSelected = (Profesor)dataGrid.SelectedItems[0];
             CheckSelecctions();
-
+            
             GetGroups();
         }
 
         private void GroupsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataGrid dataGrid = sender as DataGrid;
-            groupSelected = (Grupo)dataGrid.SelectedItems[0];
+            
+            if(groupSelected == null)
+            {
+                groupSelected = (Grupo)dataGrid.SelectedItems[0];
+            }
             CheckSelecctions();
         }
     }

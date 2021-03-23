@@ -15,7 +15,7 @@ namespace SCPP
         private string _user, _password;
         private bool _lockedLogin = false;
         private int _attempts = 0;
-        private int ALLOWEDATTEMTPS = 5;
+        private static int ALLOWEDATTEMTPS = 5;
         public IniciarSesion()
         {
             InitializeComponent();
