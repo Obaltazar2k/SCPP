@@ -15,7 +15,7 @@ namespace SCPP
     /// </summary>
     public partial class RegistrarEstudiante : Page
     {
-        private readonly List<string> differentsStates = new List<string> { "Extratemporaneo", "A tiempo" };
+        private readonly List<string> differentsStates = new List<string> { "Inscrito", "Preinscrito" };
 
         public RegistrarEstudiante()
         {

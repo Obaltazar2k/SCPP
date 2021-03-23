@@ -44,7 +44,8 @@ namespace SCPP
         private void AddInformationToLabels()
         {
             LabelFecha.Content += thisDay.ToString("d");
-            LabelPeriodo.Content += Period.GetPeriod(); ;
+            periodo = Period.GetPeriod();
+            LabelPeriodo.Content += periodo;
         }
 
         private void AssignButton_Click(object sender, System.Windows.RoutedEventArgs e)

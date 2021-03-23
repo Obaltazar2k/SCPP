@@ -53,20 +53,20 @@
                 HorizontalAlignment="Stretch"
                 Click="AssignGroupButton_Click"/>
 
-        <Button x:Name="DesassignGroupButton"
-                Style="{DynamicResource PrimaryButton }"
-                Grid.Column="2" Grid.Row="4"
-                Grid.ColumnSpan="2"
-                Content="Desasignar profesor de grupo"
-                HorizontalAlignment="Stretch"
-                Click="DesassignGroupButton_Click"/>
-
         <Button x:Name="RegisterStudentButton"
                 Style="{DynamicResource PrimaryButton }"
-                Grid.Column="2" Grid.Row="5"
+                Grid.Column="2" Grid.Row="4"
                 Grid.ColumnSpan="2"
                 Content="Registrar estudiante"
                 HorizontalAlignment="Stretch"
                 Click="RegisterStudentButton_Click"/>
+
+        <Button x:Name="RegisterProyectButton"
+                Style="{DynamicResource PrimaryButton }"
+                Grid.Column="2" Grid.Row="5"
+                Grid.ColumnSpan="2"
+                Content="Registrar proyecto"
+                HorizontalAlignment="Stretch"
+                Click="RegisterProyectButton_Click"/>
     </Grid>
 </Page>
