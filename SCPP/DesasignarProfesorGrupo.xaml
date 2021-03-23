@@ -98,6 +98,7 @@
 
         <Button x:Name="CancelButton"
                 Grid.Column="4" Grid.Row="8" Margin="15 5"
+                Width="105"
                 Content="Cancelar"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
@@ -105,7 +106,8 @@
                 Style="{DynamicResource SecundaryButton }" />
         <Button x:Name="DesassignButton"
                 Grid.Column="5" Grid.Row="8" Margin="15 5"
-                Content="Asignar"
+                Width="105"
+                Content="Desasignar"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 IsEnabled="False" Click="DesassignButton_Click"
