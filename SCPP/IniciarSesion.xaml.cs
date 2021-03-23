@@ -52,57 +52,7 @@ namespace SCPP
                     else
                     {
                         FailedAttempt();
-                    }
-                    /*using (SCPPContext context = new SCPPContext())
-                    {
-                        var student = context.Estudiante.FirstOrDefault(u => u.Matricula == _user);
-                        if ((student != null) && student.Contraseña == _password)
-                        {
-                            if (student.Estado.Equals("Preinscrito"))
-                            {
-                                MessageBox.Show("El coordinador aun no ha validado tu registro.");
-                            }
-                            else
-                            {
-                                var mainWindow = (MainWindow)Application.Current.MainWindow;
-                                mainWindow?.ChangeView(new MenuEstudiante());
-                                return;
-                            }
-                        }
-                        else
-                        {
-                            var profesor = context.Profesor.FirstOrDefault(u => u.Rfc == _user);
-                            if (profesor != null && profesor.Contraseña == _password)
-                            {
-                                var mainWindow = (MainWindow)Application.Current.MainWindow;
-                                mainWindow?.ChangeView(new MenuProfesor());
-                                return;
-                            }
-                            else
-                            {
-                                var coordinador = context.Coordinador.FirstOrDefault(u => u.Rfc == _user);
-                                if (coordinador != null && coordinador.Contraseña == _password)
-                                {
-                                    var mainWindow = (MainWindow)Application.Current.MainWindow;
-                                    mainWindow?.ChangeView(new MenuCoordinador());
-                                    return;
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Usuario no encontrado. Por favor verifique que sus datos sean correctos.");
-                                    UserTextBox.Clear();
-                                    PasswordTextBox.Clear();
-                                    _attempts++;
-                                    if(_attempts == ALLOWEDATTEMTPS)
-                                    {
-                                        _lockedLogin = true;
-                                        LoginButton.IsEnabled = false;
-                                        MessageBox.Show("Ah sobre pasado el numero de intentos disponibles, intente mas tarde");
-                                    }
-                                }
-                            }
-                        }
-                    }*/
+                    }                    
                 }
                         
             }catch(Exception ex)
