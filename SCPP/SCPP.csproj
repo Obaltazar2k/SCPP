@@ -177,6 +177,9 @@
     </Compile>
     <Compile Include="Utilities\Encrypt.cs" />
     <Compile Include="Utilities\Period.cs" />
+    <Compile Include="ValidarInscripcion.xaml.cs">
+      <DependentUpon>ValidarInscripcion.xaml</DependentUpon>
+    </Compile>
     <Page Include="AsignarProfesorGrupo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -231,6 +234,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="RegistrarProyecto.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ValidarInscripcion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
