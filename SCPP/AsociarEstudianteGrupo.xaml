@@ -39,6 +39,7 @@
                   Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="1"
                   VerticalAlignment="Bottom"
                   Margin="10 0 15 0"
+                  SelectionChanged="GroupComboBox_SelectionChanged"
                   materialDesign:TextFieldAssist.UnderlineBrush="#04539c"
                   ItemsSource="{Binding Grupo}" DisplayMemberPath="Nrc" SelectedValuePath="GrupoID"/>
 
