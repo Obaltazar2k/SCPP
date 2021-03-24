@@ -21,6 +21,8 @@ namespace SCPP
     /// </summary>
     public partial class EscogerProyecto : Page
     {
+        private Proyecto proyectSelected = null;
+
         public EscogerProyecto()
         {
             InitializeComponent();
