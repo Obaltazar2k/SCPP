@@ -103,6 +103,9 @@
     <Compile Include="AsignarProyectoEstudiante.xaml.cs">
       <DependentUpon>AsignarProyectoEstudiante.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AsociarEstudianteGrupo.xaml.cs">
+      <DependentUpon>AsociarEstudianteGrupo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Coordinador.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
@@ -190,6 +193,10 @@
     </Page>
     <Compile Include="Utilities\MailTemplate.cs" />
     <Page Include="AsignarProyectoEstudiante.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AsociarEstudianteGrupo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
