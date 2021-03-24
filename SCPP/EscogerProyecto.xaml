@@ -29,7 +29,6 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
-            <RowDefinition />
         </Grid.RowDefinitions>
 
         <Button x:Name="AddButton"
@@ -57,11 +56,11 @@
                 IsEnabled="False" Click="AgreeButton_Click"
                 Style="{DynamicResource PrimaryButton }"/>
 
-        <DataGrid Name="ProyectsList"
+        <DataGrid Name="ProjectsList"
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding}"
-                  Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="7"
-                  SelectionChanged="ProyectsList_SelectionChanged"
+                  Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="6"
+                  SelectionChanged="ProjectsList_SelectionChanged"
                   SelectionMode="Extended"
                   IsReadOnly="True"
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserResizeColumns="False"
@@ -84,11 +83,11 @@
             </DataGrid.Resources>
         </DataGrid>
 
-        <DataGrid Name="ChoosenProyectsList"
+        <DataGrid Name="ChoosenProjectsList"
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding}"
-                  Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="7"
-                  SelectionChanged= "ChoosenProyectsList_SelectionChanged"
+                  Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="6"
+                  SelectionChanged= "ChoosenProjectsList_SelectionChanged"
                   SelectionMode="Single"
                   IsReadOnly="True"
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserResizeColumns="False"

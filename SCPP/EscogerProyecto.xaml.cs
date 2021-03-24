@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,8 @@ namespace SCPP
     /// </summary>
     public partial class EscogerProyecto : Page
     {
-        private Proyecto proyectSelected = null;
+        ObservableCollection<Proyecto> selectedProjects = new ObservableCollection<Proyecto>();
+        ObservableCollection<Proyecto> choosenProjects = new ObservableCollection<Proyecto>();
 
         public EscogerProyecto()
         {
@@ -29,19 +31,36 @@ namespace SCPP
             GetProyects();
         }
 
-        private void ProyectsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ProjectsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            AddButton.IsEnabled = true;
+            RemoveButton.IsEnabled = false;
+            selectedProjects.Clear();
+            foreach(var project in ProjectsList.SelectedItems)
+            {
+                selectedProjects.Add((Proyecto)project);
+            }
         }
 
-        private void ChoosenProyectsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ChoosenProjectsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            RemoveButton.IsEnabled = true;
+            AddButton.IsEnabled = false;
+            choosenProjects.Clear();
+            foreach(var project in ChoosenProjectsList.SelectedItems)
+            {
+                choosenProjects.Add((Proyecto)project);
+            }
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-
+            int numProjectsSelected = selectedProjects.Count();
+            if (numProjectsSelected <= 3)
+            {
+                ChoosenProjectsList.ItemsSource = selectedProjects;
+                DataContext = selectedProjects;
+            }
         }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
@@ -64,7 +83,7 @@ namespace SCPP
             List<Proyecto> proyectsCollection = new List<Proyecto>();
             using (SCPPContext context = new SCPPContext())
             {
-                var proyectsList = context.Proyecto.Where(p => p.Noestudiantes <= 2);
+                var proyectsList = context.Proyecto.Where(p => p.Inscripción.Count <= 2);
                 if (proyectsList != null)
                 {
                     foreach (Proyecto proyecto in proyectsList)
@@ -74,7 +93,7 @@ namespace SCPP
                     }
                 }
             }
-            ProyectsList.ItemsSource = proyectsCollection;
+            ProjectsList.ItemsSource = proyectsCollection;
         }
     }
 }
