@@ -33,6 +33,7 @@ namespace SCPP
                     {
                         if (StudentIsValidated(student))
                         {
+                            SetSesion(student.Matricula, student.Correopersonal);
                             var mainWindow = (MainWindow)Application.Current.MainWindow;
                             mainWindow?.ChangeView(new MenuEstudiante());
                             return;
@@ -102,6 +103,7 @@ namespace SCPP
                 var profesor = context.Profesor.FirstOrDefault(u => u.Rfc == _user);
                 if (profesor != null && profesor.Contraseña == _password)
                 {
+                    SetSesion(profesor.Rfc, profesor.Correopersonal);
                     return true;
                 }
                 else
@@ -116,8 +118,7 @@ namespace SCPP
                 var coordinador = context.Coordinador.FirstOrDefault(u => u.Rfc == _user);
                 if (coordinador != null && coordinador.Contraseña == _password)
                 {
-                    var mainWindow = (MainWindow)Application.Current.MainWindow;
-                    mainWindow?.ChangeView(new MenuCoordinador());
+                    SetSesion(coordinador.Rfc, coordinador.Correopersonal);
                     return true;
                 }
                 else
@@ -146,6 +147,13 @@ namespace SCPP
                 LoginButton.IsEnabled = false;
                 MessageBox.Show("Ah sobre pasado el numero de intentos disponibles, intente mas tarde");
             }
+        }
+
+        private void SetSesion(string user, string email)
+        {
+            Sesion userSesion = Sesion.GetSesion;
+            userSesion.Username = user;
+            userSesion.Email = email;
         }
     }
 }
