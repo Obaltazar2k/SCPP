@@ -109,6 +109,9 @@
     <Compile Include="DesasignarProfesorGrupo.xaml.cs">
       <DependentUpon>DesasignarProfesorGrupo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EscogerProyecto.xaml.cs">
+      <DependentUpon>EscogerProyecto.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Estudiante.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
@@ -187,6 +190,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DesasignarProfesorGrupo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EscogerProyecto.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
