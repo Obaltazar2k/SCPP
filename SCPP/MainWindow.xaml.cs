@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace SCPP
@@ -16,14 +15,14 @@ namespace SCPP
             Loaded += OnMainWindowLoaded;
         }
 
-        private void OnMainWindowLoaded(object sender, RoutedEventArgs e)
-        {
-            ChangeView(new IniciarSesion());
-        }
-
         public void ChangeView(Page view)
         {
             FrameContent.NavigationService.Navigate(view);
+        }
+
+        private void OnMainWindowLoaded(object sender, RoutedEventArgs e)
+        {
+            ChangeView(new IniciarSesion());
         }
     }
 }

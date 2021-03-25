@@ -1,10 +1,10 @@
-﻿using System;
+﻿using SCPP.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using WPFCustomMessageBox;
-using SCPP.Utilities;
 
 namespace SCPP
 {
@@ -12,18 +12,19 @@ namespace SCPP
     /// Lógica de interacción para AsignarProfesorGrupo.xaml
     /// </summary>
     public partial class AsignarProfesorGrupo : Page
-    {     
-        private Profesor profesorSelected = null;
-        private Grupo groupSelected = null;
+    {
         private string _period;
-
+        private Grupo groupSelected = null;
+        private Profesor profesorSelected = null;
+        
         public AsignarProfesorGrupo()
         {
             InitializeComponent();
             GetProfesors();
             _period = Period.GetPeriod();
-            GetGroups();         
-        }        
+            GetGroups();
+        }
+
         private void AssignButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             if (profesorSelected == null || groupSelected == null)
@@ -43,7 +44,7 @@ namespace SCPP
                 grupoAsignado.Rfcprofesor = profesorSelected.Rfc;
                 grupoAsignado.Periodo = _period;
                 grupoAsignado.GrupoID = 5;
-                using(SCPPContext context = new SCPPContext())
+                using (SCPPContext context = new SCPPContext())
                 {
                     context.Grupo.Add(grupoAsignado);
                     context.SaveChanges();
@@ -70,22 +71,10 @@ namespace SCPP
             return;
         }
 
-        private void GetProfesors()
+        private void CheckSelecctions()
         {
-            List<Profesor> profesorsCollection = new List<Profesor>();
-            using (SCPPContext context = new SCPPContext())
-            {
-                var profesorsList = context.Profesor.ToList();
-                if (profesorsList != null)
-                {
-                    foreach (Profesor profesor in profesorsList)
-                    {
-                        if (profesor != null)
-                            profesorsCollection.Add(profesor);
-                    }
-                }
-            }
-            ProfesorsList.ItemsSource = profesorsCollection;
+            if ((profesorSelected != null) && (groupSelected != null))
+                AssignButton.IsEnabled = true;
         }
 
         private void GetGroups()
@@ -95,10 +84,10 @@ namespace SCPP
             {
                 var groupList = context.Grupo.Where(p => p.Rfcprofesor == null && p.Periodo == null);
                 var groupAssginedList = context.Grupo.Where(g => g.Periodo != null && g.Periodo.Equals(_period));
-                
+
                 if (groupList != null)
                 {
-                    if(groupAssginedList != null)
+                    if (groupAssginedList != null)
                     {
                         foreach (Grupo grupo in groupList)
                         {
@@ -116,7 +105,6 @@ namespace SCPP
                             {
                                 groupsCollection.Add(grupo);
                             }
-
                         }
                     }
                     else
@@ -129,29 +117,39 @@ namespace SCPP
                             }
                         }
                     }
-                    
                 }
             }
             GroupsList.ItemsSource = groupsCollection;
         }
 
-        private void CheckSelecctions()
+        private void GetProfesors()
         {
-            if ((profesorSelected != null) && (groupSelected != null))
-                AssignButton.IsEnabled = true;
+            List<Profesor> profesorsCollection = new List<Profesor>();
+            using (SCPPContext context = new SCPPContext())
+            {
+                var profesorsList = context.Profesor.ToList();
+                if (profesorsList != null)
+                {
+                    foreach (Profesor profesor in profesorsList)
+                    {
+                        if (profesor != null)
+                            profesorsCollection.Add(profesor);
+                    }
+                }
+            }
+            ProfesorsList.ItemsSource = profesorsCollection;
+        }
+        private void GroupsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DataGrid dataGrid = sender as DataGrid;
+            groupSelected = (Grupo)dataGrid.SelectedItems[0];
+            CheckSelecctions();
         }
 
         private void ProfesorsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataGrid dataGrid = sender as DataGrid;
             profesorSelected = (Profesor)dataGrid.SelectedItems[0];
-            CheckSelecctions();
-        }
-
-        private void GroupsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            DataGrid dataGrid = sender as DataGrid;
-            groupSelected = (Grupo)dataGrid.SelectedItems[0];
             CheckSelecctions();
         }
     }

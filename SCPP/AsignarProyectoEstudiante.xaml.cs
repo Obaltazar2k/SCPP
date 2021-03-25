@@ -19,6 +19,7 @@ namespace SCPP
         private Proyecto proyectSelected = null;
         private ObservableCollection<Estudiante> studentsCollection;
         private Estudiante studentSelected = null;
+
         public AsignarProyectoEstudiante()
         {
             InitializeComponent();

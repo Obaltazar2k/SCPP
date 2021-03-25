@@ -1,6 +1,5 @@
 ﻿<Page x:Class="SCPP.AsignarProfesorGrupo"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -14,8 +13,8 @@
             <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -26,7 +25,9 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
-            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <DataGrid Name="ProfesorsList" AutoGenerateColumns = "False" ItemsSource="{Binding}"
@@ -38,14 +39,14 @@
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserResizeColumns="False"
                   CanUserReorderColumns="False" CanUserSortColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Rfc" IsReadOnly="True" Width="*" 
-                                    Binding="{Binding Rfc }"/>
-                <DataGridTextColumn Header="Nombre" IsReadOnly="True" Width="*" 
+                <DataGridTextColumn Header="Rfc" IsReadOnly="True" Width="*"
+                                    Binding="{Binding Rfc }" />
+                <DataGridTextColumn Header="Nombre" IsReadOnly="True" Width="*"
                                     Binding="{Binding Nombre }" />
-                <DataGridTextColumn Header="Apellido paterno" IsReadOnly="True" Width="*" 
-                                    Binding="{Binding Apellidopaterno }"/>
-                <DataGridTextColumn Header="Apellido materno" IsReadOnly="True" Width="*" 
-                                    Binding="{Binding Apellidomaterno }"/>
+                <DataGridTextColumn Header="Apellido paterno" IsReadOnly="True" Width="*"
+                                    Binding="{Binding Apellidopaterno }" />
+                <DataGridTextColumn Header="Apellido materno" IsReadOnly="True" Width="*"
+                                    Binding="{Binding Apellidomaterno }" />
             </DataGrid.Columns>
             <DataGrid.Resources>
                 <Style TargetType="DataGridCell">
@@ -55,13 +56,12 @@
                         </Trigger>
                     </Style.Triggers>
                 </Style>
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" 
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                                  Color="#049c33" />
-                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" 
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
                                  Color="#04539c" />
             </DataGrid.Resources>
         </DataGrid>
-
 
         <DataGrid Name="GroupsList" AutoGenerateColumns = "False" ItemsSource="{Binding}"
                   Grid.Row ="5" Grid.ColumnSpan="6" Grid.RowSpan="3"
@@ -72,14 +72,14 @@
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserResizeColumns="False"
                   CanUserReorderColumns="False" CanUserSortColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Nrc" IsReadOnly="True" Width="130" 
-                                    Binding="{Binding Nrc }"/>
-                <DataGridTextColumn Header="Bloque" IsReadOnly="True" Width="*" 
+                <DataGridTextColumn Header="Nrc" IsReadOnly="True" Width="130"
+                                    Binding="{Binding Nrc }" />
+                <DataGridTextColumn Header="Bloque" IsReadOnly="True" Width="*"
                                     Binding="{Binding Bloque }" />
-                <DataGridTextColumn Header="Sección" IsReadOnly="True" Width="*" 
-                                    Binding="{Binding Seccion }"/>
-                <DataGridTextColumn Header="Cupo" IsReadOnly="True" Width="*" 
-                                    Binding="{Binding Cupo }"/>
+                <DataGridTextColumn Header="Sección" IsReadOnly="True" Width="*"
+                                    Binding="{Binding Seccion }" />
+                <DataGridTextColumn Header="Cupo" IsReadOnly="True" Width="*"
+                                    Binding="{Binding Cupo }" />
             </DataGrid.Columns>
             <DataGrid.Resources>
                 <Style TargetType="DataGridCell">
@@ -89,27 +89,24 @@
                         </Trigger>
                     </Style.Triggers>
                 </Style>
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" 
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                                  Color="#049c33" />
-                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" 
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
                                  Color="#04539c" />
             </DataGrid.Resources>
         </DataGrid>
 
         <Button x:Name="CancelButton"
-                Grid.Column="4" Grid.Row="8" Margin="15 5"
+                Grid.Column="4" Grid.Row="9" Margin="15 5"
                 Content="Cancelar"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top"
+                HorizontalAlignment="Right"
                 Click="CancelButton_Click"
                 Style="{DynamicResource SecundaryButton }" />
         <Button x:Name="AssignButton"
-                Grid.Column="5" Grid.Row="8" Margin="15 5"
+                Grid.Column="5" Grid.Row="9" Margin="15 5"
                 Content="Asignar"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
                 IsEnabled="False" Click="AssignButton_Click"
                 Style="{DynamicResource PrimaryButton }" />
-
     </Grid>
 </Page>
