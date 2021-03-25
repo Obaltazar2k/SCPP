@@ -61,5 +61,12 @@ namespace SCPP
             mainWindow?.ChangeView(new RegistrarOrganizacion());
             return;
         }
+
+        private void ValidateEnrrollmentButton_Click(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new ValidarInscripcion());
+            return;
+        }
     }   
 }

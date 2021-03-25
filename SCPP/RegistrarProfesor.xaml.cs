@@ -64,8 +64,6 @@ namespace SCPP
         private Profesor RegisterNewTeacher()
         {
             Profesor professor = new Profesor();
-            password = GeneratePassword();
-            encryptedPassword = Encrypt.GetSHA256(password);
 
             professor.Nombre = TextBoxName.Text;
             professor.Apellidopaterno = TextBoxLastName.Text;
@@ -103,7 +101,7 @@ namespace SCPP
             var seed = Environment.TickCount;
             var random = new Random(seed);
 
-            for(int i = 0; i <= 4; i++)
+            for(int i = 0; i <= 2; i++)
             {
                 var value = random.Next(0, 9);
                 password += value;
@@ -154,7 +152,8 @@ namespace SCPP
         private bool ValidateFullFields()
         {
             if(string.IsNullOrEmpty(TextBoxName.Text) || string.IsNullOrEmpty(TextBoxLastName.Text) || string.IsNullOrEmpty(TextBoxMothersLastName.Text)
-                || string.IsNullOrEmpty(TextBoxEMail.Text) || string.IsNullOrEmpty(TextBoxRFC.Text))
+                || string.IsNullOrEmpty(TextBoxEMail.Text) || string.IsNullOrEmpty(TextBoxRFC.Text) 
+                || string.IsNullOrEmpty(TextBoxPassword.Password))
             {
                 MessageBox.Show("Campos incompletos. Por favor asegurese de no dejar campos vacíos.");
                 return false;
@@ -183,5 +182,20 @@ namespace SCPP
             return true;
         }
 
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            string generatedPassword = GeneratePassword();
+            
+            TextBoxPassword.IsEnabled = false;
+            TextBoxPassword.Password = password = generatedPassword + TextBoxRFC.Text;
+            encryptedPassword = Encrypt.GetSHA256(password);
+        }
+
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            password = null;
+            TextBoxPassword.IsEnabled = true;
+            TextBoxPassword.Password = null;
+        }
     }
 }
