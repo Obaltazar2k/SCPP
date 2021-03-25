@@ -37,58 +37,69 @@
                Content="Ingresa los datos del profesor: " />
 
         <TextBox 
-            Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" 
+            Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" 
             VerticalAlignment="Bottom" 
             Margin="10 0 15 0"
             materialDesign:HintAssist.Hint="Nombre"
             x:Name="TextBoxName" Style="{DynamicResource TextBox}" />
 
         <TextBox 
-            Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" 
+            Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" 
             VerticalAlignment="Bottom" 
             Margin="10 0 15 0"
             materialDesign:HintAssist.Hint="Apellido Paterno"
             x:Name="TextBoxLastName" Style="{DynamicResource TextBox}" />
 
         <TextBox 
-            Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" 
+            Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" 
             VerticalAlignment="Bottom" 
             Margin="10 0 15 0"
             materialDesign:HintAssist.Hint="ApellidoMaterno"
             x:Name="TextBoxMothersLastName" Style="{DynamicResource TextBox}" />
 
         <TextBox 
-            Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" 
+            Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" 
             VerticalAlignment="Bottom" 
             Margin="10 0 15 0"
             materialDesign:HintAssist.Hint="RFC"
             x:Name="TextBoxRFC" Style="{DynamicResource TextBox}" />
 
         <TextBox 
-            Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" 
+            Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" 
             VerticalAlignment="Bottom" 
             Margin="10 0 15 0"
             materialDesign:HintAssist.Hint="Correo"
             x:Name="TextBoxEMail" Style="{DynamicResource TextBox}" />
 
-        <Label Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="5"
+        <PasswordBox 
+            Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" 
+            VerticalAlignment="Bottom" 
+            Margin="10 0 15 0"
+            materialDesign:HintAssist.Hint="Contraseña"
+            x:Name="TextBoxPassword" Style="{DynamicResource PasswordBox}" />
+
+        <CheckBox 
+            Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2"
+            HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+            IsEnabled="{Binding ElementName=TextBoxRFC, Path=Text.Length, Mode=OneWay}"
+            Content="Generar contraseña automaticamente"
+            Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"
+            Name="CheckBoxPassword"/>
+
+
+        <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="5"
                HorizontalAlignment="Left" VerticalAlignment="Bottom" 
                Margin="15 0 10 5"
-               Content="La contraseña del profesor será generada automaticamente" />
-
-        <Label Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="5"
-               HorizontalAlignment="Left" VerticalAlignment="Top" 
-               Margin="15 0 10 5"
-               Content="y será enviada a su correo" />
+               Content="La contraseña del profesor será envida a su correo" />
 
         <Button x:Name="CancelButton"
-                Grid.Column="1" Grid.Row="7" Margin="15 5"
+                Grid.Column="4" Grid.Row="7" Margin="15 5"
                 Content="Cancelar"
                 HorizontalAlignment="Right"
                 Click="CancelButton_Click"
                 Style="{DynamicResource SecundaryButton }" />
         <Button x:Name="RegisterButton"
-                Grid.Column="2" Grid.Row="7" Margin="15 5"
+                Grid.Column="5" Grid.Row="7" Margin="15 5"
                 Content="Registrar"
                 HorizontalAlignment="Left"
                 Click="RegisterButton_Click">

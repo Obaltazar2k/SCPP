@@ -91,6 +91,17 @@
                 Margin="10 0 10 0"
                 Click="RegisterProfesorButton_Click"/>
 
+        <Button x:Name="ValidateEnrrollmentButton"
+                Style="{DynamicResource PrimaryButton }"
+                Grid.Column="3" Grid.Row="5"
+                Grid.ColumnSpan="2"
+                Content="Validar Preinscripcion"
+                HorizontalAlignment="Stretch"
+                Margin="10 0 10 0" Click="ValidateEnrrollmentButton_Click"
+                />
+
+
+
         <Button x:Name="RegisterOrganizationButton"
                 Style="{DynamicResource PrimaryButton }"
                 Grid.Column="1" Grid.Row="5"
