@@ -103,6 +103,9 @@
     <Compile Include="AsignarProyectoEstudiante.xaml.cs">
       <DependentUpon>AsignarProyectoEstudiante.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AsociarEstudianteGrupo.xaml.cs">
+      <DependentUpon>AsociarEstudianteGrupo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Coordinador.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
@@ -148,6 +151,9 @@
     <Compile Include="RegistrarEstudiante.xaml.cs">
       <DependentUpon>RegistrarEstudiante.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RegistrarInscripcion.xaml.cs">
+      <DependentUpon>RegistrarInscripcion.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RegistrarOrganizacion.xaml.cs">
       <DependentUpon>RegistrarOrganizacion.xaml</DependentUpon>
     </Compile>
@@ -180,6 +186,7 @@
     </Compile>
     <Compile Include="Utilities\Encrypt.cs" />
     <Compile Include="Utilities\Period.cs" />
+    <Compile Include="Utilities\Sesion.cs" />
     <Compile Include="ValidarInscripcion.xaml.cs">
       <DependentUpon>ValidarInscripcion.xaml</DependentUpon>
     </Compile>
@@ -189,6 +196,10 @@
     </Page>
     <Compile Include="Utilities\MailTemplate.cs" />
     <Page Include="AsignarProyectoEstudiante.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AsociarEstudianteGrupo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -229,6 +240,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MenuProfesor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RegistrarInscripcion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
