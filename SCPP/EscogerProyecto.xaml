@@ -88,7 +88,7 @@
                   ItemsSource="{Binding}"
                   Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="6"
                   SelectionChanged= "ChoosenProjectsList_SelectionChanged"
-                  SelectionMode="Single"
+                  SelectionMode="Extended"
                   IsReadOnly="True"
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserResizeColumns="False"
                   CanUserReorderColumns="False" CanUserSortColumns="False">
