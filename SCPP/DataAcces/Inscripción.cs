@@ -7,27 +7,32 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SCPP
+namespace SCPP.DataAcces
 {
     using System;
     using System.Collections.ObjectModel;
     
-    public partial class Profesor
+    public partial class Inscripción
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Profesor()
+        public Inscripción()
         {
-            this.Grupo = new ObservableCollection<Grupo>();
+            this.Expediente = new ObservableCollection<Expediente>();
         }
     
-        public string Apellidomaterno { get; set; }
-        public string Apellidopaterno { get; set; }
-        public string Nombre { get; set; }
-        public string Correopersonal { get; set; }
-        public string Rfc { get; set; }
-        public string Contraseña { get; set; }
+        public string Estatus { get; set; }
+        public Nullable<System.DateTime> Fecha { get; set; }
+        public string Periodo { get; set; }
+        public string Tipo { get; set; }
+        public int InscripciónID { get; set; }
+        public string Matriculaestudiante { get; set; }
+        public Nullable<int> Claveproyecto { get; set; }
+        public Nullable<int> GrupoID { get; set; }
     
+        public virtual Estudiante Estudiante { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ObservableCollection<Grupo> Grupo { get; set; }
+        public virtual ObservableCollection<Expediente> Expediente { get; set; }
+        public virtual Grupo Grupo { get; set; }
+        public virtual Proyecto Proyecto { get; set; }
     }
 }

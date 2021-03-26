@@ -7,20 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SCPP
+namespace SCPP.DataAcces
 {
     using System;
     using System.Collections.ObjectModel;
     
-    public partial class Selecciónproyecto
+    public partial class Coordinador
     {
-        public Nullable<System.DateTime> Fecha { get; set; }
-        public string PeriodoID { get; set; }
-        public int SelecciónproyectoID { get; set; }
-        public string Matriculaestudiante { get; set; }
-        public Nullable<int> Claveproyecto { get; set; }
-    
-        public virtual Estudiante Estudiante { get; set; }
-        public virtual Proyecto Proyecto { get; set; }
+        public string Apellidomaterno { get; set; }
+        public string Apellidopaterno { get; set; }
+        public string Nombre { get; set; }
+        public string Rfc { get; set; }
+        public string Correopersonal { get; set; }
+        public string Contraseña { get; set; }
     }
 }

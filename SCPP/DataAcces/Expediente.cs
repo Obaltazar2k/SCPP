@@ -7,29 +7,28 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SCPP
+namespace SCPP.DataAcces
 {
     using System;
     using System.Collections.ObjectModel;
     
-    public partial class Organización
+    public partial class Expediente
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Organización()
+        public Expediente()
         {
-            this.Proyecto = new ObservableCollection<Proyecto>();
+            this.Archivo = new ObservableCollection<Archivo>();
         }
     
-        public string Calle { get; set; }
-        public string Codigopostal { get; set; }
-        public string Colonia { get; set; }
-        public string Correo { get; set; }
-        public string Nombre { get; set; }
-        public Nullable<int> Numext { get; set; }
-        public string Telefono { get; set; }
-        public int OrganizaciónID { get; set; }
+        public Nullable<System.DateTime> Fechafinpp { get; set; }
+        public Nullable<System.DateTime> Fechainiciopp { get; set; }
+        public Nullable<double> Horasacumuladas { get; set; }
+        public Nullable<int> Numreportesentregados { get; set; }
+        public int ExpedienteID { get; set; }
+        public int InscripciónID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ObservableCollection<Proyecto> Proyecto { get; set; }
+        public virtual ObservableCollection<Archivo> Archivo { get; set; }
+        public virtual Inscripción Inscripción { get; set; }
     }
 }

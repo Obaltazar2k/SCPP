@@ -7,29 +7,33 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SCPP
+namespace SCPP.DataAcces
 {
     using System;
     using System.Collections.ObjectModel;
     
-    public partial class Grupo
+    public partial class Proyecto
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Grupo()
+        public Proyecto()
         {
             this.Inscripción = new ObservableCollection<Inscripción>();
+            this.Selecciónproyecto = new ObservableCollection<Selecciónproyecto>();
         }
     
-        public string Bloque { get; set; }
-        public Nullable<int> Cupo { get; set; }
-        public Nullable<int> Nrc { get; set; }
-        public string Seccion { get; set; }
-        public int GrupoID { get; set; }
-        public string Rfcprofesor { get; set; }
-        public string Periodo { get; set; }
+        public string Actividades { get; set; }
+        public int Clave { get; set; }
+        public string Descripcion { get; set; }
+        public Nullable<System.DateTime> Fecharegistro { get; set; }
+        public Nullable<int> Noestudiantes { get; set; }
+        public string Nombre { get; set; }
+        public string Resbonsablenombre { get; set; }
+        public Nullable<int> OrganizaciónID { get; set; }
     
-        public virtual Profesor Profesor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ObservableCollection<Inscripción> Inscripción { get; set; }
+        public virtual Organización Organización { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ObservableCollection<Selecciónproyecto> Selecciónproyecto { get; set; }
     }
 }

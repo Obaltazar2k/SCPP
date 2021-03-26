@@ -94,128 +94,128 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Archivo.cs">
+    <Compile Include="DataAcces\Archivo.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="AsignarProfesorGrupo.xaml.cs">
+    <Compile Include="View\AsignarProfesorGrupo.xaml.cs">
       <DependentUpon>AsignarProfesorGrupo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AsignarProyectoEstudiante.xaml.cs">
+    <Compile Include="View\AsignarProyectoEstudiante.xaml.cs">
       <DependentUpon>AsignarProyectoEstudiante.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AsociarEstudianteGrupo.xaml.cs">
+    <Compile Include="View\AsociarEstudianteGrupo.xaml.cs">
       <DependentUpon>AsociarEstudianteGrupo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Coordinador.cs">
+    <Compile Include="DataAcces\Coordinador.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DesasignarProfesorGrupo.xaml.cs">
+    <Compile Include="View\DesasignarProfesorGrupo.xaml.cs">
       <DependentUpon>DesasignarProfesorGrupo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EscogerProyecto.xaml.cs">
+    <Compile Include="View\EscogerProyecto.xaml.cs">
       <DependentUpon>EscogerProyecto.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Estudiante.cs">
+    <Compile Include="DataAcces\Estudiante.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Expediente.cs">
+    <Compile Include="DataAcces\Expediente.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Grupo.cs">
+    <Compile Include="DataAcces\Grupo.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="IniciarSesion.xaml.cs">
+    <Compile Include="View\IniciarSesion.xaml.cs">
       <DependentUpon>IniciarSesion.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Inscripción.cs">
+    <Compile Include="DataAcces\Inscripción.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="MenuCoordinador.xaml.cs">
+    <Compile Include="View\MenuCoordinador.xaml.cs">
       <DependentUpon>MenuCoordinador.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MenuEstudiante.xaml.cs">
+    <Compile Include="View\MenuEstudiante.xaml.cs">
       <DependentUpon>MenuEstudiante.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MenuProfesor.xaml.cs">
+    <Compile Include="View\MenuProfesor.xaml.cs">
       <DependentUpon>MenuProfesor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Organización.cs">
+    <Compile Include="DataAcces\Organización.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Profesor.cs">
+    <Compile Include="DataAcces\Profesor.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Proyecto.cs">
+    <Compile Include="DataAcces\Proyecto.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="RegistrarEstudiante.xaml.cs">
+    <Compile Include="View\RegistrarEstudiante.xaml.cs">
       <DependentUpon>RegistrarEstudiante.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RegistrarInscripcion.xaml.cs">
+    <Compile Include="View\RegistrarInscripcion.xaml.cs">
       <DependentUpon>RegistrarInscripcion.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RegistrarOrganizacion.xaml.cs">
+    <Compile Include="View\RegistrarOrganizacion.xaml.cs">
       <DependentUpon>RegistrarOrganizacion.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RegistrarProfesor.xaml.cs">
+    <Compile Include="View\RegistrarProfesor.xaml.cs">
       <DependentUpon>RegistrarProfesor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RegistrarProyecto.xaml.cs">
+    <Compile Include="View\RegistrarProyecto.xaml.cs">
       <DependentUpon>RegistrarProyecto.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reporte.cs">
+    <Compile Include="DataAcces\Reporte.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="SCPPModel.Context.cs">
+    <Compile Include="DataAcces\SCPPModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SCPPModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="SCPPModel.cs">
+    <Compile Include="DataAcces\SCPPModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="SCPPModel.Designer.cs">
+    <Compile Include="DataAcces\SCPPModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SCPPModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Selecciónproyecto.cs">
+    <Compile Include="DataAcces\Selecciónproyecto.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Encrypt.cs" />
     <Compile Include="Utilities\Period.cs" />
     <Compile Include="Utilities\Sesion.cs" />
-    <Compile Include="ValidarInscripcion.xaml.cs">
+    <Compile Include="View\ValidarInscripcion.xaml.cs">
       <DependentUpon>ValidarInscripcion.xaml</DependentUpon>
     </Compile>
-    <Page Include="AsignarProfesorGrupo.xaml">
+    <Page Include="View\AsignarProfesorGrupo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="Utilities\MailTemplate.cs" />
-    <Page Include="AsignarProyectoEstudiante.xaml">
+    <Page Include="View\AsignarProyectoEstudiante.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AsociarEstudianteGrupo.xaml">
+    <Page Include="View\AsociarEstudianteGrupo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DesasignarProfesorGrupo.xaml">
+    <Page Include="View\DesasignarProfesorGrupo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EscogerProyecto.xaml">
+    <Page Include="View\EscogerProyecto.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="IniciarSesion.xaml">
+    <Page Include="View\IniciarSesion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -223,43 +223,43 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="RegistrarEstudiante.xaml">
+    <Page Include="View\RegistrarEstudiante.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MenuCoordinador.xaml">
+    <Page Include="View\MenuCoordinador.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MenuEstudiante.xaml">
+    <Page Include="View\MenuEstudiante.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MenuProfesor.xaml">
+    <Page Include="View\MenuProfesor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RegistrarInscripcion.xaml">
+    <Page Include="View\RegistrarInscripcion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RegistrarOrganizacion.xaml">
+    <Page Include="View\RegistrarOrganizacion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RegistrarProfesor.xaml">
+    <Page Include="View\RegistrarProfesor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RegistrarProyecto.xaml">
+    <Page Include="View\RegistrarProyecto.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ValidarInscripcion.xaml">
+    <Page Include="View\ValidarInscripcion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -287,11 +287,11 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <EntityDeploy Include="SCPPModel.edmx">
+    <EntityDeploy Include="DataAcces\SCPPModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>SCPPModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="SCPPModel.edmx.diagram">
+    <None Include="DataAcces\SCPPModel.edmx.diagram">
       <DependentUpon>SCPPModel.edmx</DependentUpon>
     </None>
   </ItemGroup>
@@ -299,18 +299,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Imágenes\LogoSCPP.png" />
+    <Resource Include="Utilities\Imágenes\LogoSCPP.png" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SCPPModel.Context.tt">
+    <Content Include="DataAcces\SCPPModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SCPPModel.edmx</DependentUpon>
       <LastGenOutput>SCPPModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="SCPPModel.tt">
+    <Content Include="DataAcces\SCPPModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SCPPModel.edmx</DependentUpon>
       <LastGenOutput>SCPPModel.cs</LastGenOutput>
