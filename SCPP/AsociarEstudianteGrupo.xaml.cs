@@ -1,20 +1,9 @@
 ﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WPFCustomMessageBox;
 
 namespace SCPP
@@ -24,12 +13,11 @@ namespace SCPP
     /// </summary>
     public partial class AsociarEstudianteGrupo : Page
     {
-        private Profesor _profesor;
-        private ObservableCollection<Grupo> groupsCollection { get; set; }
-        private ObservableCollection<Estudiante> studentsCollection;
-        ObservableCollection<Estudiante> selectedStudents = null;
         private int _groupID = 0;
-
+        private Profesor _profesor;
+        private ObservableCollection<Estudiante> selectedStudents = null;
+        private ObservableCollection<Estudiante> studentsCollection;
+        
         public AsociarEstudianteGrupo(Profesor profesor)
         {
             _profesor = profesor;
@@ -39,11 +27,11 @@ namespace SCPP
             FillComboBox(_profesor);
         }
 
-        private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private ObservableCollection<Grupo> groupsCollection { get; set; }
+        private void AgreeButton_Click(object sender, RoutedEventArgs e)
         {
-            var grupo = (Grupo)GroupComboBox.SelectedItem;
-            _groupID = grupo.GrupoID;
-            CheckSelections();
+            ChangeStudentsGroups();
+            ConfirmedAssociationMessage();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -55,20 +43,57 @@ namespace SCPP
                 CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");
         }
 
-        private void AgreeButton_Click(object sender, RoutedEventArgs e)
+        private void ChangeStudentsGroups()
         {
-            ChangeStudentsGroups();
-            ConfirmedAssociationMessage();
+            ObservableCollection<Estudiante> studentList = new ObservableCollection<Estudiante>();
+            try
+            {
+                using (SCPPContext context = new SCPPContext())
+                {
+                    foreach (var student in selectedStudents)
+                    {
+                        var foundInscription = context.Inscripción.Where(i => i.Matriculaestudiante.Equals(student.Matricula)).FirstOrDefault();
+                        if (foundInscription != null)
+                        {
+                            foundInscription.GrupoID = _groupID;
+                            context.SaveChanges();
+                        }
+                        studentList.Add(student);
+                    }
+                }
+
+                foreach (var student in studentList)
+                {
+                    studentsCollection.Remove(student);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
-        private void StudentList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CheckSelections()
         {
-            selectedStudents = new ObservableCollection<Estudiante>();
-            foreach(var student in StudentList.SelectedItems)
+            if ((_groupID != 0) && (selectedStudents != null))
+                AgreeButton.IsEnabled = true;
+        }
+
+        private void ConfirmedAssociationMessage()
+        {
+            MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("La asociación se ha realizado con éxito", "Asociación exitosa",
+                "Asociar otro estudiante",
+                "Regresar a menú");
+            if (confirmation == MessageBoxResult.Yes)
             {
-                selectedStudents.Add((Estudiante)student);
+                return;
             }
-            CheckSelections();
+            else
+            {
+                var mainWindow = (MainWindow)Application.Current.MainWindow;
+                mainWindow?.ChangeView(new MenuProfesor());
+                return;
+            }
         }
 
         private void FillComboBox(Profesor profesor)
@@ -97,7 +122,7 @@ namespace SCPP
             {
                 var studentsWithoutGroupList = context.Estudiante.Join(
                     context.Inscripción,
-                    e => e.Matricula, 
+                    e => e.Matricula,
                     i => i.Matriculaestudiante,
                     (e, i) => new { e, i })
                     .Where(x => x.i.GrupoID == null)
@@ -115,56 +140,20 @@ namespace SCPP
             DataContext = studentsCollection;
         }
 
-        private void CheckSelections()
+        private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if ((_groupID != 0) && (selectedStudents != null))
-                AgreeButton.IsEnabled = true;
+            var grupo = (Grupo)GroupComboBox.SelectedItem;
+            _groupID = grupo.GrupoID;
+            CheckSelections();
         }
-
-        private void ChangeStudentsGroups()
+        private void StudentList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ObservableCollection<Estudiante> studentList = new ObservableCollection<Estudiante>();
-            try
+            selectedStudents = new ObservableCollection<Estudiante>();
+            foreach (var student in StudentList.SelectedItems)
             {
-                using (SCPPContext context = new SCPPContext())
-                {
-                    foreach (var student in selectedStudents)
-                    {
-                        var foundInscription = context.Inscripción.Where(i => i.Matriculaestudiante.Equals(student.Matricula)).FirstOrDefault();
-                        if (foundInscription != null)
-                        {
-                            foundInscription.GrupoID = _groupID;
-                            context.SaveChanges();
-                        }
-                        studentList.Add(student);
-                    }
-                }
-
-                foreach (var student in studentList)
-                {
-                    studentsCollection.Remove(student);
-                }
-            }catch(Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
+                selectedStudents.Add((Estudiante)student);
             }
-        }
-
-        private void ConfirmedAssociationMessage()
-        {
-            MessageBoxResult confirmation =  CustomMessageBox.ShowYesNo("La asociación se ha realizado con éxito", "Asociación exitosa", 
-                "Asociar otro estudiante",
-                "Regresar a menú");
-            if (confirmation == MessageBoxResult.Yes)
-            {
-                return;
-            }
-            else
-            {
-                var mainWindow = (MainWindow)Application.Current.MainWindow;
-                mainWindow?.ChangeView(new MenuProfesor());
-                return;
-            }
+            CheckSelections();
         }
     }
 }

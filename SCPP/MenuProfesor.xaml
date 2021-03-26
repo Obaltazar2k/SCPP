@@ -29,7 +29,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <materialDesign:ColorZone Mode="Custom" Background="#04539c" Grid.Column="0" 
+        <materialDesign:ColorZone Mode="Custom" Background="#04539c" Grid.Column="0"
                                   Grid.Row="0" Grid.ColumnSpan="6" Height="40">
             <TextBlock Text="Menu principal" HorizontalAlignment="Center"
                        Foreground="#FFFFFF"
@@ -45,6 +45,5 @@
                 HorizontalAlignment="Center"
                 Width="150"
         ></Button>
-
     </Grid>
 </Page>

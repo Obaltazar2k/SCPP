@@ -162,17 +162,28 @@ namespace SCPP
 
         private bool VerificatePromedio()
         {
+            double average = 0;
+            bool IsDouble = false;
+
             try
             {
-                var promedio = Convert.ToDouble(TextBoxPromedio.Text);
-                return true;
+                average = Convert.ToDouble(TextBoxPromedio.Text);
+                IsDouble = true;
             }
             catch (Exception ex)
             {
-                CustomMessageBox.ShowOK("El promedio no tiene el formato correcto", "Error de formato de matricula", "Aceptar");
-                MessageBox.Show(ex.ToString());
             }
-            return false;
+
+            Regex rgx = new Regex(@"^((\d+)((\.\d{1,2})?))$");
+            if (rgx.IsMatch(TextBoxPromedio.Text) && average <= 10 && IsDouble)
+            {
+                return true;
+            }
+            else
+            {
+                CustomMessageBox.ShowOK("El promedio no tiene el formato correcto", "Error de formato de promedio", "Aceptar");
+                return false;
+            }
         }
     }
 }

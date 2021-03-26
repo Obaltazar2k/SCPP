@@ -14,16 +14,25 @@ namespace SCPP
     /// </summary>
     public partial class RegistrarProyecto : Page
     {
-        private readonly DateTime thisDay = DateTime.Today;
-        private ObservableCollection<Organización> organizationsCollection { get; set; }
         private readonly List<int> numOfStudents = new List<int> { 1, 2 };
-
+        private readonly DateTime thisDay = DateTime.Today;
+        
         public RegistrarProyecto()
         {
             InitializeComponent();
             ComboBoxCapacidad.ItemsSource = numOfStudents;
             DataContext = this;
             FillComboBox();
+        }
+
+        private ObservableCollection<Organización> organizationsCollection { get; set; }
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (NavigationService.CanGoBack)
+
+                NavigationService.GoBack();
+            else
+                CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");
         }
 
         private void FillComboBox()
@@ -61,26 +70,6 @@ namespace SCPP
             }
         }
 
-        private void StudentRegisteredMessage(object proyectRegistered)
-        {
-            MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("El registro se ha realizado con éxito", "Registro exitoso",
-                "Gestionar proyecto",
-                "Finalizar"
-                );
-            if (confirmation == MessageBoxResult.Yes)
-            {
-                /*
-                var mainWindow = (MainWindow)Application.Current.MainWindow;
-                mainWindow?.ChangeView(new GestionarProyecto(proyectRegistered));
-                return;
-                */
-            }
-            if (confirmation == MessageBoxResult.No)
-            {
-                CancelButton_Click(new object(), new RoutedEventArgs());
-            }
-        }
-
         private object RegisterNewProyect()
         {
             var organization = (Organización)ComboBoxOrganizacion.SelectedItem;
@@ -102,13 +91,24 @@ namespace SCPP
             return proyect;
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        private void StudentRegisteredMessage(object proyectRegistered)
         {
-            if (NavigationService.CanGoBack)
-
-                NavigationService.GoBack();
-            else
-                CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");
+            MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("El registro se ha realizado con éxito", "Registro exitoso",
+                "Gestionar proyecto",
+                "Finalizar"
+                );
+            if (confirmation == MessageBoxResult.Yes)
+            {
+                /*
+                var mainWindow = (MainWindow)Application.Current.MainWindow;
+                mainWindow?.ChangeView(new GestionarProyecto(proyectRegistered));
+                return;
+                */
+            }
+            if (confirmation == MessageBoxResult.No)
+            {
+                CancelButton_Click(new object(), new RoutedEventArgs());
+            }
         }
     }
 }

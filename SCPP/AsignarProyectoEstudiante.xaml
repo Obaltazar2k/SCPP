@@ -14,8 +14,8 @@
             <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -27,23 +27,25 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <Button x:Name="CancelButton"
-                Grid.Column="4" Grid.Row="8" Margin="15 5"
+                Grid.Column="4" Grid.Row="9" Margin="15 10"
                 Content="Cancelar"
                 HorizontalAlignment="Right"
                 Click="CancelButton_Click"
                 Style="{DynamicResource SecundaryButton }" />
         <Button x:Name="AssignButton"
-                Grid.Column="5" Grid.Row="8" Margin="15 5"
+                Grid.Column="5" Grid.Row="9" Margin="15 5"
                 Content="Asignar"
                 HorizontalAlignment="Left"
                 IsEnabled="False" Click="AssignButton_Click"
                 Style="{DynamicResource PrimaryButton }" />
 
         <DataGrid Name="ProyectsList" AutoGenerateColumns = "False" ItemsSource="{Binding}"
-                  Grid.Row ="1" Grid.ColumnSpan="6" Grid.RowSpan="3"
+                  Grid.Row ="1" Grid.ColumnSpan="6" Grid.RowSpan="4"
                   Margin="10, 0, 10, 0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                   SelectionChanged="ProyectsList_SelectionChanged"
                   SelectionMode="Single" IsReadOnly="True"
@@ -70,7 +72,7 @@
 
         <DataGrid Name="StudentsList"
                   BorderThickness="3" ItemsSource="{Binding}"
-                  Grid.Row="4" Grid.ColumnSpan="4" Grid.RowSpan="4"
+                  Grid.Row="5" Grid.ColumnSpan="4" Grid.RowSpan="5"
                   Margin="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                   SelectionChanged="StudentsList_SelectionChanged" SelectionMode="Single" IsReadOnly="True"
                   AutoGenerateColumns = "False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserResizeColumns="False"
@@ -96,9 +98,9 @@
 
         <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="Periodo: " x:Name="LabelPeriodo" />
         <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="Fecha: " Name="LabelFecha" />
-        <Label Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Selecciones de proyecto: " x:Name="LabelStudent" />
-        <TextBox x:Name="selection1" Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="5" Margin="10 5 5 10" materialDesign:HintAssist.Hint="Seleccion 1" IsEnabled="False" Style="{DynamicResource TextBox}" />
-        <TextBox x:Name="selection2" Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="6" Margin="10 5 5 10" materialDesign:HintAssist.Hint="Seleccion 2" IsEnabled="False" Style="{DynamicResource TextBox}" />
-        <TextBox x:Name="selection3" Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="7" Margin="10 5 5 10" materialDesign:HintAssist.Hint="Seleccion 3" IsEnabled="False" Style="{DynamicResource TextBox}" />
+        <Label Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Selecciones de proyecto: " x:Name="LabelStudent" />
+        <TextBox x:Name="selection1" Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="6" VerticalAlignment="Stretch" materialDesign:HintAssist.Hint="Seleccion 1" IsEnabled="False" Style="{DynamicResource TextBox}" />
+        <TextBox x:Name="selection2" Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="7" VerticalAlignment="Stretch" materialDesign:HintAssist.Hint="Seleccion 2" IsEnabled="False" Style="{DynamicResource TextBox}" />
+        <TextBox x:Name="selection3" Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="8" VerticalAlignment="Stretch" materialDesign:HintAssist.Hint="Seleccion 3" IsEnabled="False" Style="{DynamicResource TextBox}" />
     </Grid>
 </Page>
