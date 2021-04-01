@@ -7,21 +7,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SCPP
+namespace SCPP.DataAcces
 {
     using System;
     using System.Collections.ObjectModel;
     
-    public partial class Archivo
+    public partial class Reporte
     {
-        public Nullable<System.DateTime> Fechaentrega { get; set; }
-        public string Rutaubicación { get; set; }
-        public string Titulo { get; set; }
-        public Nullable<int> Validado { get; set; }
-        public int ArchivoID { get; set; }
-        public Nullable<int> ExpedienteID { get; set; }
+        public Nullable<int> Horasreportadas { get; set; }
+        public string Tiporeporte { get; set; }
+        public int ReporteID { get; set; }
     
-        public virtual Expediente Expediente { get; set; }
-        public virtual Reporte Reporte { get; set; }
+        public virtual Archivo Archivo { get; set; }
     }
 }

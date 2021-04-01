@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SCPP
+namespace SCPP.DataAcces
 {
     using System;
     using System.Data.Entity;

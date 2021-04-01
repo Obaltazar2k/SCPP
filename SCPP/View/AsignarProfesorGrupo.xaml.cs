@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using WPFCustomMessageBox;
+using SCPP.DataAcces;
 
 namespace SCPP
 {
@@ -43,7 +44,6 @@ namespace SCPP
                 grupoAsignado.Seccion = groupSelected.Seccion;
                 grupoAsignado.Rfcprofesor = profesorSelected.Rfc;
                 grupoAsignado.Periodo = _period;
-                grupoAsignado.GrupoID = 5;
                 using (SCPPContext context = new SCPPContext())
                 {
                     context.Grupo.Add(grupoAsignado);
