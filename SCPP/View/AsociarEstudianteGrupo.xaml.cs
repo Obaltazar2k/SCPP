@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SCPP.Utilities;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -15,17 +16,17 @@ namespace SCPP
     public partial class AsociarEstudianteGrupo : Page
     {
         private int _groupID = 0;
-        private Profesor _profesor;
+        private string _user;
         private ObservableCollection<Estudiante> selectedStudents = null;
         private ObservableCollection<Estudiante> studentsCollection;
         
-        public AsociarEstudianteGrupo(Profesor profesor)
+        public AsociarEstudianteGrupo()
         {
-            _profesor = profesor;
             InitializeComponent();
             DataContext = this;
+            GetSesion();
             GetStudents();
-            FillComboBox(_profesor);
+            FillComboBox(_user);
         }
 
         private ObservableCollection<Grupo> groupsCollection { get; set; }
@@ -97,12 +98,19 @@ namespace SCPP
             }
         }
 
-        private void FillComboBox(Profesor profesor)
+        private void GetSesion()
+        {
+            Sesion userSesion = Sesion.GetSesion;
+            _user = userSesion.Username;
+
+        }
+
+        private void FillComboBox(string _user)
         {
             groupsCollection = new ObservableCollection<Grupo>();
             using (SCPPContext context = new SCPPContext())
             {
-                var groupsList = context.Grupo.OrderBy(s => s.Nrc).Where(s => s.Rfcprofesor.Equals(profesor.Rfc));
+                var groupsList = context.Grupo.OrderBy(g => g.Nrc).Where(g => g.Rfcprofesor.Equals(_user));
                 if (groupsList != null)
                 {
                     foreach (Grupo grupo in groupsList)

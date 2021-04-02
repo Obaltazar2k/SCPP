@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace SCPP
 {
@@ -10,6 +11,13 @@ namespace SCPP
         public MenuProfesor()
         {
             InitializeComponent();
+        }
+
+        private void AsociarEstudianteGrupoButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new AsociarEstudianteGrupo());
+            return;
         }
     }
 }
