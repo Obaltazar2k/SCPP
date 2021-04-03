@@ -4,6 +4,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using SCPP.DataAcces;
+using System.Data.Entity.Core;
+using WPFCustomMessageBox;
 
 namespace SCPP
 {
@@ -20,6 +22,74 @@ namespace SCPP
         public IniciarSesion()
         {
             InitializeComponent();
+        }
+
+        private void LoginButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (FieldsValidation() && _lockedLogin == false)
+                {
+                    GetDataFromFields();
+                    var student = IsStudent();
+                    if (student != null)
+                    {
+                        if (StudentIsValidated(student))
+                        {
+                            SetSesion(student.Matricula, student.Correopersonal);
+                            var mainWindow = (MainWindow)Application.Current.MainWindow;
+                            mainWindow?.ChangeView(new MenuEstudiante());
+                            return;
+                        }
+                        else
+                            MessageBox.Show("El coordinador aun no ha validado tu registro.");
+                    }
+                    else if (IsProfesor())
+                    {
+                        var mainWindow = (MainWindow)Application.Current.MainWindow;
+                        mainWindow?.ChangeView(new MenuProfesor());
+                        return;
+                    }
+                    else if (IsCoordinator())
+                    {
+                        var mainWindow = (MainWindow)Application.Current.MainWindow;
+                        mainWindow?.ChangeView(new MenuCoordinador());
+                        return;
+                    }
+                    else
+                    {
+                        FailedAttempt();
+                    }
+                }
+            }
+            catch (EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.", 
+                    "Fallo en conexión con la base de datos", "Aceptar");
+                UserTextBox.Clear();
+                PasswordTextBox.Clear();
+            }
+        }
+
+        private void RegisterButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new RegistrarInscripcion());
+            return;
+        }
+        private void SetSesion(string user, string email)
+        {
+            Sesion userSesion = Sesion.GetSesion;
+            userSesion.Username = user;
+            userSesion.Email = email;
+        }
+
+        private bool StudentIsValidated(Estudiante student)
+        {
+            if (student.Estado.Equals("Preinscrito"))
+                return false;
+            else
+                return true;
         }
 
         private void FailedAttempt()
@@ -94,71 +164,6 @@ namespace SCPP
                 else
                     return null;
             }
-        }
-
-        private void LoginButton_Clicked(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (FieldsValidation() && _lockedLogin == false)
-                {
-                    GetDataFromFields();
-                    var student = IsStudent();
-                    if (student != null)
-                    {
-                        if (StudentIsValidated(student))
-                        {
-                            SetSesion(student.Matricula, student.Correopersonal);
-                            var mainWindow = (MainWindow)Application.Current.MainWindow;
-                            mainWindow?.ChangeView(new MenuEstudiante());
-                            return;
-                        }
-                        else
-                            MessageBox.Show("El coordinador aun no ha validado tu registro.");
-                    }
-                    else if (IsProfesor())
-                    {
-                        var mainWindow = (MainWindow)Application.Current.MainWindow;
-                        mainWindow?.ChangeView(new MenuProfesor());
-                        return;
-                    }
-                    else if (IsCoordinator())
-                    {
-                        var mainWindow = (MainWindow)Application.Current.MainWindow;
-                        mainWindow?.ChangeView(new MenuCoordinador());
-                        return;
-                    }
-                    else
-                    {
-                        FailedAttempt();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
-        private void RegisterButton_Clicked(object sender, RoutedEventArgs e)
-        {
-            var mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow?.ChangeView(new RegistrarInscripcion());
-            return;
-        }
-        private void SetSesion(string user, string email)
-        {
-            Sesion userSesion = Sesion.GetSesion;
-            userSesion.Username = user;
-            userSesion.Email = email;
-        }
-
-        private bool StudentIsValidated(Estudiante student)
-        {
-            if (student.Estado.Equals("Preinscrito"))
-                return false;
-            else
-                return true;
         }
     }
 }
