@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using WPFCustomMessageBox;
 using SCPP.DataAcces;
+using System.Data.Entity.Core;
 
 namespace SCPP
 {
@@ -56,20 +57,29 @@ namespace SCPP
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-            using (SCPPContext context = new SCPPContext())
+            try
             {
-                var student = context.Estudiante.Find(TextBoxMatricula.Text);
-                if (student == null)
+                using (SCPPContext context = new SCPPContext())
                 {
-                    if (VerificateFields())
+                    var student = context.Estudiante.Find(TextBoxMatricula.Text);
+                    if (student == null)
                     {
-                        var studentRegistered = RegisterNewStudent();
-                        SendEmail();
-                        StudentRegisteredMessage(studentRegistered);
+                        if (VerificateFields())
+                        {
+                            var studentRegistered = RegisterNewStudent();
+                            SendEmail();
+                            StudentRegisteredMessage(studentRegistered);
+                        }
                     }
+                    else
+                        CustomMessageBox.ShowOK("Ya existe un estudiante registrado con la matrícula ingresada con nombre: " + student.Nombre, "Estudiante ya registrado", "Aceptar");
                 }
-                else
-                    CustomMessageBox.ShowOK("Ya existe un estudiante registrado con la matrícula ingresada con nombre: " + student.Nombre, "Estudiante ya registrado", "Aceptar");
+            }
+            catch (EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                     "Fallo en conexión con la base de datos", "Aceptar");
+                ReturnToLogin(new object(), new RoutedEventArgs());
             }
         }
 
@@ -93,6 +103,13 @@ namespace SCPP
                 context.SaveChanges();
             }
             return student;
+        }
+
+        private void ReturnToLogin(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new IniciarSesion());
+            return;
         }
 
         private void SendEmail()
