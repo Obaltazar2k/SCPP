@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using WPFCustomMessageBox;
 using SCPP.DataAcces;
+using System.Data.Entity.Core;
 
 namespace SCPP
 {
@@ -23,24 +24,41 @@ namespace SCPP
 
         public AsignarProyectoEstudiante()
         {
-            InitializeComponent();
-            AddInformationToLabels();
-            GetStudents();
-            GetProyects();
+            try
+            {
+                InitializeComponent();
+                AddInformationToLabels();
+                GetStudents();
+                GetProyects();
+            }
+            catch (EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                        "Fallo en conexión con la base de datos", "Aceptar");
+                Loaded += ReturnToLogin;
+            }
         }
 
         public AsignarProyectoEstudiante(Estudiante student)
         {
-            InitializeComponent();
-            AddInformationToLabels();
-            GetStudents();
-            GetProyects();
-
-            var studentSelection = (from i in studentsCollection
-                                    where i.Matricula == student.Matricula
-                                    select i).FirstOrDefault();
-            if (studentSelection != null)
-                StudentsList.SelectedItem = studentSelection;
+            try
+            {
+                InitializeComponent();
+                AddInformationToLabels();
+                GetStudents();
+                GetProyects();
+                var studentSelection = (from i in studentsCollection
+                                        where i.Matricula == student.Matricula
+                                        select i).FirstOrDefault();
+                if (studentSelection != null)
+                    StudentsList.SelectedItem = studentSelection;
+            }
+            catch (EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                        "Fallo en conexión con la base de datos", "Aceptar");
+                Loaded += ReturnToLogin;
+            }
         }
 
         private void AddInformationToLabels()
@@ -52,33 +70,42 @@ namespace SCPP
 
         private void AssignButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (proyectSelected == null && studentSelected == null)
-                return;
-
-            MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que desea asignar al ESTUDIANTE "
-                + studentSelected.Nombre + " " + studentSelected.Apellidopaterno + " con matricula " + studentSelected.Matricula
-                + " al PROYECTO " + proyectSelected.Nombre + "?", "Confirmación", "Si", "No");
-            var assignDone = false;
-            if (confirmation == MessageBoxResult.Yes)
+            try
             {
-                Inscripción newInscription = CreateInscription(studentSelected.Matricula, proyectSelected.Clave);
-                Expediente newExpedient = CreateExpedient(newInscription.InscripciónID);
-                assignDone = true;
-            }
-            else
-                return;
+                if (proyectSelected == null && studentSelected == null)
+                    return;
 
-            if (assignDone == true)
-            {
-                MessageBoxResult result = CustomMessageBox.ShowYesNo("La asignación ha sido realizada con éxito.", "Asignación", "Generar oficio de asignación", "Finalizar");
-                if (result == MessageBoxResult.Yes)
+                MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que desea asignar al ESTUDIANTE "
+                    + studentSelected.Nombre + " " + studentSelected.Apellidopaterno + " con matricula " + studentSelected.Matricula
+                    + " al PROYECTO " + proyectSelected.Nombre + "?", "Confirmación", "Si", "No");
+                var assignDone = false;
+                if (confirmation == MessageBoxResult.Yes)
                 {
-                    //extend CU Generar oficio de asignación (newInscription.InscripciónID);
+                    Inscripción newInscription = CreateInscription(studentSelected.Matricula, proyectSelected.Clave);
+                    Expediente newExpedient = CreateExpedient(newInscription.InscripciónID);
+                    assignDone = true;
                 }
                 else
+                    return;
+
+                if (assignDone == true)
                 {
-                    CancelButton_Click(new object(), new RoutedEventArgs());
+                    MessageBoxResult result = CustomMessageBox.ShowYesNo("La asignación ha sido realizada con éxito.", "Asignación", "Generar oficio de asignación", "Finalizar");
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        //extend CU Generar oficio de asignación
+                    }
+                    else
+                    {
+                        CancelButton_Click(new object(), new RoutedEventArgs());
+                    }
                 }
+            }
+            catch (EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                     "Fallo en conexión con la base de datos", "Aceptar");
+                ReturnToLogin(new object(), new RoutedEventArgs());
             }
         }
 
@@ -190,41 +217,57 @@ namespace SCPP
             CheckSelecctions();
         }
 
+        private void ReturnToLogin(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new IniciarSesion());
+            return;
+        }
+
         private void StudentsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DataGrid dataGrid = sender as DataGrid;
-            studentSelected = (Estudiante)dataGrid.SelectedItems[0];
-
-            selection1.Text = "";
-            selection2.Text = "";
-            selection3.Text = "";
-
-            LabelStudent.Content = "Selecciones de proyecto: " + studentSelected.Nombre + " " + studentSelected.Apellidopaterno;
-
-            using (SCPPContext context = new SCPPContext())
+            try
             {
-                var proyectSelections = context.Selecciónproyecto.Where(p => p.Matriculaestudiante == studentSelected.Matricula);
-                var count = 1;
-                foreach (Selecciónproyecto selection in proyectSelections)
+                DataGrid dataGrid = sender as DataGrid;
+                studentSelected = (Estudiante)dataGrid.SelectedItems[0];
+
+                selection1.Text = "";
+                selection2.Text = "";
+                selection3.Text = "";
+
+                LabelStudent.Content = "Selecciones de proyecto: " + studentSelected.Nombre + " " + studentSelected.Apellidopaterno;
+
+                using (SCPPContext context = new SCPPContext())
                 {
-                    switch (count)
+                    var proyectSelections = context.Selecciónproyecto.Where(p => p.Matriculaestudiante == studentSelected.Matricula);
+                    var count = 1;
+                    foreach (Selecciónproyecto selection in proyectSelections)
                     {
-                        case 1:
-                            selection1.Text = selection.Proyecto.Nombre;
-                            break;
+                        switch (count)
+                        {
+                            case 1:
+                                selection1.Text = selection.Proyecto.Nombre;
+                                break;
 
-                        case 2:
-                            selection2.Text = selection.Proyecto.Nombre;
-                            break;
+                            case 2:
+                                selection2.Text = selection.Proyecto.Nombre;
+                                break;
 
-                        case 3:
-                            selection3.Text = selection.Proyecto.Nombre;
-                            break;
+                            case 3:
+                                selection3.Text = selection.Proyecto.Nombre;
+                                break;
+                        }
+                        count++;
                     }
-                    count++;
                 }
+                CheckSelecctions();
             }
-            CheckSelecctions();
+            catch (EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                     "Fallo en conexión con la base de datos", "Aceptar");
+                ReturnToLogin(new object(), new RoutedEventArgs());
+            }
         }
     }
 }
