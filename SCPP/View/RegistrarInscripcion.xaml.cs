@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using WPFCustomMessageBox;
 using SCPP.DataAcces;
+using System.Data.Entity.Core;
 
 namespace SCPP
 {
@@ -21,7 +22,7 @@ namespace SCPP
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            if (NavigationService.CanGoBack)
+            if(NavigationService.CanGoBack)
 
                 NavigationService.GoBack();
             else
@@ -30,20 +31,30 @@ namespace SCPP
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-            using (SCPPContext context = new SCPPContext())
+            try
             {
-                var student = context.Estudiante.Find(TextBoxEnrrollment.Text);
-                if (student == null)
+                using(SCPPContext context = new SCPPContext())
                 {
-                    if (VerificateFields())
+                    var student = context.Estudiante.Find(TextBoxEnrrollment.Text);
+                    if(student == null)
                     {
-                        var studentRegistered = RegisterNewStudent();
+                        if(VerificateFields())
+                        {
+                            var studentRegistered = RegisterNewStudent();
 
-                        StudentRegisteredMessage(studentRegistered);
+                            StudentRegisteredMessage(studentRegistered);
+                        }
                     }
+                    else
+                        CustomMessageBox.ShowOK("Ya existe un estudiante registrado con la matrícula ingresada con nombre: " + student.Nombre, "Estudiante ya registrado", "Aceptar");
                 }
-                else
-                    CustomMessageBox.ShowOK("Ya existe un estudiante registrado con la matrícula ingresada con nombre: " + student.Nombre, "Estudiante ya registrado", "Aceptar");
+            }
+            catch(EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                    "Fallo en conexión con la base de datos", "Aceptar");
+
+                ReturnToLogin(new object(), new RoutedEventArgs());
             }
         }
 
@@ -61,12 +72,32 @@ namespace SCPP
                 Estado = "Preinscrito",
                 Contraseña = Encrypt.GetSHA256(TextBoxPassword.Password)
             };
-            using (SCPPContext context = new SCPPContext())
+
+            try
             {
-                context.Estudiante.Add(student);
-                context.SaveChanges();
+
+                using(SCPPContext context = new SCPPContext())
+                {
+                    context.Estudiante.Add(student);
+                    context.SaveChanges();
+                }
             }
+            catch(EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                    "Fallo en conexión con la base de datos", "Aceptar");
+
+                ReturnToLogin(new object(), new RoutedEventArgs());
+            }
+
             return student;
+        }
+
+        private void ReturnToLogin(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new IniciarSesion());
+            return;
         }
 
         private void StudentRegisteredMessage(Estudiante student)
@@ -74,7 +105,7 @@ namespace SCPP
             MessageBoxResult confirmation = CustomMessageBox.ShowOK("Podrás ingresar al sistema una vez se valide tu inscripcion",
                 "Registro exitoso",
                 "Aceptar");
-            if (confirmation == MessageBoxResult.OK)
+            if(confirmation == MessageBoxResult.OK)
             {
                 CancelButton_Click(new object(), new RoutedEventArgs());
             }
@@ -83,7 +114,7 @@ namespace SCPP
         private bool ValidatePhone()
         {
             Regex rgx = new Regex(@"^\+?[\d- ]{9,}$");
-            if (rgx.IsMatch(TextBoxPhone.Text))
+            if(rgx.IsMatch(TextBoxPhone.Text))
                 return true;
             else
             {
@@ -95,7 +126,7 @@ namespace SCPP
         private bool VerificateEmail()
         {
             string emailFormat = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
-            if (Regex.IsMatch(TextBoxEMail.Text, emailFormat))
+            if(Regex.IsMatch(TextBoxEMail.Text, emailFormat))
                 return true;
             else
             {
@@ -112,7 +143,7 @@ namespace SCPP
         private bool VerificateMatricula()
         {
             Regex rgx = new Regex(@"^[S]\d{7}[a-zA-Z0-9]$");
-            if (rgx.IsMatch(TextBoxEnrrollment.Text))
+            if(rgx.IsMatch(TextBoxEnrrollment.Text))
                 return true;
             else
             {
@@ -131,12 +162,12 @@ namespace SCPP
                 average = Convert.ToDouble(TextBoxAverage.Text);
                 IsDouble = true;
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
             }
 
             Regex rgx = new Regex(@"^((\d+)((\.\d{1,2})?))$");
-            if (rgx.IsMatch(TextBoxAverage.Text) && average <= 10 && IsDouble)
+            if(rgx.IsMatch(TextBoxAverage.Text) && average <= 10 && IsDouble)
             {
                 return true;
             }
@@ -146,5 +177,6 @@ namespace SCPP
                 return false;
             }
         }
+
     }
 }
