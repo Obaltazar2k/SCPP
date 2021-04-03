@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using WPFCustomMessageBox;
 using SCPP.DataAcces;
+using System.Data.Entity.Core;
 
 namespace SCPP
 {
@@ -20,9 +21,18 @@ namespace SCPP
         
         public DesasignarProfesorGrupo()
         {
-            InitializeComponent();
-            GetProfesors();
-            _period = Period.GetPeriod();
+            try
+            {
+                InitializeComponent();
+                GetProfesors();
+                _period = Period.GetPeriod();
+            }
+            catch (EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                    "Fallo en conexión con la base de datos", "Aceptar");
+                Loaded += ReturnToLogin;
+            }           
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -42,30 +52,39 @@ namespace SCPP
 
         private void DesassignButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (profesorSelected == null || groupSelected == null)
-                return;
-
-            MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que desea desasignar al PROFESOR "
-                + profesorSelected.Nombre + " " + profesorSelected.Apellidopaterno + " " + profesorSelected.Apellidopaterno + " con Rfc " + profesorSelected.Rfc
-                + " del GRUPO " + groupSelected.Nrc + "?", "Confirmación", "Si", "No");
-            var assignDone = false;
-            if (confirmation == MessageBoxResult.Yes)
+            try
             {
-                using (SCPPContext context = new SCPPContext())
+                if (profesorSelected == null || groupSelected == null)
+                    return;
+
+                MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que desea desasignar al PROFESOR "
+                    + profesorSelected.Nombre + " " + profesorSelected.Apellidopaterno + " " + profesorSelected.Apellidopaterno + " con Rfc " + profesorSelected.Rfc
+                    + " del GRUPO " + groupSelected.Nrc + "?", "Confirmación", "Si", "No");
+                var assignDone = false;
+                if (confirmation == MessageBoxResult.Yes)
                 {
-                    context.Grupo.Attach(groupSelected);
-                    context.Entry(groupSelected).State = EntityState.Deleted;
-                    context.SaveChanges();
-                    assignDone = true;
+                    using (SCPPContext context = new SCPPContext())
+                    {
+                        context.Grupo.Attach(groupSelected);
+                        context.Entry(groupSelected).State = EntityState.Deleted;
+                        context.SaveChanges();
+                        assignDone = true;
+                    }
+                }
+
+                if (assignDone == true)
+                {
+                    MessageBoxResult result = CustomMessageBox.Show("La desasignación ha sido realizada con éxito.");
+                    var mainWindow = (MainWindow)Application.Current.MainWindow;
+                    mainWindow?.ChangeView(new MenuCoordinador());
+                    return;
                 }
             }
-
-            if (assignDone == true)
+            catch (EntityException)
             {
-                MessageBoxResult result = CustomMessageBox.Show("La desasignación ha sido realizada con éxito.");
-                var mainWindow = (MainWindow)Application.Current.MainWindow;
-                mainWindow?.ChangeView(new MenuCoordinador());
-                return;
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                    "Fallo en conexión con la base de datos", "Aceptar");
+                ReturnToLogin(new object(), new RoutedEventArgs());
             }
         }
         private void GetGroups()
@@ -116,17 +135,33 @@ namespace SCPP
 
         private void ProfesorsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (groupSelected != null)
+            try
             {
-                GroupsList.SelectedIndex = -1;
-                groupSelected = null;
+                if (groupSelected != null)
+                {
+                    GroupsList.SelectedIndex = -1;
+                    groupSelected = null;
+                }
+
+                DataGrid dataGrid = sender as DataGrid;
+                profesorSelected = (Profesor)dataGrid.SelectedItems[0];
+                CheckSelecctions();
+
+                GetGroups();
             }
+            catch (EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                    "Fallo en conexión con la base de datos", "Aceptar");
+                ReturnToLogin(new object(), new RoutedEventArgs());
+            }
+        }
 
-            DataGrid dataGrid = sender as DataGrid;
-            profesorSelected = (Profesor)dataGrid.SelectedItems[0];
-            CheckSelecctions();
-
-            GetGroups();
+        public void ReturnToLogin(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new IniciarSesion());
+            return;
         }
     }
 }

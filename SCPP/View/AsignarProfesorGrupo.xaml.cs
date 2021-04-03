@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using WPFCustomMessageBox;
 using SCPP.DataAcces;
+using System.Data.Entity.Core;
 
 namespace SCPP
 {
@@ -20,48 +21,66 @@ namespace SCPP
         
         public AsignarProfesorGrupo()
         {
-            InitializeComponent();
-            GetProfesors();
-            _period = Period.GetPeriod();
-            GetGroups();
+            try
+            {
+                InitializeComponent();
+                GetProfesors();
+                _period = Period.GetPeriod();
+                GetGroups();
+            }
+            catch (EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                    "Fallo en conexión con la base de datos", "Aceptar");
+                Loaded += ReturnToLogin;
+            }           
         }
 
         private void AssignButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (profesorSelected == null || groupSelected == null)
-                return;
-
-            MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que desea asignar al PROFESOR "
-                + profesorSelected.Nombre + " " + profesorSelected.Apellidopaterno + " " + profesorSelected.Apellidopaterno + " con Rfc " + profesorSelected.Rfc
-                + " al GRUPO " + groupSelected.Nrc + "?", "Confirmación", "Si", "No");
-            var assignDone = false;
-            if (confirmation == MessageBoxResult.Yes)
+            try
             {
-                Grupo grupoAsignado = new Grupo();
-                grupoAsignado.Bloque = groupSelected.Bloque;
-                grupoAsignado.Cupo = groupSelected.Cupo;
-                grupoAsignado.Nrc = groupSelected.Nrc;
-                grupoAsignado.Seccion = groupSelected.Seccion;
-                grupoAsignado.Rfcprofesor = profesorSelected.Rfc;
-                grupoAsignado.Periodo = _period;
-                using (SCPPContext context = new SCPPContext())
+                if (profesorSelected == null || groupSelected == null)
+                    return;
+
+                MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que desea asignar al PROFESOR "
+                    + profesorSelected.Nombre + " " + profesorSelected.Apellidopaterno + " " + profesorSelected.Apellidopaterno + " con Rfc " + profesorSelected.Rfc
+                    + " al GRUPO " + groupSelected.Nrc + "?", "Confirmación", "Si", "No");
+                var assignDone = false;
+                if (confirmation == MessageBoxResult.Yes)
                 {
-                    context.Grupo.Add(grupoAsignado);
-                    context.SaveChanges();
+                    Grupo grupoAsignado = new Grupo();
+                    grupoAsignado.Bloque = groupSelected.Bloque;
+                    grupoAsignado.Cupo = groupSelected.Cupo;
+                    grupoAsignado.Nrc = groupSelected.Nrc;
+                    grupoAsignado.Seccion = groupSelected.Seccion;
+                    grupoAsignado.Rfcprofesor = profesorSelected.Rfc;
+                    grupoAsignado.Periodo = _period;
+                    using (SCPPContext context = new SCPPContext())
+                    {
+                        context.Grupo.Add(grupoAsignado);
+                        context.SaveChanges();
+                    }
+
+                    assignDone = true;
                 }
+                else
+                    return;
 
-                assignDone = true;
+                if (assignDone == true)
+                {
+                    MessageBoxResult result = CustomMessageBox.Show("La asignación ha sido realizada con éxito.");
+                    var mainWindow = (MainWindow)Application.Current.MainWindow;
+                    mainWindow?.ChangeView(new MenuCoordinador());
+                    return;
+                }
             }
-            else
-                return;
-
-            if (assignDone == true)
+            catch(EntityException)
             {
-                MessageBoxResult result = CustomMessageBox.Show("La asignación ha sido realizada con éxito.");
-                var mainWindow = (MainWindow)Application.Current.MainWindow;
-                mainWindow?.ChangeView(new MenuCoordinador());
-                return;
-            }
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                    "Fallo en conexión con la base de datos", "Aceptar");
+                ReturnToLogin(new object(), new RoutedEventArgs());
+            }            
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -151,6 +170,13 @@ namespace SCPP
             DataGrid dataGrid = sender as DataGrid;
             profesorSelected = (Profesor)dataGrid.SelectedItems[0];
             CheckSelecctions();
+        }
+
+        public void ReturnToLogin(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new IniciarSesion());
+            return;
         }
     }
 }
