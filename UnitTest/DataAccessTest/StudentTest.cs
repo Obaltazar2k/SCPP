@@ -161,11 +161,7 @@ namespace UnitTest.DataAccessTest
             {
                 var studentsRetrieved = context.Estudiante.ToList();
                 int expected = 2;
-                int actual = 0;
-                foreach (var Estudiante in studentsRetrieved)
-                {
-                    actual++;
-                }
+                int actual = studentsRetrieved.Count();
                 Assert.AreEqual(expected, actual);
             }
         }
