@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using WPFCustomMessageBox;
 using SCPP.DataAcces;
+using System.Data.Entity.Core;
 
 namespace SCPP
 {
@@ -24,7 +25,7 @@ namespace SCPP
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            if (NavigationService.CanGoBack)
+            if(NavigationService.CanGoBack)
 
                 NavigationService.GoBack();
             else
@@ -53,7 +54,7 @@ namespace SCPP
             var seed = Environment.TickCount;
             var random = new Random(seed);
 
-            for (int i = 0; i <= 2; i++)
+            for(int i = 0; i <= 2; i++)
             {
                 var value = random.Next(0, 9);
                 password += value;
@@ -64,25 +65,36 @@ namespace SCPP
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-            using (SCPPContext context = new SCPPContext())
+            try
             {
-                var foundProfessor = context.Profesor.Find(TextBoxRFC.Text);
-                if (foundProfessor == null)
+                using(SCPPContext context = new SCPPContext())
                 {
-                    if (VerificateFields())
+                    var foundProfessor = context.Profesor.Find(TextBoxRFC.Text);
+                    if(foundProfessor == null)
                     {
-                        var professorRegistered = RegisterNewTeacher();
-                        SendEmail();
-                        TeacherRegisteredMessage(professorRegistered);
+                        if(VerificateFields())
+                        {
+                            var professorRegistered = RegisterNewProfessor();
+                            SendEmail();
+                            ProfessorRegisteredMessage(professorRegistered);
+                        }
                     }
+                    else
+                        CustomMessageBox.ShowOK("Ya existe un profesor registrado con la matrícula ingresada con nombre: " +
+                            foundProfessor.Nombre, "Profesor ya registrado", "Aceptar");
                 }
-                else
-                    CustomMessageBox.ShowOK("Ya existe un profesor registrado con la matrícula ingresada con nombre: " +
-                        foundProfessor.Nombre, "Profesor ya registrado", "Aceptar");
             }
+            catch(EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                    "Fallo en conexión con la base de datos", "Aceptar");
+
+                ReturnToLogin(new object(), new RoutedEventArgs());
+            }
+
         }
 
-        private Profesor RegisterNewTeacher()
+        private Profesor RegisterNewProfessor()
         {
             Profesor professor = new Profesor();
 
@@ -93,11 +105,22 @@ namespace SCPP
             professor.Correopersonal = TextBoxEMail.Text;
             professor.Contraseña = encryptedPassword;
 
-            using (SCPPContext context = new SCPPContext())
+            try
             {
-                context.Profesor.Add(professor);
-                context.SaveChanges();
+                using(SCPPContext context = new SCPPContext())
+                {
+                    context.Profesor.Add(professor);
+                    context.SaveChanges();
+                }
             }
+            catch(EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                    "Fallo en conexión con la base de datos", "Aceptar");
+
+                ReturnToLogin(new object(), new RoutedEventArgs());
+            }
+
             return professor;
         }
 
@@ -110,29 +133,37 @@ namespace SCPP
             {
                 mt.Send();
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+
             }
         }
 
-        private void TeacherRegisteredMessage(Profesor teacher)
+        private void ProfessorRegisteredMessage(Profesor teacher)
         {
             MessageBoxResult selection = CustomMessageBox.ShowYesNo("El registro se ha realizado con exito", "Registro exitoso",
                 "Gestionar",
                 "Aceptar");
-            if (selection == MessageBoxResult.Yes)
+            if(selection == MessageBoxResult.Yes)
             {
                 Console.WriteLine("Extiende el CU de administrar Profesor");
             }
-            if (selection == MessageBoxResult.No)
+            if(selection == MessageBoxResult.No)
             {
                 CancelButton_Click(new object(), new RoutedEventArgs());
             }
         }
+
+        private void ReturnToLogin(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new IniciarSesion());
+            return;
+        }
+
         private bool ValidateFullFields()
         {
-            if (string.IsNullOrEmpty(TextBoxName.Text) || string.IsNullOrEmpty(TextBoxLastName.Text) || string.IsNullOrEmpty(TextBoxMothersLastName.Text)
+            if(string.IsNullOrEmpty(TextBoxName.Text) || string.IsNullOrEmpty(TextBoxLastName.Text) || string.IsNullOrEmpty(TextBoxMothersLastName.Text)
                 || string.IsNullOrEmpty(TextBoxEMail.Text) || string.IsNullOrEmpty(TextBoxRFC.Text)
                 || string.IsNullOrEmpty(TextBoxPassword.Password))
             {
@@ -146,7 +177,7 @@ namespace SCPP
         private bool VerificateEmail()
         {
             string emailFormat = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
-            if (Regex.IsMatch(TextBoxEMail.Text, emailFormat))
+            if(Regex.IsMatch(TextBoxEMail.Text, emailFormat))
                 return true;
             else
             {
@@ -157,17 +188,17 @@ namespace SCPP
 
         private bool VerificateFields()
         {
-            if (!ValidateFullFields())
+            if(!ValidateFullFields())
             {
                 return false;
             }
 
-            if (!VerificateEmail())
+            if(!VerificateEmail())
             {
                 return false;
             }
 
-            if (!VerificateRFC())
+            if(!VerificateRFC())
             {
                 return false;
             }
@@ -178,7 +209,7 @@ namespace SCPP
         private bool VerificateRFC()
         {
             Regex rgx = new Regex(@"^([A-ZÑ\x26]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))([A-Z\d]{3})?$");
-            if (rgx.IsMatch(TextBoxRFC.Text))
+            if(rgx.IsMatch(TextBoxRFC.Text))
                 return true;
             else
             {
@@ -186,5 +217,6 @@ namespace SCPP
                 return false;
             }
         }
+
     }
 }

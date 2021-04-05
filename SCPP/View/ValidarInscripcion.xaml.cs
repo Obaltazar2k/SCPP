@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using WPFCustomMessageBox;
 using SCPP.DataAcces;
+using System.Data.Entity.Core;
 
 namespace SCPP
 {
@@ -19,11 +20,23 @@ namespace SCPP
         private string periodo;
         private ObservableCollection<Estudiante> selectedStudents = new ObservableCollection<Estudiante>();
         private ObservableCollection<Estudiante> studentsCollection;
+
         public ValidarInscripcion()
         {
-            InitializeComponent();
-            GetStudents();
-            AddInformationToLabels();
+            try
+            {
+                InitializeComponent();
+                AddInformationToLabels();
+                GetStudents();
+
+            }
+            catch(EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                    "Fallo en conexión con la base de datos", "Aceptar");
+                Loaded += ReturnToLogin;
+            }
+
         }
 
         private void AddInformationToLabels()
@@ -35,7 +48,7 @@ namespace SCPP
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            if (NavigationService.CanGoBack)
+            if(NavigationService.CanGoBack)
 
                 NavigationService.GoBack();
             else
@@ -48,14 +61,14 @@ namespace SCPP
 
             try
             {
-                using (SCPPContext context = new SCPPContext())
+                using(SCPPContext context = new SCPPContext())
                 {
-                    foreach (var student in selectedStudents)
+                    foreach(var student in selectedStudents)
                     {
                         var foundStudent = context.Estudiante.Where(s => s.Matricula.Equals(student.Matricula)).
                             FirstOrDefault();
 
-                        if (foundStudent != null)
+                        if(foundStudent != null)
                         {
                             foundStudent.Estado = "Inscrito";
                             context.SaveChanges();
@@ -65,21 +78,42 @@ namespace SCPP
                     }
                 }
 
-                foreach (var student in studentList)
+                foreach(var student in studentList)
                 {
                     studentsCollection.Remove(student);
                 }
+
+                ConfirmedRegistrationMessage();
             }
-            catch (Exception ex)
+            catch(EntityException)
             {
-                MessageBox.Show(ex.ToString());
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                    "Fallo en conexión con la base de datos", "Aceptar");
+
+                ReturnToLogin(new object(), new RoutedEventArgs());
             }
         }
 
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
-            ChangeStudentStatus();
-            ConfirmedRegistrationMessage();
+            if(CheckSelections())
+            {
+                ChangeStudentStatus();
+            }
+            else
+            {
+                CustomMessageBox.ShowOK("Selecciona por lo menos un estudiante", "No has seleccionado ningun estudiante", "Aceptar");
+            }
+        }
+
+        private bool CheckSelections()
+        {
+            if(selectedStudents.Count == 0)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private void ConfirmedRegistrationMessage()
@@ -87,7 +121,7 @@ namespace SCPP
             MessageBoxResult selection = CustomMessageBox.ShowOK("Preinscripciones realizadas con exito",
                 "Preinscripciones confirmadas",
                 "Aceptar");
-            if (selection == MessageBoxResult.OK)
+            if(selection == MessageBoxResult.OK)
             {
                 CancelButton_Click(new object(), new RoutedEventArgs());
             }
@@ -97,39 +131,40 @@ namespace SCPP
         {
             studentsCollection = new ObservableCollection<Estudiante>();
 
-            try
+            using(SCPPContext context = new SCPPContext())
             {
-                using (SCPPContext context = new SCPPContext())
-                {
-                    var unregisteredStudentsList = context.Estudiante.Where(s => s.Estado == "Preinscrito");
+                var unregisteredStudentsList = context.Estudiante.Where(s => s.Estado == "Preinscrito");
 
-                    if (unregisteredStudentsList != null)
+                if(unregisteredStudentsList != null)
+                {
+                    foreach(Estudiante student in unregisteredStudentsList)
                     {
-                        foreach (Estudiante student in unregisteredStudentsList)
-                        {
-                            if (student != null)
-                                studentsCollection.Add(student);
-                        }
+                        if(student != null)
+                            studentsCollection.Add(student);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
             }
 
             StudentsList.ItemsSource = studentsCollection;
             DataContext = studentsCollection;
         }
 
+        private void ReturnToLogin(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new IniciarSesion());
+            return;
+        }
+
         private void StudentsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedStudents.Clear();
 
-            foreach (var student in StudentsList.SelectedItems)
+            foreach(var student in StudentsList.SelectedItems)
             {
                 selectedStudents.Add((Estudiante)student);
             }
         }
+
     }
 }

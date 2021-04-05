@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using WPFCustomMessageBox;
 using SCPP.DataAcces;
+using System.Data.Entity.Core;
 
 namespace SCPP
 {
@@ -20,10 +21,19 @@ namespace SCPP
         
         public RegistrarProyecto()
         {
-            InitializeComponent();
-            ComboBoxCapacidad.ItemsSource = numOfStudents;
-            DataContext = this;
-            FillComboBox();
+            try
+            {
+                InitializeComponent();
+                ComboBoxCapacidad.ItemsSource = numOfStudents;
+                DataContext = this;
+                FillComboBox();
+            }
+            catch (EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                        "Fallo en conexión con la base de datos", "Aceptar");
+                Loaded += ReturnToLogin;
+            }
         }
 
         private ObservableCollection<Organización> organizationsCollection { get; set; }
@@ -58,16 +68,25 @@ namespace SCPP
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-            using (SCPPContext context = new SCPPContext())
+            try
             {
-                var proyecto = context.Proyecto.FirstOrDefault(s => s.Nombre == TextBoxNombre.Text);
-                if (proyecto == null)
+                using (SCPPContext context = new SCPPContext())
                 {
-                    var proyectRegistered = RegisterNewProyect();
-                    StudentRegisteredMessage(proyectRegistered);
+                    var proyecto = context.Proyecto.FirstOrDefault(s => s.Nombre == TextBoxNombre.Text);
+                    if (proyecto == null)
+                    {
+                        var proyectRegistered = RegisterNewProyect();
+                        StudentRegisteredMessage(proyectRegistered);
+                    }
+                    else
+                        CustomMessageBox.ShowOK("Ya existe un proyecto registrado con el nombre ingresado con clave: " + proyecto.Clave, "Proyecto ya registrado", "Aceptar");
                 }
-                else
-                    CustomMessageBox.ShowOK("Ya existe un proyecto registrado con el nombre ingresado con clave: " + proyecto.Clave, "Proyecto ya registrado", "Aceptar");
+            }
+            catch (EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                     "Fallo en conexión con la base de datos", "Aceptar");
+                ReturnToLogin(new object(), new RoutedEventArgs());
             }
         }
 
@@ -92,6 +111,13 @@ namespace SCPP
             return proyect;
         }
 
+        private void ReturnToLogin(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new IniciarSesion());
+            return;
+        }
+
         private void StudentRegisteredMessage(object proyectRegistered)
         {
             MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("El registro se ha realizado con éxito", "Registro exitoso",
@@ -100,11 +126,7 @@ namespace SCPP
                 );
             if (confirmation == MessageBoxResult.Yes)
             {
-                /*
-                var mainWindow = (MainWindow)Application.Current.MainWindow;
-                mainWindow?.ChangeView(new GestionarProyecto(proyectRegistered));
-                return;
-                */
+                //extend CU Gestionar proyecto
             }
             if (confirmation == MessageBoxResult.No)
             {
