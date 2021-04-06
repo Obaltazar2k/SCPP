@@ -67,7 +67,7 @@ namespace UnitTest.DataAccessTest
         }
 
         [TestMethod]
-        public void AddRangeStudents_Success()
+        public void AddRangeProyect_Success()
         {
             using(SCPPContext context = new SCPPContext())
             {
@@ -131,7 +131,7 @@ namespace UnitTest.DataAccessTest
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException), "Null object")]
-        public void AddNullStudent_DoesNotAffectDatabase()
+        public void AddNullProyect_DoesNotAffectDatabase()
         {
             using(SCPPContext context = new SCPPContext())
             {
@@ -142,7 +142,7 @@ namespace UnitTest.DataAccessTest
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException), "Null object")]
-        public void AddNullRangeStudents_DoesNotAffectDatabase()
+        public void AddNullRangeProyects_DoesNotAffectDatabase()
         {
             using(SCPPContext context = new SCPPContext())
             {
@@ -152,7 +152,7 @@ namespace UnitTest.DataAccessTest
         }
 
         [TestMethod]
-        public void GetAllStudents_Succes()
+        public void GetAllProyects_Succes()
         {
             using(SCPPContext context = new SCPPContext())
             {
