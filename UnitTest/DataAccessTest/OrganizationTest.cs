@@ -11,13 +11,15 @@ namespace UnitTest.DataAccessTest
     {
         Organización testOrganization;
         List<Organización> testOrganizationList;
+        int expectedInDB;
+        static int soloID;
+        static int[] duoID = new int[2];
 
         [TestInitialize]
         public void TestInitialize()
         {
             testOrganization = new Organización()
             {
-                OrganizaciónID = 1,
                 Telefono = "2731125239",
                 Numext = 1300,
                 Nombre = "Coca Cola",
@@ -31,7 +33,6 @@ namespace UnitTest.DataAccessTest
             {
                 new Organización
                 {
-                    OrganizaciónID = 0,
                     Telefono = "2731125211",
                     Numext = 1000,
                     Nombre = "Amazon",
@@ -44,7 +45,6 @@ namespace UnitTest.DataAccessTest
 
                 new Organización
                 {
-                    OrganizaciónID = 0,
                     Telefono = "2731120000",
                     Numext = 1100,
                     Nombre = "Mercado Libre",
@@ -58,56 +58,31 @@ namespace UnitTest.DataAccessTest
         }
 
         [TestMethod]
-        public void AddNewProyect_Success()
+        public void AddNewOrganization_Success()
         {
             using(SCPPContext context = new SCPPContext())
             {
+                expectedInDB = context.Organización.ToList().Count();
                 context.Organización.Add(testOrganization);
                 context.SaveChanges();
+                soloID = testOrganization.OrganizaciónID;
                 var expected = context.Organización.Find(testOrganization.OrganizaciónID);
                 Assert.AreEqual(expected.OrganizaciónID, testOrganization.OrganizaciónID);
             }
         }
 
         [TestMethod]
-        public void AddRangeStudents_Success()
+        public void AddRangeOrganizations_Success()
         {
             using(SCPPContext context = new SCPPContext())
             {
                 context.Organización.AddRange(testOrganizationList);
                 context.SaveChanges();
-                var expected = context.Organización.Find(2);
+                duoID[0] = testOrganizationList[0].OrganizaciónID;
+                duoID[1] = testOrganizationList[1].OrganizaciónID;
+                var expected = context.Organización.Find(testOrganizationList[1].OrganizaciónID);
                 Assert.IsNotNull(expected);
-                Assert.AreEqual(expected.Nombre, "Amazon");
-            }
-        }
-
-        [TestMethod]
-        public void Remove_Success()
-        {
-            using(SCPPContext context = new SCPPContext())
-            {
-                var organizationRetrieved = context.Organización.Find(testOrganization.OrganizaciónID);
-                Assert.IsNotNull(organizationRetrieved);
-
-                context.Organización.Remove(organizationRetrieved);
-                context.SaveChanges();
-                var proyectRemoved = context.Organización.Find(testOrganization.OrganizaciónID);
-                Assert.IsNull(proyectRemoved);
-            }
-        }
-
-        [TestMethod]
-        public void RemoveRange_Success()
-        {
-            using(SCPPContext context = new SCPPContext())
-            {
-                var organizationList = context.Organización.Where(p => p.Nombre.Equals("Amazon"));
-                context.Organización.RemoveRange(organizationList);
-                context.SaveChanges();
-
-                var organizationRemoved = context.Organización.Find(2);
-                Assert.IsNull(organizationRemoved);
+                Assert.AreEqual(expected.Nombre, testOrganizationList[1].Nombre);
             }
         }
 
@@ -116,9 +91,9 @@ namespace UnitTest.DataAccessTest
         {
             using(SCPPContext context = new SCPPContext())
             {
-                var organizationRetrieved = context.Organización.Find(3);
+                var organizationRetrieved = context.Organización.Find(soloID);
                 Assert.IsNotNull(organizationRetrieved);
-                Assert.AreEqual("Mercado Libre", organizationRetrieved.Nombre);
+                Assert.AreEqual(organizationRetrieved.Nombre, testOrganization.Nombre);
             }
         }
 
@@ -127,7 +102,7 @@ namespace UnitTest.DataAccessTest
         {
             using(SCPPContext context = new SCPPContext())
             {
-                var organizationRetrieved = context.Organización.Find(1);
+                var organizationRetrieved = context.Organización.Find(0);
                 Assert.IsNull(organizationRetrieved);
             }
         }
@@ -160,11 +135,42 @@ namespace UnitTest.DataAccessTest
         {
             using(SCPPContext context = new SCPPContext())
             {
-                var organizationRetrieved = context.Organización.ToList();
-                int expected = 1;
-                int actual = organizationRetrieved.Count();
-                Assert.AreEqual(expected, actual);
+                var actualInDB = context.Organización.ToList().Count();
+                Assert.AreEqual(expectedInDB + 3, actualInDB);
             }
         }
+
+
+
+        [TestMethod]
+        public void Remove_Success()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                var organizationRetrieved = context.Organización.Find(soloID);
+                Assert.IsNotNull(organizationRetrieved);
+
+                context.Organización.Remove(organizationRetrieved);
+                context.SaveChanges();
+                var organizationRemoved = context.Organización.Find(soloID);
+                Assert.IsNull(organizationRemoved);
+            }
+        }
+
+        [TestMethod]
+        public void RemoveRange_Success()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                var tmp = duoID[0];
+                var organizationList = context.Organización.Where(p => p.OrganizaciónID >= (tmp));
+                context.Organización.RemoveRange(organizationList);
+                context.SaveChanges();
+
+                var organizationRemoved = context.Organización.Find(duoID[0]);
+                Assert.IsNull(organizationRemoved);
+            }
+        }
+
     }
 }

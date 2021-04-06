@@ -11,10 +11,15 @@ namespace UnitTest.DataAccessTest
     {
         Estudiante testStudent;
         List<Estudiante> testStudentsList;
+        int expectedInDB;
 
         [TestInitialize]
         public void TestInitialize()
         {
+            using (SCPPContext context = new SCPPContext())
+            {
+                expectedInDB = context.Estudiante.ToList().Count();
+            }
             testStudent = new Estudiante()
             {
                 Correopersonal = "omarini2k@gmail.com",
@@ -76,9 +81,62 @@ namespace UnitTest.DataAccessTest
             {
                 context.Estudiante.AddRange(testStudentsList);
                 context.SaveChanges();
-                var expected = context.Estudiante.Find("S18012185");
+                var expected = context.Estudiante.Find(testStudentsList[0].Matricula);
                 Assert.IsNotNull(expected);
-                Assert.AreEqual(expected.Nombre, "Ernesto");
+                Assert.AreEqual(expected.Nombre, testStudentsList[0].Nombre);
+            }
+        }
+
+        [TestMethod]
+        public void Find_Succes()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                var studentRetrieved = context.Estudiante.Find(testStudentsList[0].Matricula);
+                Assert.IsNotNull(studentRetrieved);
+                Assert.AreEqual(studentRetrieved.Apellidopaterno, testStudentsList[0].Apellidopaterno);
+            }
+        }
+
+        [TestMethod]
+        public void Find_ReturnsEmptyObject()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                var studentRetrieved = context.Estudiante.Find(testStudentsList[1].Matricula + 1);
+                Assert.IsNull(studentRetrieved);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException), "Null object")]
+        public void AddNullStudent_DoesNotAffectDatabase()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                context.Estudiante.Add(null);
+                context.SaveChanges();
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException), "Null object")]
+        public void AddNullRangeStudents_DoesNotAffectDatabase()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                context.Estudiante.AddRange(null);
+                context.SaveChanges();
+            }
+        }
+
+        [TestMethod]
+        public void GetAllStudents_Succes()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                var actualInDB = context.Estudiante.ToList().Count();
+                Assert.AreEqual(expectedInDB + 3, actualInDB);
             }
         }
 
@@ -111,59 +169,6 @@ namespace UnitTest.DataAccessTest
             }
         }
 
-        [TestMethod]
-        public void Find_Succes()
-        {
-            using (SCPPContext context = new SCPPContext())
-            {
-                var studentRetrieved = context.Estudiante.Find("S18012180");
-                Assert.IsNotNull(studentRetrieved);
-                Assert.AreEqual("Baltazar", studentRetrieved.Apellidopaterno);
-            }
-        }
 
-        [TestMethod]
-        public void Find_ReturnsEmptyObject()
-        {
-            using (SCPPContext context = new SCPPContext())
-            {
-                var studentRetrieved = context.Estudiante.Find("S18012190");
-                Assert.IsNull(studentRetrieved);
-            }
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException), "Null object")]
-        public void AddNullStudent_DoesNotAffectDatabase()
-        {
-            using (SCPPContext context = new SCPPContext())
-            {
-                context.Estudiante.Add(null);
-                context.SaveChanges();
-            }
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException), "Null object")]
-        public void AddNullRangeStudents_DoesNotAffectDatabase()
-        {
-            using (SCPPContext context = new SCPPContext())
-            {
-                context.Estudiante.AddRange(null);
-                context.SaveChanges();
-            }
-        }
-
-        [TestMethod]
-        public void GetAllStudents_Succes()
-        {
-            using (SCPPContext context = new SCPPContext())
-            {
-                var studentsRetrieved = context.Estudiante.ToList();
-                int expected = 2;
-                int actual = studentsRetrieved.Count();
-                Assert.AreEqual(expected, actual);
-            }
-        }
     }
 }

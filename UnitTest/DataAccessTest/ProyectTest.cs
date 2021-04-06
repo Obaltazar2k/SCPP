@@ -11,12 +11,17 @@ namespace UnitTest.DataAccessTest
     {
         Proyecto testProyect;
         List<Proyecto> testProyectList;
+        int expectedInDB;
         private readonly DateTime thisDay = DateTime.Today;
 
 
         [TestInitialize]
         public void TestInitialize()
         {
+            using (SCPPContext context = new SCPPContext())
+            {
+                expectedInDB = context.Proyecto.ToList().Count();
+            }
             testProyect = new Proyecto()
             {
                 Actividades = "5 Actividades",
@@ -57,7 +62,7 @@ namespace UnitTest.DataAccessTest
         [TestMethod]
         public void AddNewProyect_Success()
         {
-            using(SCPPContext context = new SCPPContext())
+            using (SCPPContext context = new SCPPContext())
             {
                 context.Proyecto.Add(testProyect);
                 context.SaveChanges();
@@ -67,22 +72,75 @@ namespace UnitTest.DataAccessTest
         }
 
         [TestMethod]
-        public void AddRangeStudents_Success()
+        public void AddRangeProyects_Success()
         {
-            using(SCPPContext context = new SCPPContext())
+            using (SCPPContext context = new SCPPContext())
             {
                 context.Proyecto.AddRange(testProyectList);
                 context.SaveChanges();
-                var expected = context.Proyecto.Find(2);
+                var expected = context.Proyecto.Find(testProyectList[1].Clave);
                 Assert.IsNotNull(expected);
-                Assert.AreEqual(expected.Nombre, "Web Store");
+                Assert.AreEqual(expected.Nombre, testProyectList[1].Nombre);
+            }
+        }
+
+        [TestMethod]
+        public void Find_Succes()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                var proyectRetrieved = context.Proyecto.Find(testProyectList[1].Clave);
+                Assert.IsNotNull(proyectRetrieved);
+                Assert.AreEqual(proyectRetrieved.Nombre, testProyectList[1].Nombre);
+            }
+        }
+
+        [TestMethod]
+        public void Find_ReturnsEmptyObject()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                var proyectRetrieved = context.Proyecto.Find(testProyectList[1].Clave + 1);
+                Assert.IsNull(proyectRetrieved);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException), "Null object")]
+        public void AddNullProyect_DoesNotAffectDatabase()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                context.Proyecto.Add(null);
+                context.SaveChanges();
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException), "Null object")]
+        public void AddNullRangeProyects_DoesNotAffectDatabase()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                context.Proyecto.AddRange(null);
+                context.SaveChanges();
+            }
+        }
+
+        [TestMethod]
+        public void GetAllProyects_Succes()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                var actualInDB = context.Proyecto.ToList().Count();
+                Assert.AreEqual(expectedInDB + 3, actualInDB);
             }
         }
 
         [TestMethod]
         public void Remove_Success()
         {
-            using(SCPPContext context = new SCPPContext())
+            using (SCPPContext context = new SCPPContext())
             {
                 var proyectRetrieved = context.Proyecto.Find(testProyect.Clave);
                 Assert.IsNotNull(proyectRetrieved);
@@ -97,7 +155,7 @@ namespace UnitTest.DataAccessTest
         [TestMethod]
         public void RemoveRange_Success()
         {
-            using(SCPPContext context = new SCPPContext())
+            using (SCPPContext context = new SCPPContext())
             {
                 var proyectList = context.Proyecto.Where(p => p.Resbonsablenombre == "Jon Snow");
                 context.Proyecto.RemoveRange(proyectList);
@@ -108,60 +166,7 @@ namespace UnitTest.DataAccessTest
             }
         }
 
-        [TestMethod]
-        public void Find_Succes()
-        {
-            using(SCPPContext context = new SCPPContext())
-            {
-                var proyectRetrieved = context.Proyecto.Find(3);
-                Assert.IsNotNull(proyectRetrieved);
-                Assert.AreEqual("Web Warzone", proyectRetrieved.Nombre);
-            }
-        }
 
-        [TestMethod]
-        public void Find_ReturnsEmptyObject()
-        {
-            using(SCPPContext context = new SCPPContext())
-            {
-                var proyectRetrieved = context.Proyecto.Find(1);
-                Assert.IsNull(proyectRetrieved);
-            }
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException), "Null object")]
-        public void AddNullStudent_DoesNotAffectDatabase()
-        {
-            using(SCPPContext context = new SCPPContext())
-            {
-                context.Proyecto.Add(null);
-                context.SaveChanges();
-            }
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException), "Null object")]
-        public void AddNullRangeStudents_DoesNotAffectDatabase()
-        {
-            using(SCPPContext context = new SCPPContext())
-            {
-                context.Proyecto.AddRange(null);
-                context.SaveChanges();
-            }
-        }
-
-        [TestMethod]
-        public void GetAllStudents_Succes()
-        {
-            using(SCPPContext context = new SCPPContext())
-            {
-                var proyectRetrieved = context.Proyecto.ToList();
-                int expected = 5;
-                int actual = proyectRetrieved.Count();
-                Assert.AreEqual(expected, actual);
-            }
-        }
     }
 }
 

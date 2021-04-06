@@ -48,6 +48,8 @@
     <Compile Include="DataAccessTest\StudentTest.cs" />
     <Compile Include="DataAccessTest\ProyectTest.cs" />
     <Compile Include="DataAccessTest\OrganizationTest.cs" />
+    <Compile Include="DataAccessTest\GroupTest.cs" />
+    <Compile Include="DataAccessTest\ProyectSelectionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

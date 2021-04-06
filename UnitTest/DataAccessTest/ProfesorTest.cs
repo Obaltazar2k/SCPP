@@ -11,10 +11,15 @@ namespace UnitTest.DataAccessTest
     {
         Profesor testProfesor;
         List<Profesor> testProfesorsList;
+        int expectedInDB;
 
         [TestInitialize]
         public void TestInitialize()
         {
+            using (SCPPContext context = new SCPPContext())
+            {
+                expectedInDB = context.Profesor.ToList().Count();
+            }
             testProfesor = new Profesor()
             {
                 Correopersonal = "adrian@gmail.com",
@@ -67,9 +72,62 @@ namespace UnitTest.DataAccessTest
             {
                 context.Profesor.AddRange(testProfesorsList);
                 context.SaveChanges();
-                var expected = context.Profesor.Find("JIGE201093H01");
+                var expected = context.Profesor.Find(testProfesorsList[0].Rfc);
                 Assert.IsNotNull(expected);
-                Assert.AreEqual(expected.Nombre, "Erick");
+                Assert.AreEqual(expected.Nombre, testProfesorsList[0].Nombre);
+            }
+        }
+
+        [TestMethod]
+        public void Find_Succes()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                var profesorRetrieved = context.Profesor.Find(testProfesorsList[1].Rfc);
+                Assert.IsNotNull(profesorRetrieved);
+                Assert.AreEqual(profesorRetrieved.Apellidopaterno, testProfesorsList[1].Apellidopaterno);
+            }
+        }
+
+        [TestMethod]
+        public void Find_ReturnsEmptyObject()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                var profesorRetrieved = context.Profesor.Find(testProfesorsList[1].Rfc + 1);
+                Assert.IsNull(profesorRetrieved);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException), "Null object")]
+        public void AddNullProfesor_DoesNotAffectDatabase()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                context.Profesor.Add(null);
+                context.SaveChanges();
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException), "Null object")]
+        public void AddNullRangeProfesors_DoesNotAffectDatabase()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                context.Profesor.AddRange(null);
+                context.SaveChanges();
+            }
+        }
+
+        [TestMethod]
+        public void GetAllProfesors_Succes()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                var actualInDB = context.Profesor.ToList().Count();
+                Assert.AreEqual(expectedInDB + 3, actualInDB);
             }
         }
 
@@ -102,59 +160,6 @@ namespace UnitTest.DataAccessTest
             }
         }
 
-        [TestMethod]
-        public void Find_Succes()
-        {
-            using (SCPPContext context = new SCPPContext())
-            {
-                var profesorRetrieved = context.Profesor.Find("PEMA8310245HO");
-                Assert.IsNotNull(profesorRetrieved);
-                Assert.AreEqual("Pérez", profesorRetrieved.Apellidopaterno);
-            }
-        }
 
-        [TestMethod]
-        public void Find_ReturnsEmptyObject()
-        {
-            using (SCPPContext context = new SCPPContext())
-            {
-                var profesorRetrieved = context.Profesor.Find("LAOA8310245HO");
-                Assert.IsNull(profesorRetrieved);
-            }
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException), "Null object")]
-        public void AddNullProfesor_DoesNotAffectDatabase()
-        {
-            using (SCPPContext context = new SCPPContext())
-            {
-                context.Profesor.Add(null);
-                context.SaveChanges();
-            }
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException), "Null object")]
-        public void AddNullRangeProfesors_DoesNotAffectDatabase()
-        {
-            using (SCPPContext context = new SCPPContext())
-            {
-                context.Profesor.AddRange(null);
-                context.SaveChanges();
-            }
-        }
-
-        [TestMethod]
-        public void GetAllProfesors_Succes()
-        {
-            using (SCPPContext context = new SCPPContext())
-            {
-                var profesorsRetrieved = context.Profesor.ToList();
-                int expected = 2;
-                int actual = profesorsRetrieved.Count();
-                Assert.AreEqual(expected, actual);
-            }
-        }
     }
 }
