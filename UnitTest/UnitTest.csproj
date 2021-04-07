@@ -50,8 +50,8 @@
     <Compile Include="DataAccessTest\OrganizationTest.cs" />
     <Compile Include="DataAccessTest\GroupTest.cs" />
     <Compile Include="DataAccessTest\ProyectSelectionTest.cs" />
-    <Compile Include="DataAccessTest\ExpedienteTest.cs" />
     <Compile Include="DataAccessTest\InscriptionTest.cs" />
+    <Compile Include="DataAccessTest\ExpedienteTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
