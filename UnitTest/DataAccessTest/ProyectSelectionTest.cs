@@ -9,12 +9,14 @@ namespace UnitTest.DataAccessTest
     [TestClass]
     public class ProyectSelectionTest
     {
+        private Estudiante testStudent;
+        private Proyecto testProyect;
         private Selecciónproyecto testSelection;
         private List<Selecciónproyecto> testSelectionList;
+        private readonly DateTime thisDay = DateTime.Today;
         private static int expectedInDB;
         private static int soloID;
         private static int[] duoID = new int[2];
-        private readonly DateTime thisDay = DateTime.Today;
 
         [TestInitialize]
         public void TestInitialize()
@@ -25,6 +27,8 @@ namespace UnitTest.DataAccessTest
                 Fecha = thisDay,
                 Matriculaestudiante = "STest",
                 PeriodoID = "AGO2021-ENE2022",
+                Estudiante = testStudent,
+                Proyecto = testProyect
             };
 
             testSelectionList = new List<Selecciónproyecto>()
@@ -35,6 +39,8 @@ namespace UnitTest.DataAccessTest
                     Fecha = thisDay,
                     Matriculaestudiante = "STest",
                     PeriodoID = "AGO2021-ENE2022",
+                    Estudiante = testStudent,
+                    Proyecto = testProyect
                 },
 
                 new Selecciónproyecto
@@ -43,6 +49,8 @@ namespace UnitTest.DataAccessTest
                     Fecha = thisDay,
                     Matriculaestudiante = "STest",
                     PeriodoID = "AGO2021-ENE2022",
+                    Estudiante = testStudent,
+                    Proyecto = testProyect
                 }
             };
         }
