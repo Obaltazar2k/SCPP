@@ -9,11 +9,11 @@ namespace UnitTest.DataAccessTest
     [TestClass]
     public class GroupTest
     {
-        Grupo testGroup;
-        List<Grupo> testGroupList;
-        static int expectedInDB;
-        static int soloID;
-        static int[] duoID = new int[2];
+        private Grupo testGroup;
+        private List<Grupo> testGroupList;
+        private static int expectedInDB;
+        private static int soloID;
+        private static int[] duoID = new int[2];
 
         [TestInitialize]
         public void TestInitialize()
@@ -50,7 +50,6 @@ namespace UnitTest.DataAccessTest
                     Seccion = "Mañana"
                 }
             };
-
         }
 
         [TestMethod]
@@ -98,11 +97,11 @@ namespace UnitTest.DataAccessTest
         {
             using (SCPPContext context = new SCPPContext())
             {
-                var organizationRetrieved = context.Grupo.Find(0);
-                Assert.IsNull(organizationRetrieved);
+                var groupRetrieved = context.Grupo.Find(0);
+                Assert.IsNull(groupRetrieved);
             }
         }
-        
+
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException), "Null object")]
         public void AddNullGroup_DoesNotAffectDatabase()
@@ -124,7 +123,7 @@ namespace UnitTest.DataAccessTest
                 context.SaveChanges();
             }
         }
-        
+
         [TestMethod]
         public void GetAllGroups_Succes()
         {
@@ -134,7 +133,7 @@ namespace UnitTest.DataAccessTest
                 Assert.AreEqual(expectedInDB + 3, actualInDB);
             }
         }
-        
+
         [TestMethod]
         public void Remove_Success()
         {

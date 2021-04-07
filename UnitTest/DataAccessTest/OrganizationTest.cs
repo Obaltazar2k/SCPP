@@ -131,7 +131,7 @@ namespace UnitTest.DataAccessTest
 
 
         [TestMethod]
-        public void GetAllStudents_Succes()
+        public void GetAllOrganizations_Succes()
         {
             using(SCPPContext context = new SCPPContext())
             {
