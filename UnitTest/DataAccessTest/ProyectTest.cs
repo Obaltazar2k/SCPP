@@ -1,18 +1,20 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
-using System.Collections.Generic;
 using SCPP.DataAcces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace UnitTest.DataAccessTest
 {
     [TestClass]
     public class ProyectTest
     {
-        Proyecto testProyect;
-        List<Proyecto> testProyectList;
+        private Proyecto testProyect;
+        private List<Proyecto> testProyectList;
+        private int expectedInDB;
         private readonly DateTime thisDay = DateTime.Today;
-
+        private static int soloID;
+        private static int[] duoID = new int[2];
 
         [TestInitialize]
         public void TestInitialize()
@@ -20,7 +22,6 @@ namespace UnitTest.DataAccessTest
             testProyect = new Proyecto()
             {
                 Actividades = "5 Actividades",
-                Clave = 1,
                 Descripcion = "Proyecto de hotel",
                 Fecharegistro = thisDay,
                 Noestudiantes = 20,
@@ -33,7 +34,6 @@ namespace UnitTest.DataAccessTest
                 new Proyecto
                 {
                     Actividades = "4 Actividades",
-                    Clave = 0,
                     Descripcion = "Proyecto de CocaCola",
                     Fecharegistro = thisDay,
                     Noestudiantes = 20,
@@ -44,7 +44,6 @@ namespace UnitTest.DataAccessTest
                 new Proyecto
                 {
                     Actividades = "4 Actividades",
-                    Clave = 0,
                     Descripcion = "Proyecto de Call Of Duty",
                     Fecharegistro = thisDay,
                     Noestudiantes = 20,
@@ -57,83 +56,58 @@ namespace UnitTest.DataAccessTest
         [TestMethod]
         public void AddNewProyect_Success()
         {
-            using(SCPPContext context = new SCPPContext())
+            using (SCPPContext context = new SCPPContext())
             {
+                expectedInDB = context.Proyecto.ToList().Count();
                 context.Proyecto.Add(testProyect);
                 context.SaveChanges();
+                soloID = testProyect.Clave;
                 var expected = context.Proyecto.Find(testProyect.Clave);
                 Assert.AreEqual(expected.Clave, testProyect.Clave);
             }
         }
 
         [TestMethod]
-        public void AddRangeStudents_Success()
+        public void AddRangeProyects_Success()
         {
-            using(SCPPContext context = new SCPPContext())
+            using (SCPPContext context = new SCPPContext())
             {
                 context.Proyecto.AddRange(testProyectList);
                 context.SaveChanges();
-                var expected = context.Proyecto.Find(2);
+                duoID[0] = testProyectList[0].Clave;
+                duoID[1] = testProyectList[1].Clave;
+                var expected = context.Proyecto.Find(testProyectList[1].Clave);
                 Assert.IsNotNull(expected);
-                Assert.AreEqual(expected.Nombre, "Web Store");
-            }
-        }
-
-        [TestMethod]
-        public void Remove_Success()
-        {
-            using(SCPPContext context = new SCPPContext())
-            {
-                var proyectRetrieved = context.Proyecto.Find(testProyect.Clave);
-                Assert.IsNotNull(proyectRetrieved);
-
-                context.Proyecto.Remove(proyectRetrieved);
-                context.SaveChanges();
-                var proyectRemoved = context.Proyecto.Find(testProyect.Clave);
-                Assert.IsNull(proyectRemoved);
-            }
-        }
-
-        [TestMethod]
-        public void RemoveRange_Success()
-        {
-            using(SCPPContext context = new SCPPContext())
-            {
-                var proyectList = context.Proyecto.Where(p => p.Resbonsablenombre == "Jon Snow");
-                context.Proyecto.RemoveRange(proyectList);
-                context.SaveChanges();
-
-                var proyectRemoved = context.Proyecto.Find(2);
-                Assert.IsNull(proyectRemoved);
+                Assert.AreEqual(expected.Nombre, testProyectList[1].Nombre);
             }
         }
 
         [TestMethod]
         public void Find_Succes()
         {
-            using(SCPPContext context = new SCPPContext())
+            using (SCPPContext context = new SCPPContext())
             {
-                var proyectRetrieved = context.Proyecto.Find(3);
+                var proyectRetrieved = context.Proyecto.Find(soloID);
                 Assert.IsNotNull(proyectRetrieved);
-                Assert.AreEqual("Web Warzone", proyectRetrieved.Nombre);
+                Assert.AreEqual(proyectRetrieved.Nombre, testProyect.Nombre);
             }
         }
 
         [TestMethod]
         public void Find_ReturnsEmptyObject()
         {
-            using(SCPPContext context = new SCPPContext())
+            using (SCPPContext context = new SCPPContext())
             {
-                var proyectRetrieved = context.Proyecto.Find(1);
+                var proyectRetrieved = context.Proyecto.Find(0);
                 Assert.IsNull(proyectRetrieved);
             }
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException), "Null object")]
-        public void AddNullStudent_DoesNotAffectDatabase()
+        public void AddNullProyect_DoesNotAffectDatabase()
         {
-            using(SCPPContext context = new SCPPContext())
+            using (SCPPContext context = new SCPPContext())
             {
                 context.Proyecto.Add(null);
                 context.SaveChanges();
@@ -142,9 +116,9 @@ namespace UnitTest.DataAccessTest
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException), "Null object")]
-        public void AddNullRangeStudents_DoesNotAffectDatabase()
+        public void AddNullRangeProyects_DoesNotAffectDatabase()
         {
-            using(SCPPContext context = new SCPPContext())
+            using (SCPPContext context = new SCPPContext())
             {
                 context.Proyecto.AddRange(null);
                 context.SaveChanges();
@@ -152,16 +126,43 @@ namespace UnitTest.DataAccessTest
         }
 
         [TestMethod]
-        public void GetAllStudents_Succes()
+        public void GetAllProyects_Succes()
         {
-            using(SCPPContext context = new SCPPContext())
+            using (SCPPContext context = new SCPPContext())
             {
-                var proyectRetrieved = context.Proyecto.ToList();
-                int expected = 5;
-                int actual = proyectRetrieved.Count();
-                Assert.AreEqual(expected, actual);
+                var actualInDB = context.Proyecto.ToList().Count();
+                Assert.AreEqual(expectedInDB + 3, actualInDB);
+            }
+        }
+
+        [TestMethod]
+        public void Remove_Success()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                var proyectRetrieved = context.Proyecto.Find(soloID);
+                Assert.IsNotNull(proyectRetrieved);
+
+                context.Proyecto.Remove(proyectRetrieved);
+                context.SaveChanges();
+                var proyectRemoved = context.Proyecto.Find(soloID);
+                Assert.IsNull(proyectRemoved);
+            }
+        }
+
+        [TestMethod]
+        public void RemoveRange_Success()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                var tmp = duoID[0];
+                var proyectList = context.Proyecto.Where(p => p.Clave >= (tmp));
+                context.Proyecto.RemoveRange(proyectList);
+                context.SaveChanges();
+
+                var proyectRemoved = context.Proyecto.Find(duoID[0]);
+                Assert.IsNull(proyectRemoved);
             }
         }
     }
 }
-

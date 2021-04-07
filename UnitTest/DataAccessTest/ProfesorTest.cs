@@ -1,16 +1,19 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
-using System.Collections.Generic;
 using SCPP.DataAcces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace UnitTest.DataAccessTest
 {
     [TestClass]
     public class ProfesorTest
     {
-        Profesor testProfesor;
-        List<Profesor> testProfesorsList;
+        private Profesor testProfesor;
+        private List<Profesor> testProfesorsList;
+        private int expectedInDB;
+        private static string soloID;
+        private static string[] duoID = new string[2];
 
         [TestInitialize]
         public void TestInitialize()
@@ -53,8 +56,10 @@ namespace UnitTest.DataAccessTest
         {
             using (SCPPContext context = new SCPPContext())
             {
+                expectedInDB = context.Profesor.ToList().Count();
                 context.Profesor.Add(testProfesor);
                 context.SaveChanges();
+                soloID = testProfesor.Rfc;
                 var expected = context.Profesor.Find(testProfesor.Rfc);
                 Assert.AreEqual(expected.Rfc, testProfesor.Rfc);
             }
@@ -67,38 +72,11 @@ namespace UnitTest.DataAccessTest
             {
                 context.Profesor.AddRange(testProfesorsList);
                 context.SaveChanges();
-                var expected = context.Profesor.Find("JIGE201093H01");
+                duoID[0] = testProfesorsList[0].Rfc;
+                duoID[1] = testProfesorsList[1].Rfc;
+                var expected = context.Profesor.Find(testProfesorsList[0].Rfc);
                 Assert.IsNotNull(expected);
-                Assert.AreEqual(expected.Nombre, "Erick");
-            }
-        }
-
-        [TestMethod]
-        public void Remove_Success()
-        {
-            using (SCPPContext context = new SCPPContext())
-            {
-                var profesorRetrieved = context.Profesor.Find(testProfesor.Rfc);
-                Assert.IsNotNull(profesorRetrieved);
-
-                context.Profesor.Remove(profesorRetrieved);
-                context.SaveChanges();
-                var profesorRemoved = context.Profesor.Find(testProfesor.Rfc);
-                Assert.IsNull(profesorRemoved);
-            }
-        }
-
-        [TestMethod]
-        public void RemoveRange_Success()
-        {
-            using (SCPPContext context = new SCPPContext())
-            {
-                var profesorsList = context.Profesor.Where(p => p.Correopersonal.Equals("test@gmail.com"));
-                context.Profesor.RemoveRange(profesorsList);
-                context.SaveChanges();
-
-                var studentRemoved = context.Profesor.Find("LAMJ201093H01");
-                Assert.IsNull(studentRemoved);
+                Assert.AreEqual(expected.Nombre, testProfesorsList[0].Nombre);
             }
         }
 
@@ -107,9 +85,9 @@ namespace UnitTest.DataAccessTest
         {
             using (SCPPContext context = new SCPPContext())
             {
-                var profesorRetrieved = context.Profesor.Find("PEMA8310245HO");
+                var profesorRetrieved = context.Profesor.Find(soloID);
                 Assert.IsNotNull(profesorRetrieved);
-                Assert.AreEqual("Pérez", profesorRetrieved.Apellidopaterno);
+                Assert.AreEqual(profesorRetrieved.Apellidopaterno, testProfesor.Apellidopaterno);
             }
         }
 
@@ -118,7 +96,7 @@ namespace UnitTest.DataAccessTest
         {
             using (SCPPContext context = new SCPPContext())
             {
-                var profesorRetrieved = context.Profesor.Find("LAOA8310245HO");
+                var profesorRetrieved = context.Profesor.Find("");
                 Assert.IsNull(profesorRetrieved);
             }
         }
@@ -150,10 +128,38 @@ namespace UnitTest.DataAccessTest
         {
             using (SCPPContext context = new SCPPContext())
             {
-                var profesorsRetrieved = context.Profesor.ToList();
-                int expected = 2;
-                int actual = profesorsRetrieved.Count();
-                Assert.AreEqual(expected, actual);
+                var actualInDB = context.Profesor.ToList().Count();
+                Assert.AreEqual(expectedInDB + 3, actualInDB);
+            }
+        }
+
+        [TestMethod]
+        public void Remove_Success()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                var profesorRetrieved = context.Profesor.Find(soloID);
+                Assert.IsNotNull(profesorRetrieved);
+
+                context.Profesor.Remove(profesorRetrieved);
+                context.SaveChanges();
+                var profesorRemoved = context.Profesor.Find(soloID);
+                Assert.IsNull(profesorRemoved);
+            }
+        }
+
+        [TestMethod]
+        public void RemoveRange_Success()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                var tmp = duoID[0];
+                var profesorsList = context.Profesor.Where(p => p.Correopersonal.Equals("test@gmail.com"));
+                context.Profesor.RemoveRange(profesorsList);
+                context.SaveChanges();
+
+                var studentRemoved = context.Profesor.Find(duoID[0]);
+                Assert.IsNull(studentRemoved);
             }
         }
     }

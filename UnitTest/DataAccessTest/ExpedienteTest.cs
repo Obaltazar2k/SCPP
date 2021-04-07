@@ -9,10 +9,13 @@ namespace UnitTest.DataAccessTest
     [TestClass]
     public class ExpedienteTest
     {
-        Expediente testExpediente;
-        Inscripción testInscription;
-        List<Expediente> testExpedienteList;
+        private Expediente testExpediente;
+        private Inscripción testInscription;
+        private List<Expediente> testExpedienteList;
         private readonly DateTime thisDay = DateTime.Today;
+        private static int expectedInDB;
+        private static int soloID;
+        private static int[] duoID = new int[2];
 
         [TestInitialize]
         public void TestInitialize()
@@ -55,10 +58,12 @@ namespace UnitTest.DataAccessTest
         {
             using (SCPPContext context = new SCPPContext())
             {
+                expectedInDB = context.Expediente.ToList().Count();
                 context.Expediente.Add(testExpediente);
                 context.SaveChanges();
-                var expected = context.Expediente.First(e => e.InscripciónID.Equals(testInscription.InscripciónID));
-                Assert.AreEqual(expected.InscripciónID, testInscription.InscripciónID);
+                soloID = testExpediente.ExpedienteID;
+                var expected = context.Expediente.Find(testExpediente.ExpedienteID);
+                Assert.AreEqual(expected.ExpedienteID, testExpediente.ExpedienteID);
             }
         }
 
@@ -69,9 +74,11 @@ namespace UnitTest.DataAccessTest
             {
                 context.Expediente.AddRange(testExpedienteList);
                 context.SaveChanges();
-                var expected = context.Expediente.FirstOrDefault(e => e.InscripciónID.Equals(testInscription.InscripciónID));
+                duoID[0] = testExpedienteList[0].ExpedienteID;
+                duoID[1] = testExpedienteList[1].ExpedienteID;
+                var expected = context.Expediente.Find(testExpedienteList[1].ExpedienteID);
                 Assert.IsNotNull(expected);
-                Assert.AreEqual(expected.InscripciónID, testInscription.InscripciónID);
+                Assert.AreEqual(expected.ExpedienteID, testExpedienteList[1].ExpedienteID);
             }
         }
 
@@ -80,9 +87,9 @@ namespace UnitTest.DataAccessTest
         {
             using (SCPPContext context = new SCPPContext())
             {
-                var expedienteRetrieved = context.Expediente.FirstOrDefault(e => e.InscripciónID.Equals(testInscription.InscripciónID));
+                var expedienteRetrieved = context.Expediente.Find(soloID);
                 Assert.IsNotNull(expedienteRetrieved);
-                Assert.AreEqual(testInscription.InscripciónID, expedienteRetrieved.ExpedienteID);
+                Assert.AreEqual(expedienteRetrieved.Numreportesentregados, testExpediente.Numreportesentregados);
             }
         }
 
@@ -91,40 +98,8 @@ namespace UnitTest.DataAccessTest
         {
             using (SCPPContext context = new SCPPContext())
             {
-                var expedienteRetrieved = context.Expediente.ToList();
-                int expected = 2;
-                int actual = expedienteRetrieved.Count();
-                Assert.AreEqual(expected, actual);
-            }
-        }
-
-        [TestMethod]
-        public void Remove_Success()
-        {
-            using (SCPPContext context = new SCPPContext())
-            {
-                var expedienteRetrieved = context.Expediente.FirstOrDefault(e => e.InscripciónID.Equals(testInscription.InscripciónID));
-                Assert.IsNotNull(expedienteRetrieved);
-
-                context.Expediente.Remove(expedienteRetrieved);
-                context.SaveChanges();
-                DeleteInscription();
-                var expedienteRemoved = context.Expediente.FirstOrDefault(e => e.InscripciónID.Equals(testInscription.InscripciónID));
-                Assert.IsNull(expedienteRemoved);
-            }
-        }
-
-        [TestMethod]
-        public void RemoveRange_Success()
-        {
-            using (SCPPContext context = new SCPPContext())
-            {
-                var expedienteList = context.Expediente.Where(e => e.InscripciónID.Equals(testInscription.InscripciónID));
-                context.Expediente.RemoveRange(expedienteList);
-                context.SaveChanges();
-                DeleteInscription();
-                var expedienteRemoved = context.Inscripción.FirstOrDefault(e => e.InscripciónID.Equals(testInscription.InscripciónID));
-                Assert.IsNull(expedienteRemoved);
+                var actualInDB = context.Expediente.ToList().Count();
+                Assert.AreEqual(expectedInDB + 3, actualInDB);
             }
         }
 
@@ -157,6 +132,37 @@ namespace UnitTest.DataAccessTest
             {
                 context.Expediente.AddRange(null);
                 context.SaveChanges();
+            }
+        }
+
+        [TestMethod]
+        public void Remove_Success()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                var expedienteRetrieved = context.Expediente.FirstOrDefault(e => e.Numreportesentregados == (1000));
+                Assert.IsNotNull(expedienteRetrieved);
+
+                context.Expediente.Remove(expedienteRetrieved);
+                context.SaveChanges();
+                DeleteInscription();
+                var expedienteRemoved = context.Expediente.FirstOrDefault(e => e.InscripciónID.Equals(testInscription.InscripciónID));
+                Assert.IsNull(expedienteRemoved);
+            }
+        }
+
+        [TestMethod]
+        public void RemoveRange_Success()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                var tmp = duoID[0];
+                var expedienteList = context.Expediente.Where(e => e.Numreportesentregados == (2000));
+                context.Expediente.RemoveRange(expedienteList);
+                context.SaveChanges();
+                //DeleteInscription();
+                var expedienteRemoved = context.Expediente.Find(duoID[0]);
+                Assert.IsNull(expedienteRemoved);
             }
         }
 

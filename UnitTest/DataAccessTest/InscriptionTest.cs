@@ -9,16 +9,19 @@ namespace UnitTest.DataAccessTest
     [TestClass]
     public class InscriptionTest
     {
-        Inscripción testInscription;
-        List<Inscripción> testInscriptionList;
+        private Inscripción testInscription;
+        private List<Inscripción> testInscriptionList;
         private readonly DateTime thisDay = DateTime.Today;
+        private static int expectedInDB;
+        private static int soloID;
+        private static int[] duoID = new int[2];
 
         [TestInitialize]
         public void TestInitialize()
         {
             testInscription = new Inscripción
             {
-                Estatus = "Test",
+                Estatus = "TestSolo",
                 Fecha = thisDay,
                 Periodo = "FEB2021 - JUL2021",
                 Tipo = "Example 1",
@@ -48,23 +51,27 @@ namespace UnitTest.DataAccessTest
         {
             using (SCPPContext context = new SCPPContext())
             {
+                expectedInDB = context.Inscripción.ToList().Count();
                 context.Inscripción.Add(testInscription);
                 context.SaveChanges();
-                var expected = context.Inscripción.First(i => i.Tipo.Equals(testInscription.Tipo));
-                Assert.AreEqual(expected.Tipo, testInscription.Tipo);
+                soloID = testInscription.InscripciónID;
+                var expected = context.Inscripción.Find(testInscription.InscripciónID);
+                Assert.AreEqual(expected.InscripciónID, testInscription.InscripciónID);
             }
         }
 
         [TestMethod]
         public void AddRangeInscriptions_Success()
         {
-            using (SCPPContext context = new SCPPContext()) 
+            using (SCPPContext context = new SCPPContext())
             {
                 context.Inscripción.AddRange(testInscriptionList);
                 context.SaveChanges();
-                var expected = context.Inscripción.First(i => i.Tipo.Equals("Example 2"));
+                duoID[0] = testInscriptionList[0].InscripciónID;
+                duoID[1] = testInscriptionList[1].InscripciónID;
+                var expected = context.Inscripción.Find(testInscriptionList[1].InscripciónID);
                 Assert.IsNotNull(expected);
-                Assert.AreEqual(expected.Tipo, "Example 2");
+                Assert.AreEqual(expected.Tipo, testInscriptionList[1].Tipo);
             }
         }
 
@@ -73,50 +80,9 @@ namespace UnitTest.DataAccessTest
         {
             using (SCPPContext context = new SCPPContext())
             {
-                var inscriptionRetrieved = context.Inscripción.FirstOrDefault(i => i.Tipo.Equals("Example 1"));
-                 Assert.IsNotNull(inscriptionRetrieved);
-                Assert.AreEqual("Example 1", inscriptionRetrieved.Tipo);
-            }
-        }
-
-        [TestMethod]
-        public void GetAllInscriptions_Success()
-        {
-            using (SCPPContext context = new SCPPContext())
-            {
-                var inscriptionRetrieved = context.Inscripción.ToList();
-                int expected = 2;
-                int actual = inscriptionRetrieved.Count();
-                Assert.AreEqual(expected, actual);
-            }
-        }
-
-        [TestMethod]
-        public void Remove_Success()
-        {
-            using (SCPPContext context = new SCPPContext())
-            {
-                var inscriptionRetrieved = context.Inscripción.FirstOrDefault(i => i.Tipo.Equals("Example 1"));
+                var inscriptionRetrieved = context.Inscripción.Find(soloID);
                 Assert.IsNotNull(inscriptionRetrieved);
-
-                context.Inscripción.Remove(inscriptionRetrieved);
-                context.SaveChanges();
-                var inscriptionRemoved = context.Inscripción.FirstOrDefault(i => i.Tipo.Equals("Example 1"));
-                Assert.IsNull(inscriptionRemoved);
-            }
-        }
-
-        [TestMethod]
-        public void RemoveRange_Success()
-        {
-            using (SCPPContext context = new SCPPContext())
-            {
-                var inscriptionList = context.Inscripción.Where(i => i.Estatus.Equals("Test"));
-                context.Inscripción.RemoveRange(inscriptionList);
-                context.SaveChanges();
-
-                var inscriptionRemoved = context.Inscripción.FirstOrDefault(i => i.Estatus.Equals("Test"));
-                Assert.IsNull(inscriptionRemoved);
+                Assert.AreEqual(inscriptionRetrieved.Tipo, testInscription.Tipo);
             }
         }
 
@@ -149,6 +115,46 @@ namespace UnitTest.DataAccessTest
             {
                 context.Inscripción.AddRange(null);
                 context.SaveChanges();
+            }
+        }
+
+        [TestMethod]
+        public void GetAllInscriptions_Success()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                var actualInDB = context.Inscripción.ToList().Count();
+                Assert.AreEqual(expectedInDB + 3, actualInDB);
+            }
+        }
+
+        [TestMethod]
+        public void Remove_Success()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                var inscriptionRetrieved = context.Inscripción.Find(soloID);
+                Assert.IsNotNull(inscriptionRetrieved);
+
+                context.Inscripción.Remove(inscriptionRetrieved);
+                context.SaveChanges();
+                var inscriptionRemoved = context.Inscripción.Find(soloID);
+                Assert.IsNull(inscriptionRemoved);
+            }
+        }
+
+        [TestMethod]
+        public void RemoveRange_Success()
+        {
+            using (SCPPContext context = new SCPPContext())
+            {
+                var tmp = duoID[0];
+                var inscriptionList = context.Inscripción.Where(i => i.Estatus.Equals("Test"));
+                context.Inscripción.RemoveRange(inscriptionList);
+                context.SaveChanges();
+
+                var inscriptionRemoved = context.Inscripción.Find(duoID[0]);
+                Assert.IsNull(inscriptionRemoved);
             }
         }
     }
