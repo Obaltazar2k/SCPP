@@ -109,13 +109,18 @@ namespace SCPP
 
         private void ChoosenProjectsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            AddButton.IsEnabled = false;
+            if (RemoveButton.IsEnabled == false)
+            {
+                RemoveButton.IsEnabled = true;
+            }
+            ProjectsList.SelectedItems.Clear();
             choosenProjects = new ObservableCollection<Proyecto>();
             foreach (var project in ChoosenProjectsList.SelectedItems)
             {
                 choosenProjects.Add((Proyecto)project);
             }
         }
-
         private void ConfirmedChoosenProjectsMessage()
         {
             CustomMessageBox.ShowOK("Los proyectos escogidos se han guardado en la base de datos", "Proyectos escogidos exitosamente", "Aceptar");
@@ -179,6 +184,12 @@ namespace SCPP
 
         private void ProjectsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            RemoveButton.IsEnabled = false;
+            if (AddButton.IsEnabled == false)
+            {
+                AddButton.IsEnabled = true;
+            }
+            ChoosenProjectsList.SelectedItems.Clear();
             selectedProjects = new ObservableCollection<Proyecto>();
             foreach (var project in ProjectsList.SelectedItems)
             {

@@ -19,8 +19,8 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition />
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
 
@@ -37,7 +37,7 @@
             </TextBlock>
         </materialDesign:ColorZone>
 
-        <Image Source="/Utilities/Imágenes/LogoSCPP.png" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1"
+        <Image Source="/Utilities/Imágenes/LogoSCPP.png" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2"
                Height="150" />
 
         <TextBox
@@ -50,7 +50,7 @@
 
         <materialDesign:PackIcon
             Kind="Account"
-            Foreground="{Binding ElementName=TxtUsuario, Path=BorderBrush}"
+            Foreground="{Binding ElementName=UserTextBox, Path=BorderBrush}"
             VerticalAlignment="Center" HorizontalAlignment="Right"
             Grid.Column="1" Grid.Row="3" Margin="0 0 10 0" />
 
@@ -63,7 +63,7 @@
         </PasswordBox>
 
         <materialDesign:PackIcon
-            Kind="Key" Foreground="{Binding ElementName=TxtContraseña, Path=BorderBrush}"
+            Kind="Key" Foreground="{Binding ElementName=PasswordTextBox, Path=BorderBrush}"
             VerticalAlignment="Center" HorizontalAlignment="Right"
             Grid.Column="1" Grid.Row="4" Margin="0 0 10 0" />
 
