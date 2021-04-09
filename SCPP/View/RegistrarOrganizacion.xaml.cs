@@ -44,7 +44,8 @@ namespace SCPP
                 Correo = EmailTextBox.Text,
                 Nombre = NameTextBox.Text,
                 Numext = Int32.Parse(NumextTextBox.Text),
-                Telefono = PhoneTextBox.Text
+                Telefono = PhoneTextBox.Text,
+                Activo = 1
             };
             using (SCPPContext context = new SCPPContext())
             {

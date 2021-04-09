@@ -82,54 +82,61 @@
         <materialDesign:PackIcon
             Kind="Domain"
             Foreground="{Binding ElementName=NameTextBox, Path=BorderBrush}"
-            VerticalAlignment="Center" HorizontalAlignment="Right"
-            Grid.Column="0" Grid.Row="1" Margin="0 0 10 0" />
+            VerticalAlignment="Bottom" HorizontalAlignment="Right"
+            Grid.Column="0" Grid.Row="1" Margin="0 0 10 10" />
         <materialDesign:PackIcon
             Kind="Email"
             Foreground="{Binding ElementName=EmailTextBox, Path=BorderBrush}"
-            VerticalAlignment="Center" HorizontalAlignment="Right"
-            Grid.Column="0" Grid.Row="2" Margin="0 0 10 0" />
+            VerticalAlignment="Bottom" HorizontalAlignment="Right"
+            Grid.Column="0" Grid.Row="2" Margin="0 0 10 10" />
         <materialDesign:PackIcon
             Kind="Phone"
             Foreground="{Binding ElementName=PhoneTextBox, Path=BorderBrush}"
-            VerticalAlignment="Center" HorizontalAlignment="Right"
-            Grid.Column="0" Grid.Row="3" Margin="0 0 10 0" />
+            VerticalAlignment="Bottom" HorizontalAlignment="Right"
+            Grid.Column="0" Grid.Row="3" Margin="0 0 10 10" />
 
         <TextBox
             x:Name="NameTextBox"
             Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2"
             materialDesign:HintAssist.Hint="Nombre"
+            VerticalAlignment="Bottom"
             Style="{DynamicResource TextBox}" />
         <TextBox
             x:Name="EmailTextBox"
             Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2"
             materialDesign:HintAssist.Hint="Correo electrónico"
+            VerticalAlignment="Bottom"
             Style="{DynamicResource TextBox}" />
         <TextBox
             x:Name="PhoneTextBox"
             Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2"
             materialDesign:HintAssist.Hint="Telefono"
+            VerticalAlignment="Bottom"
             Style="{DynamicResource TextBox}" />
 
         <TextBox
             x:Name="StreetTextBox"
             Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2"
             materialDesign:HintAssist.Hint="Calle"
+            VerticalAlignment="Bottom"
             Style="{DynamicResource TextBox}" />
         <TextBox
             x:Name="SuburbTextBox"
             Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2"
             materialDesign:HintAssist.Hint="Colonia"
+            VerticalAlignment="Bottom"
             Style="{DynamicResource TextBox}" />
         <TextBox
             x:Name="NumextTextBox"
             Grid.Column="4" Grid.Row="3" Grid.ColumnSpan="2"
             materialDesign:HintAssist.Hint="Número de extención"
+            VerticalAlignment="Bottom"
             Style="{DynamicResource TextBox}" />
         <TextBox
             x:Name="PostcodeTextBox"
             Grid.Column="4" Grid.Row="4" Grid.ColumnSpan="2"
             materialDesign:HintAssist.Hint="Código postal"
+            VerticalAlignment="Bottom"
             Style="{DynamicResource TextBox}" />
     </Grid>
 </Page>

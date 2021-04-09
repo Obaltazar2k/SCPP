@@ -38,13 +38,13 @@ namespace SCPP
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             TextBoxContraseña.IsEnabled = false;
-            TextBoxContraseña.Text = "contra" + TextBoxMatricula.Text + "seña";
+            TextBoxContraseña.Password = "contra" + TextBoxMatricula.Text + "seña";
         }
 
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             TextBoxContraseña.IsEnabled = true;
-            TextBoxContraseña.Text = "";
+            TextBoxContraseña.Password = "";
         }
 
         private void NumbersTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -95,7 +95,8 @@ namespace SCPP
                 Correopersonal = TextBoxCorreo.Text,
                 Promedio = Convert.ToDouble(TextBoxPromedio.Text),
                 Estado = ComboBoxStates.Text,
-                Contraseña = Encrypt.GetSHA256(TextBoxContraseña.Text)
+                Activo = 1,
+                Contraseña = Encrypt.GetSHA256(TextBoxContraseña.Password)
             };
             using (SCPPContext context = new SCPPContext())
             {
@@ -116,7 +117,7 @@ namespace SCPP
         {
             MailTemplate mt = new MailTemplate();
             mt.SetReceiver(TextBoxNombre.Text + " " + TextBoxApellidoPaterno.Text, TextBoxCorreo.Text);
-            mt.SetMessage("Contraseña de de SCPP", "Estudiante con matricula " + TextBoxMatricula.Text + ", tu contraseña para el SCPP es: " + TextBoxContraseña.Text);
+            mt.SetMessage("Contraseña de de SCPP", "Estudiante con matricula " + TextBoxMatricula.Text + ", tu contraseña para el SCPP es: " + TextBoxContraseña.Password);
             try
             {
                 mt.Send();

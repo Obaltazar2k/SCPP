@@ -18,6 +18,7 @@ namespace SCPP.DataAcces
         public Organización()
         {
             this.Proyecto = new ObservableCollection<Proyecto>();
+            this.Responsableproyecto = new ObservableCollection<Responsableproyecto>();
         }
     
         public string Calle { get; set; }
@@ -28,8 +29,11 @@ namespace SCPP.DataAcces
         public Nullable<int> Numext { get; set; }
         public string Telefono { get; set; }
         public int OrganizaciónID { get; set; }
+        public Nullable<int> Activo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ObservableCollection<Proyecto> Proyecto { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ObservableCollection<Responsableproyecto> Responsableproyecto { get; set; }
     }
 }

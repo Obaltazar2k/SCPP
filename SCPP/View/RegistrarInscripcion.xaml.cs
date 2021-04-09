@@ -70,6 +70,7 @@ namespace SCPP
                 Correopersonal = TextBoxEMail.Text,
                 Promedio = Convert.ToDouble(TextBoxAverage.Text),
                 Estado = "Preinscrito",
+                Activo = 1,
                 Contraseña = Encrypt.GetSHA256(TextBoxPassword.Password)
             };
 
