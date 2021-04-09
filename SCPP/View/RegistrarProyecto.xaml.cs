@@ -101,7 +101,8 @@ namespace SCPP
                 Fecharegistro = thisDay,
                 Noestudiantes = 1,
                 OrganizaciónID = organization.OrganizaciónID,
-                Resbonsablenombre = TextBoxResponsable.Text
+                Resbonsablenombre = TextBoxResponsable.Text,
+                Activo = 1
             };
             using (SCPPContext context = new SCPPContext())
             {

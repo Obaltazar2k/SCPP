@@ -26,6 +26,8 @@
         <AssociationConnector Association="SCPPModel.FK_Inscripción_Proyecto" ManuallyRouted="false" />
         <AssociationConnector Association="SCPPModel.FK_Proyecto_Organización" ManuallyRouted="false" />
         <AssociationConnector Association="SCPPModel.FK_SelecciónProyecto_Proyecto" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SCPPModel.Responsableproyecto" Width="1.5" PointX="3.75" PointY="18.75" />
+        <AssociationConnector Association="SCPPModel.FK_Responsableproyecto_Organización" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

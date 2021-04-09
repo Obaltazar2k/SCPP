@@ -96,14 +96,16 @@ namespace SCPP
 
         private Profesor RegisterNewProfessor()
         {
-            Profesor professor = new Profesor();
-
-            professor.Nombre = TextBoxName.Text;
-            professor.Apellidopaterno = TextBoxLastName.Text;
-            professor.Apellidomaterno = TextBoxMothersLastName.Text;
-            professor.Rfc = TextBoxRFC.Text;
-            professor.Correopersonal = TextBoxEMail.Text;
-            professor.Contraseña = encryptedPassword;
+            Profesor professor = new Profesor
+            {
+                Nombre = TextBoxName.Text,
+                Apellidopaterno = TextBoxLastName.Text,
+                Apellidomaterno = TextBoxMothersLastName.Text,
+                Rfc = TextBoxRFC.Text,
+                Correopersonal = TextBoxEMail.Text,
+                Contraseña = encryptedPassword,
+                Activo = 1
+            };
 
             try
             {

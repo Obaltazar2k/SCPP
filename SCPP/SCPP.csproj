@@ -110,6 +110,9 @@
     <Compile Include="DataAcces\Archivo.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataAcces\Responsableproyecto.cs">
+      <DependentUpon>SCPPModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="View\AsignarProfesorGrupo.xaml.cs">
       <DependentUpon>AsignarProfesorGrupo.xaml</DependentUpon>
     </Compile>
