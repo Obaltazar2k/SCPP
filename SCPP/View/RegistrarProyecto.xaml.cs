@@ -18,15 +18,16 @@ namespace SCPP
     {
         private readonly List<int> numOfStudents = new List<int> { 1, 2 };
         private readonly DateTime thisDay = DateTime.Today;
-        
+        private ObservableCollection<Organización> organizationsCollection { get; set; }
+        private ObservableCollection<Responsableproyecto> responsablesCollection { get; set; }
+
         public RegistrarProyecto()
         {
             try
             {
                 InitializeComponent();
                 ComboBoxCapacidad.ItemsSource = numOfStudents;
-                DataContext = this;
-                FillComboBox();
+                FillComboBoxOrganizations();
             }
             catch (EntityException)
             {
@@ -36,7 +37,6 @@ namespace SCPP
             }
         }
 
-        private ObservableCollection<Organización> organizationsCollection { get; set; }
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             if (NavigationService.CanGoBack)
@@ -46,13 +46,12 @@ namespace SCPP
                 CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");
         }
 
-        private void FillComboBox()
+        private void FillComboBoxOrganizations()
         {
             organizationsCollection = new ObservableCollection<Organización>();
             using (SCPPContext context = new SCPPContext())
             {
                 var organizationsList = context.Organización.OrderByDescending(s => s.Nombre);
-
                 if (organizationsList != null)
                 {
                     foreach (Organización organizacion in organizationsList)
@@ -63,7 +62,6 @@ namespace SCPP
                 }
             }
             ComboBoxOrganizacion.ItemsSource = organizationsCollection;
-            DataContext = organizationsCollection;
         }
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
@@ -93,6 +91,7 @@ namespace SCPP
         private object RegisterNewProyect()
         {
             var organization = (Organización)ComboBoxOrganizacion.SelectedItem;
+            var responsable = (Responsableproyecto)ComboBoxResponsable.SelectedItem;
             var proyect = new Proyecto
             {
                 Actividades = TextBoxActividades.Text,
@@ -101,7 +100,7 @@ namespace SCPP
                 Fecharegistro = thisDay,
                 Noestudiantes = 1,
                 OrganizaciónID = organization.OrganizaciónID,
-                Resbonsablenombre = TextBoxResponsable.Text,
+                ResponsableproyectoID = responsable.ResponsableproyectoID,
                 Activo = 1
             };
             using (SCPPContext context = new SCPPContext())
@@ -133,6 +132,25 @@ namespace SCPP
             {
                 CancelButton_Click(new object(), new RoutedEventArgs());
             }
+        }
+
+        private void ComboBoxOrganizacion_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var organization = (Organización)ComboBoxOrganizacion.SelectedItem;
+            responsablesCollection = new ObservableCollection<Responsableproyecto>();
+            using (SCPPContext context = new SCPPContext())
+            {
+                var responsablesList = context.Responsableproyecto.Where(r => r.OrganizaciónID == organization.OrganizaciónID);
+                if (responsablesList != null)
+                {
+                    foreach (Responsableproyecto responsableProyecto in responsablesList)
+                    {
+                        if (responsableProyecto != null)
+                            responsablesCollection.Add(responsableProyecto);
+                    }
+                }
+            }
+            ComboBoxResponsable.ItemsSource = responsablesCollection;
         }
     }
 }
