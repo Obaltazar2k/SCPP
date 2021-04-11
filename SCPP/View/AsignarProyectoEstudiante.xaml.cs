@@ -111,10 +111,15 @@ namespace SCPP
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new MenuCoordinador());
+            return;
+            /*
             if (NavigationService.CanGoBack)
                 NavigationService.GoBack();
             else
                 CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");
+            */
         }
 
         private void CheckSelecctions()
@@ -185,6 +190,7 @@ namespace SCPP
             using (SCPPContext context = new SCPPContext())
             {
                 var studentsListWithLessThan2Periods = context.Estudiante.Where(s => s.Inscripción.Count < 2);
+                studentsListWithLessThan2Periods = studentsListWithLessThan2Periods.Where(s => s.Estado == "Inscrito");
 
                 var studentsListAlreadyAttending =
                     context.Estudiante.Join(

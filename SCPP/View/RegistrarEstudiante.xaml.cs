@@ -28,11 +28,9 @@ namespace SCPP
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            if (NavigationService.CanGoBack)
-
-                NavigationService.GoBack();
-            else
-                CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new MenuCoordinador());
+            return;
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
@@ -59,20 +57,20 @@ namespace SCPP
         {
             try
             {
-                using (SCPPContext context = new SCPPContext())
+                if (VerificateFields())
                 {
-                    var student = context.Estudiante.Find(TextBoxMatricula.Text);
-                    if (student == null)
+                    using (SCPPContext context = new SCPPContext())
                     {
-                        if (VerificateFields())
+                        var student = context.Estudiante.Find(TextBoxMatricula.Text);
+                        if (student == null)
                         {
                             var studentRegistered = RegisterNewStudent();
                             SendEmail();
                             StudentRegisteredMessage(studentRegistered);
                         }
+                        else
+                            CustomMessageBox.ShowOK("Ya existe un estudiante registrado con la matrícula ingresada con nombre: " + student.Nombre, "Estudiante ya registrado", "Aceptar");
                     }
-                    else
-                        CustomMessageBox.ShowOK("Ya existe un estudiante registrado con la matrícula ingresada con nombre: " + student.Nombre, "Estudiante ya registrado", "Aceptar");
                 }
             }
             catch (EntityException)

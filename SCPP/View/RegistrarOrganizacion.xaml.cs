@@ -6,6 +6,8 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using WPFCustomMessageBox;
 using SCPP.DataAcces;
+using System.Text.RegularExpressions;
+using System.Windows.Input;
 
 namespace SCPP
 {
@@ -57,39 +59,29 @@ namespace SCPP
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            if (NavigationService.CanGoBack)
-            {
-                NavigationService.GoBack();
-            }
-            else
-            {
-                CustomMessageBox.ShowOK("No hay entrada a la cual volver", "Error al navegar hacía atras", "Aceptar");
-            }
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new MenuCoordinador());
+            return;
         }
 
         private bool EmailValidation()
         {
-            try
-            {
-                MailAddress correo = new MailAddress(EmailTextBox.Text);
+            string emailFormat = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
+            if (Regex.IsMatch(EmailTextBox.Text, emailFormat))
                 return true;
-            }
-            catch (FormatException)
+            else
             {
+                CustomMessageBox.ShowOK("Asegurese de introducir un correo valido.", "Error de formato de correo", "Aceptar");
                 return false;
             }
         }
 
-        private bool FieldsEmptyValidation()
+        private void NumbersTextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (string.IsNullOrEmpty(NameTextBox.Text) || string.IsNullOrEmpty(EmailTextBox.Text) ||
-                string.IsNullOrEmpty(PhoneTextBox.Text) || string.IsNullOrEmpty(StreetTextBox.Text) ||
-                string.IsNullOrEmpty(SuburbTextBox.Text) || string.IsNullOrEmpty(NumextTextBox.Text) ||
-                string.IsNullOrEmpty(PostcodeTextBox.Text))
-            {
-                return false;
-            }
-            return true;
+            if (e.Key >= Key.D0 && e.Key <= Key.D9 || e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)
+                e.Handled = false;
+            else
+                e.Handled = true;
         }
 
         private bool NumextValidation()
@@ -99,17 +91,11 @@ namespace SCPP
             {
                 return true;
             }
-            return false;
-        }
-
-        private bool PhoneValidation()
-        {
-            int phone;
-            if (Int32.TryParse(PhoneTextBox.Text, out phone))
+            else
             {
-                return true;
+                CustomMessageBox.ShowOK("Asegurese de introducir un número exterior valido.", "Error de formato de número exterior", "Aceptar");
+                return false;
             }
-            return false;
         }
 
         private bool PostcodeValidation()
@@ -119,39 +105,30 @@ namespace SCPP
             {
                 return true;
             }
-            return false;
+            else
+            {
+                CustomMessageBox.ShowOK("Asegurese de introducir un código postal valido.", "Error de formato de código postal", "Aceptar");
+                return false;
+            }
         }
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (FieldsEmptyValidation())
+                if (VerificateFields())
                 {
-                    if (WrongFieldsValidation())
+                    using (SCPPContext context = new SCPPContext())
                     {
-                        using (SCPPContext context = new SCPPContext())
+                        var organization = context.Organización.FirstOrDefault(s => s.Nombre == NameTextBox.Text);
+                        if (organization == null)
                         {
-                            var organization = context.Organización.FirstOrDefault(s => s.Nombre == NameTextBox.Text);
-                            if (organization == null)
-                            {
-                                var organizationRegistered = RegisterNewOrganization();
-                                OrganizationRegisteredMessage(organizationRegistered);
-                            }
-                            else
-                            {
-                                CustomMessageBox.ShowOK("Organización ya registrada", "Registro repetido", "Aceptar");
-                            }
+                            var organizationRegistered = RegisterNewOrganization();
+                            OrganizationRegisteredMessage(organizationRegistered);
                         }
+                        else
+                            CustomMessageBox.ShowOK("Organización ya registrada", "Registro repetido", "Aceptar");    
                     }
-                    else
-                    {
-                        CustomMessageBox.ShowOK("Por favor corrobore los datos ingresados", "Campos erróneos", "Aceptar");
-                    }
-                }
-                else
-                {
-                    CustomMessageBox.ShowOK("Por favor asegurese de no dejar campos vacíos", "Campos incompletos", "Aceptar");
                 }
             }
             catch (Exception ex)
@@ -159,9 +136,9 @@ namespace SCPP
                 CustomMessageBox.ShowOK(ex.ToString(), "Error", "Aceptar");
             }
         }
-        private bool WrongFieldsValidation()
+        private bool VerificateFields()
         {
-            return EmailValidation() && PhoneValidation() && NumextValidation() && PostcodeValidation();
+            return EmailValidation() && NumextValidation() && PostcodeValidation();
         }
     }
 }

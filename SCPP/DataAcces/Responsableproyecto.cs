@@ -14,6 +14,12 @@ namespace SCPP.DataAcces
     
     public partial class Responsableproyecto
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Responsableproyecto()
+        {
+            this.Proyecto = new ObservableCollection<Proyecto>();
+        }
+    
         public string Apellidomaterno { get; set; }
         public string Apellidopaterno { get; set; }
         public string Correopersonal { get; set; }
@@ -24,5 +30,7 @@ namespace SCPP.DataAcces
         public int ResponsableproyectoID { get; set; }
     
         public virtual Organización Organización { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ObservableCollection<Proyecto> Proyecto { get; set; }
     }
 }

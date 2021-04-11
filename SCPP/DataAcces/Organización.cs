@@ -29,7 +29,7 @@ namespace SCPP.DataAcces
         public Nullable<int> Numext { get; set; }
         public string Telefono { get; set; }
         public int OrganizaciónID { get; set; }
-        public Nullable<int> Activo { get; set; }
+        public int Activo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ObservableCollection<Proyecto> Proyecto { get; set; }

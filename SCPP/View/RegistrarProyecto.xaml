@@ -44,6 +44,7 @@
             Margin="10 0 15 0"
             materialDesign:TextFieldAssist.UnderlineBrush="#04539c"
             x:Name="ComboBoxOrganizacion"
+            SelectionChanged="ComboBoxOrganizacion_SelectionChanged"
             ItemsSource="{Binding Organización}" DisplayMemberPath="Nombre" SelectedValuePath="OrganizaciónID" />
 
         <TextBox
@@ -71,15 +72,22 @@
             materialDesign:TextFieldAssist.UnderlineBrush="#04539c"
             x:Name="ComboBoxCapacidad" />
 
-        <TextBox
-            Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2"
+        <Label Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2"
+               HorizontalAlignment="Left" VerticalAlignment="Bottom"
+               Margin="10 0"
+               Content="Seleccione el respnsable: " />
+
+        <ComboBox
+            Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2"
             VerticalAlignment="Bottom"
             Margin="10 0 15 0"
-            materialDesign:HintAssist.Hint="Responsable"
-            x:Name="TextBoxResponsable" Style="{DynamicResource TextBox}" />
+            materialDesign:TextFieldAssist.UnderlineBrush="#04539c"
+            x:Name="ComboBoxResponsable"
+            ItemsSource="{Binding Responsableproyecto}" DisplayMemberPath="Nombre" SelectedValuePath="ResponsableproyectoID">
+        </ComboBox>
 
         <TextBox
-            Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2"
+            Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2"
             VerticalAlignment="Bottom"
             Margin="10 0 15 0"
             materialDesign:HintAssist.Hint="Actividades"
@@ -91,6 +99,7 @@
                 HorizontalAlignment="Right"
                 Click="CancelButton_Click"
                 Style="{DynamicResource SecundaryButton }" />
+        
         <Button x:Name="RegisterButton"
                 Grid.Column="5" Grid.Row="7" Margin="15 5"
                 Content="Registrar"
@@ -118,7 +127,7 @@
                         <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxCapacidad, UpdateSourceTrigger=PropertyChanged}" Value="0">
                             <Setter Property="IsEnabled" Value="False" />
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxResponsable, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                        <DataTrigger Binding="{Binding Text.Length, ElementName=ComboBoxResponsable, UpdateSourceTrigger=PropertyChanged}" Value="0">
                             <Setter Property="IsEnabled" Value="False" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxActividades, UpdateSourceTrigger=PropertyChanged}" Value="0">
