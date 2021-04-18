@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using SCPP.View;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace SCPP
@@ -17,6 +18,13 @@ namespace SCPP
         {
             var mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow?.ChangeView(new AsociarEstudianteGrupo());
+            return;
+        }
+
+        private void GetStudentsButton_Click(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new ConsultarEstudiantes());
             return;
         }
     }

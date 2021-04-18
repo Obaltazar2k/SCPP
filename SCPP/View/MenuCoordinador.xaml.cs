@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using SCPP.View;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace SCPP
@@ -53,17 +54,17 @@ namespace SCPP
             mainWindow?.ChangeView(new RegistrarProyecto());
             return;
         }
-
-        private void RegisterStudentButton_Click(object sender, RoutedEventArgs e)
-        {
-            var mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow?.ChangeView(new RegistrarEstudiante());
-            return;
-        }
         private void ValidateEnrrollmentButton_Click(object sender, RoutedEventArgs e)
         {
             var mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow?.ChangeView(new ValidarInscripcion());
+            return;
+        }
+
+        private void GetStudentsButton_Click(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new ConsultarEstudiantes());
             return;
         }
     }

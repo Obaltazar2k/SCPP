@@ -16,7 +16,6 @@ namespace SCPP
     /// </summary>
     public partial class RegistrarProfesor : Page
     {
-        private string encryptedPassword;
         private string password;
         public RegistrarProfesor()
         {
@@ -38,7 +37,6 @@ namespace SCPP
 
             TextBoxPassword.IsEnabled = false;
             TextBoxPassword.Password = password = generatedPassword + TextBoxRFC.Text;
-            encryptedPassword = Encrypt.GetSHA256(password);
         }
 
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
@@ -103,7 +101,7 @@ namespace SCPP
                 Apellidomaterno = TextBoxMothersLastName.Text,
                 Rfc = TextBoxRFC.Text,
                 Correopersonal = TextBoxEMail.Text,
-                Contraseña = encryptedPassword,
+                Contraseña = Encrypt.GetSHA256(TextBoxPassword.Password),
                 Activo = 1
             };
 
