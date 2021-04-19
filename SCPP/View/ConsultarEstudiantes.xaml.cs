@@ -135,12 +135,18 @@ namespace SCPP.View
 
         private void ManageButton_Click(object sender, RoutedEventArgs e)
         {
+            NavigationService.Navigated += NavigationService_Navigated;
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new GestionarEstudiante(studentSelected));
+            return;
         }
 
         private void NavigationService_Navigated(object sender, NavigationEventArgs e)
         {
             GetStudents();
-            ComboBoxFilter.SelectedItem = "Activo";
+            var selectedFilter = ComboBoxFilter.SelectedItem;
+            ComboBoxFilter.SelectedItem = "Ninguno";
+            ComboBoxFilter.SelectedItem = selectedFilter;
             ManageButton.IsEnabled = false;
         }
 
