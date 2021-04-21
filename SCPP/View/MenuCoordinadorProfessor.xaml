@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="SCPP.View.MenuCoordinadorProfessor"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SCPP.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Button x:Name="AssignGroupButton"
+                Style="{DynamicResource PrimaryButton }"
+                Grid.Column="1" Grid.Row="3"
+                Grid.ColumnSpan="2"
+                Content="Asignar profesor a grupo"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                Margin="0 0 0 0"
+                Click="AssignGroupButton_Click" />
+
+        <Button x:Name="GetProfessorsButton"
+                Style="{DynamicResource PrimaryButton }"
+                Grid.Column="4" Grid.Row="3"
+                Grid.ColumnSpan="2"
+                Content="Consultar profesores"
+                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"                
+                Margin="0 0 0 0"
+                Click="GetProfessorsButton_Click" />
+
+        <Button x:Name="DesassignGroupButton"
+                Style="{DynamicResource PrimaryButton }"
+                Grid.Column="1" Grid.Row="4"
+                Grid.ColumnSpan="2"
+                Content="Desasignar profesor a grupo"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                Margin="0 0 0 0" Click="DesassignGroupButton_Click" />
+
+        <Button x:Name="RegisterProfesorButton"
+                Style="{DynamicResource PrimaryButton }"
+                Grid.Column="4" Grid.Row="4"
+                Grid.ColumnSpan="2"
+                Content="Registrar profesor"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                Margin="0 0 0 0" Click="RegisterProfesorButton_Click" />
+    </Grid>
+</UserControl>
