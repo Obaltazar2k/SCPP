@@ -94,7 +94,9 @@
                 <DataGridTextColumn Header="Matricula" IsReadOnly="True" Width="Auto" Binding="{Binding Matricula}" />
                 <DataGridTextColumn Header="Nombre" IsReadOnly="True" Width="Auto" Binding="{Binding Nombre}" />
                 <DataGridTextColumn Header="Apellido paterno" IsReadOnly="True" Width="Auto" Binding="{Binding Apellidopaterno}" />
-                <DataGridTextColumn Header="Apellido materno" IsReadOnly="True" Width="*" Binding="{Binding Apellidomaterno}" />
+                <DataGridTextColumn Header="Apellido materno" IsReadOnly="True" Width="Auto" Binding="{Binding Apellidomaterno}" />
+                <DataGridTextColumn Header="Telefono" IsReadOnly="True" Width="Auto" Binding="{Binding Telefono}" />
+                <DataGridTextColumn Header="Correo" IsReadOnly="True" Width="*" Binding="{Binding Correopersonal}" />
             </DataGrid.Columns>
             <DataGrid.Resources>
                 <Style TargetType="DataGridCell">
@@ -106,6 +108,7 @@
                 </Style>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#049c33" />
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#04539c" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
             </DataGrid.Resources>
         </DataGrid>
         

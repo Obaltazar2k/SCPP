@@ -114,6 +114,7 @@
     <Compile Include="DataAcces\Responsableproyecto.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\FieldsVerificator.cs" />
     <Compile Include="View\AsignarProfesorGrupo.xaml.cs">
       <DependentUpon>AsignarProfesorGrupo.xaml</DependentUpon>
     </Compile>
@@ -143,6 +144,9 @@
     </Compile>
     <Compile Include="DataAcces\Grupo.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="View\GestionarEstudiante.xaml.cs">
+      <DependentUpon>GestionarEstudiante.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\IniciarSesion.xaml.cs">
       <DependentUpon>IniciarSesion.xaml</DependentUpon>
@@ -232,6 +236,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\EscogerProyecto.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GestionarEstudiante.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

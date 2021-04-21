@@ -1,14 +1,13 @@
 ﻿using MemoryGameService.Utilities;
+using SCPP.DataAcces;
 using SCPP.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using System.Data.Entity.Core;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using WPFCustomMessageBox;
-using SCPP.DataAcces;
-using System.Data.Entity.Core;
 
 namespace SCPP
 {
@@ -48,7 +47,7 @@ namespace SCPP
 
         private void NumbersTextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key >= Key.D0 && e.Key <= Key.D9 || e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)
+            if (e.Key >= Key.D0 && e.Key <= Key.D9 || e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9 || e.Key == Key.Tab)
                 e.Handled = false;
             else
                 e.Handled = true;
@@ -149,59 +148,11 @@ namespace SCPP
             }
         }
 
-        private bool VerificateEmail()
-        {
-            string emailFormat = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
-            if (Regex.IsMatch(TextBoxCorreo.Text, emailFormat))
-                return true;
-            else
-            {
-                CustomMessageBox.ShowOK("Asegurese de introducir un correo valido.", "Error de formato de correo", "Aceptar");
-                return false;
-            }
-        }
-
         private bool VerificateFields()
         {
-            return VerificateEmail() && VerificateMatricula() && VerificatePromedio();
-        }
-
-        private bool VerificateMatricula()
-        {
-            Regex rgx = new Regex(@"^[S]\d{7}[a-zA-Z0-9]$");
-            if (rgx.IsMatch(TextBoxMatricula.Text))
-                return true;
-            else
-            {
-                CustomMessageBox.ShowOK("Asegurese que la matricula es una S seguida de 8 números", "Error de formato de matricula", "Aceptar");
-                return false;
-            }
-        }
-
-        private bool VerificatePromedio()
-        {
-            double average = 0;
-            bool IsDouble = false;
-
-            try
-            {
-                average = Convert.ToDouble(TextBoxPromedio.Text);
-                IsDouble = true;
-            }
-            catch (Exception ex)
-            {
-            }
-
-            Regex rgx = new Regex(@"^((\d+)((\.\d{1,2})?))$");
-            if (rgx.IsMatch(TextBoxPromedio.Text) && average <= 10 && IsDouble)
-            {
-                return true;
-            }
-            else
-            {
-                CustomMessageBox.ShowOK("El promedio no tiene el formato correcto", "Error de formato de promedio", "Aceptar");
-                return false;
-            }
+            return FieldsVerificator.VerificateEmail(TextBoxCorreo.Text)
+                && FieldsVerificator.VerificateMatricula(TextBoxMatricula.Text)
+                && FieldsVerificator.VerificatePromedio(TextBoxPromedio.Text);
         }
     }
 }
