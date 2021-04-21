@@ -1,12 +1,11 @@
-﻿using SCPP.Utilities;
+﻿using SCPP.DataAcces;
+using SCPP.Utilities;
 using System;
-using System.Text.RegularExpressions;
+using System.Data.Entity.Core;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using WPFCustomMessageBox;
-using SCPP.DataAcces;
-using System.Data.Entity.Core;
 
 namespace SCPP
 {
@@ -22,8 +21,7 @@ namespace SCPP
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            if(NavigationService.CanGoBack)
-
+            if (NavigationService.CanGoBack)
                 NavigationService.GoBack();
             else
                 CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");
@@ -33,27 +31,25 @@ namespace SCPP
         {
             try
             {
-                using(SCPPContext context = new SCPPContext())
+                if (VerificateFields())
                 {
-                    var student = context.Estudiante.Find(TextBoxEnrrollment.Text);
-                    if(student == null)
+                    using (SCPPContext context = new SCPPContext())
                     {
-                        if(VerificateFields())
+                        var student = context.Estudiante.Find(TextBoxEnrrollment.Text);
+                        if (student == null)
                         {
                             var studentRegistered = RegisterNewStudent();
-
                             StudentRegisteredMessage(studentRegistered);
                         }
+                        else
+                            CustomMessageBox.ShowOK("Ya existe un estudiante registrado con la matrícula ingresada con nombre: " + student.Nombre, "Estudiante ya registrado", "Aceptar");
                     }
-                    else
-                        CustomMessageBox.ShowOK("Ya existe un estudiante registrado con la matrícula ingresada con nombre: " + student.Nombre, "Estudiante ya registrado", "Aceptar");
                 }
             }
-            catch(EntityException)
+            catch (EntityException)
             {
                 CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
                     "Fallo en conexión con la base de datos", "Aceptar");
-
                 ReturnToLogin(new object(), new RoutedEventArgs());
             }
         }
@@ -76,18 +72,16 @@ namespace SCPP
 
             try
             {
-
-                using(SCPPContext context = new SCPPContext())
+                using (SCPPContext context = new SCPPContext())
                 {
                     context.Estudiante.Add(student);
                     context.SaveChanges();
                 }
             }
-            catch(EntityException)
+            catch (EntityException)
             {
                 CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
                     "Fallo en conexión con la base de datos", "Aceptar");
-
                 ReturnToLogin(new object(), new RoutedEventArgs());
             }
 
@@ -106,78 +100,18 @@ namespace SCPP
             MessageBoxResult confirmation = CustomMessageBox.ShowOK("Podrás ingresar al sistema una vez se valide tu inscripcion",
                 "Registro exitoso",
                 "Aceptar");
-            if(confirmation == MessageBoxResult.OK)
+            if (confirmation == MessageBoxResult.OK)
             {
                 CancelButton_Click(new object(), new RoutedEventArgs());
             }
         }
 
-        private bool ValidatePhone()
-        {
-            Regex rgx = new Regex(@"^\+?[\d- ]{9,}$");
-            if(rgx.IsMatch(TextBoxPhone.Text))
-                return true;
-            else
-            {
-                CustomMessageBox.ShowOK("Asegurese de ingresar un numero de telefono correcto", "Error de formato de telefono", "Aceptar");
-                return false;
-            }
-        }
-
-        private bool VerificateEmail()
-        {
-            string emailFormat = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
-            if(Regex.IsMatch(TextBoxEMail.Text, emailFormat))
-                return true;
-            else
-            {
-                CustomMessageBox.ShowOK("Asegurese de introducir un correo valido.", "Error de formato de correo", "Aceptar");
-                return false;
-            }
-        }
-
         private bool VerificateFields()
         {
-            return VerificateEmail() && VerificateMatricula() && VerificatePromedio() && ValidatePhone();
+            return FieldsVerificator.VerificateEmail(TextBoxEMail.Text)
+                && FieldsVerificator.VerificateMatricula(TextBoxEnrrollment.Text)
+                && FieldsVerificator.VerificatePromedio(TextBoxAverage.Text)
+                && FieldsVerificator.VerificatePhone(TextBoxPhone.Text);
         }
-
-        private bool VerificateMatricula()
-        {
-            Regex rgx = new Regex(@"^[S]\d{7}[a-zA-Z0-9]$");
-            if(rgx.IsMatch(TextBoxEnrrollment.Text))
-                return true;
-            else
-            {
-                CustomMessageBox.ShowOK("Asegurese que la matricula es una S seguida de 8 números", "Error de formato de matricula", "Aceptar");
-                return false;
-            }
-        }
-
-        private bool VerificatePromedio()
-        {
-            double average = 0;
-            bool IsDouble = false;
-
-            try
-            {
-                average = Convert.ToDouble(TextBoxAverage.Text);
-                IsDouble = true;
-            }
-            catch(Exception ex)
-            {
-            }
-
-            Regex rgx = new Regex(@"^((\d+)((\.\d{1,2})?))$");
-            if(rgx.IsMatch(TextBoxAverage.Text) && average <= 10 && IsDouble)
-            {
-                return true;
-            }
-            else
-            {
-                CustomMessageBox.ShowOK("El promedio no tiene el formato correcto", "Error de formato de promedio", "Aceptar");
-                return false;
-            }
-        }
-
     }
 }

@@ -81,6 +81,7 @@
                 </Style>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#049c33" />
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#04539c" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
             </DataGrid.Resources>
         </DataGrid>
 
@@ -108,6 +109,7 @@
                 </Style>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#049c33" />
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#04539c" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
             </DataGrid.Resources>
         </DataGrid>
     </Grid>
