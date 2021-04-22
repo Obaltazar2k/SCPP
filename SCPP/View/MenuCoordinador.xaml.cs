@@ -1,4 +1,5 @@
 ﻿using SCPP.View;
+using SCPP.Utilities;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -98,6 +99,7 @@ namespace SCPP
 
         private void CloseSesionButton_Clicked(object sender, RoutedEventArgs e)
         {
+            Sesion.CloseSesion();
             var mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow?.ChangeView(new IniciarSesion());
             return;

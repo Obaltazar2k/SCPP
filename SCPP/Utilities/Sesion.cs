@@ -18,5 +18,10 @@
                 return _userSesion;
             }
         }
+
+        public static void CloseSesion()
+        {
+            _userSesion = null;
+        }
     }
 }
