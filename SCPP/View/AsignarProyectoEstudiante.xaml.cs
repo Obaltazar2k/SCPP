@@ -111,15 +111,14 @@ namespace SCPP
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            /*var mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow?.ChangeView(new MenuCoordinador());
-            return;
-            /*
+            return;*/
+            
             if (NavigationService.CanGoBack)
                 NavigationService.GoBack();
             else
                 CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");
-            */
         }
 
         private void CheckSelecctions()

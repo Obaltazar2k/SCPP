@@ -44,6 +44,75 @@
                 <Setter Property="materialDesign:HintAssist.Foreground" Value="#04539c"/>
                 <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="#04539c"/>
             </Style>
+
+            <ImageBrush x:Key="MenuToggleButton_MouseOver"
+                    ImageSource="/SCPP;component/Utilities/Imágenes/tgBtn_MouseOver.png"/>
+
+            <!--Text font style-->
+            <Style x:Key="FontStyle" TargetType="TextBlock">
+                <Setter Property="VerticalAlignment"
+                    Value="Center"/>
+                <Setter Property="HorizontalAlignment"
+                    Value="Left"/>
+                <Setter Property="Foreground"
+                    Value="White"/>
+                <Setter Property="FontSize"
+                    Value="20"/>
+            </Style>
+
+            <!--Tooltip Style Templete-->
+            <Style TargetType="ToolTip" x:Key="ToolTipeStyle">
+                <Setter Property="Placement" Value="Right"/>
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="Width" Value="140"/>
+                <Setter Property="Margin" Value="20,0,0,0"/>
+                <Setter Property="Background" Value="Gray"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="PlacementRectangle" Value="190,0,0,0"/>
+                <Setter Property="HorizontalOffset" Value="15"/>
+                <Setter Property="VerticalOffset" Value="4"/>
+                <Setter Property="HasDropShadow" Value="True"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            </Style>
+
+            <Style x:Key="MenuToggleButton" TargetType="{x:Type ToggleButton}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Border x:Name="border"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="True">
+
+                            </Border>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter Property="Background"
+                                    TargetName="border"
+                                    Value="{StaticResource MenuToggleButton_MouseOver}"/>
+
+                                    <Setter Property="BorderBrush"
+                                    TargetName="border"
+                                    Value="{StaticResource MenuToggleButton_MouseOver}"/>
+                                </Trigger>
+
+                                <Trigger Property="IsChecked" Value="true">
+                                    <Setter Property="Background"
+                                    TargetName="border"
+                                    Value="{StaticResource MenuToggleButton_MouseOver}"/>
+                                    <Setter Property="BorderBrush"
+                                    TargetName="border"
+                                    Value="{StaticResource MenuToggleButton_MouseOver}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

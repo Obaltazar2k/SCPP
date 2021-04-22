@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using SCPP.DataAcces;
 using System.Data.Entity.Core;
 using WPFCustomMessageBox;
+using System.Text.RegularExpressions;
 
 namespace SCPP
 {
@@ -108,12 +109,24 @@ namespace SCPP
 
         private bool FieldsValidation()
         {
-            if (string.IsNullOrEmpty(UserTextBox.Text) || string.IsNullOrEmpty(PasswordTextBox.Password))
+            if (!string.IsNullOrEmpty(UserTextBox.Text) && !string.IsNullOrEmpty(PasswordTextBox.Password))
+            {
+                Regex rgx = new Regex(@"^[a-zA-Z0-9]+$");
+                if (rgx.IsMatch(UserTextBox.Text))
+                    return true;
+                else
+                {
+                    MessageBox.Show("Campos erróneos. Por favor asegurese de introducir datos alfanumericos en usuario.");
+                    UserTextBox.Clear();
+                    PasswordTextBox.Clear();
+                    return false;
+                }
+            }
+            else
             {
                 MessageBox.Show("Campos incompletos. Por favor asegurese de no dejar campos vacíos.");
                 return false;
             }
-            return true;
         }
 
         private void GetDataFromFields()
