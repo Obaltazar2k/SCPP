@@ -26,7 +26,7 @@ namespace SCPP.View
             InitializeComponent();
             ComboBoxFilter.ItemsSource = filters;
             DataContext = this;
-            GetStudents();
+            GetProfesors();
             ComboBoxFilter.SelectedItem = "Activo";
         }
 
@@ -67,8 +67,9 @@ namespace SCPP.View
             }
         }
 
-        private void GetStudents()
+        private void GetProfesors()
         {
+            profesorsCollection = new ObservableCollection<Profesor>();
             using (SCPPContext context = new SCPPContext())
             {
                 var profesorsList = context.Profesor.ToList();
@@ -87,26 +88,26 @@ namespace SCPP.View
 
         private void ManageButton_Click(object sender, RoutedEventArgs e)
         {
-            /*NavigationService.Navigated += NavigationService_Navigated;
+            NavigationService.Navigated += NavigationService_Navigated;
             var mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow?.ChangeView(new GestionarEstudiante(profesorSelected));
-            return;*/
+            mainWindow?.ChangeView(new GestionarProfesor(profesorSelected));
+            return;
         }
 
         private void NavigationService_Navigated(object sender, NavigationEventArgs e)
         {
-            GetStudents();
+            GetProfesors();
             var selectedFilter = ComboBoxFilter.SelectedItem;
             ComboBoxFilter.SelectedItem = "Ninguno";
             ComboBoxFilter.SelectedItem = selectedFilter;
             ManageButton.IsEnabled = false;
         }
 
-        private void RegisterStudentButton_Click(object sender, RoutedEventArgs e)
+        private void RegisterProfesorButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigated += NavigationService_Navigated;
             var mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow?.ChangeView(new RegistrarEstudiante());
+            mainWindow?.ChangeView(new RegistrarProfesor());
             return;
         }
 
@@ -144,7 +145,7 @@ namespace SCPP.View
             DataContext = this;
         }
 
-        private void ProfesorList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ProfesorsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {

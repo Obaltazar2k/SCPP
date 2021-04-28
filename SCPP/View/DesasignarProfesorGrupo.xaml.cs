@@ -64,10 +64,11 @@ namespace SCPP
                 var assignDone = false;
                 if (confirmation == MessageBoxResult.Yes)
                 {
+                    Grupo grupo;
                     using (SCPPContext context = new SCPPContext())
                     {
-                        context.Grupo.Attach(groupSelected);
-                        context.Entry(groupSelected).State = EntityState.Deleted;
+                        grupo = context.Grupo.FirstOrDefault(s => s.Rfcprofesor == profesorSelected.Rfc && s.Nrc == groupSelected.Nrc);
+                        //grupo.Activo = 0;  Se debe agregar el campo de activo para grupo
                         context.SaveChanges();
                         assignDone = true;
                     }
