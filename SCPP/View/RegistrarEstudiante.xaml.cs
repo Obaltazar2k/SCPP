@@ -17,10 +17,12 @@ namespace SCPP
     public partial class RegistrarEstudiante : Page
     {
         private readonly List<string> differentsStates = new List<string> { "Inscrito", "Preinscrito" };
+        private readonly List<string> genderList = new List<string> { "Masculino", "Femenino" };
 
         public RegistrarEstudiante()
         {
             InitializeComponent();
+            ComboBoxGender.ItemsSource = genderList;
             ComboBoxStates.ItemsSource = differentsStates;
             ComboBoxStates.SelectedIndex = 0;
         }
@@ -93,6 +95,7 @@ namespace SCPP
                 Correopersonal = TextBoxCorreo.Text,
                 Promedio = Convert.ToDouble(TextBoxPromedio.Text),
                 Estado = ComboBoxStates.Text,
+                Genero = ComboBoxGender.Text,
                 Activo = 1,
                 Contraseña = Encrypt.GetSHA256(TextBoxContraseña.Password)
             };
@@ -152,7 +155,10 @@ namespace SCPP
         {
             return FieldsVerificator.VerificateEmail(TextBoxCorreo.Text)
                 && FieldsVerificator.VerificateMatricula(TextBoxMatricula.Text)
-                && FieldsVerificator.VerificatePromedio(TextBoxPromedio.Text);
+                && FieldsVerificator.VerificatePromedio(TextBoxPromedio.Text)
+                && FieldsVerificator.VerificateName(TextBoxNombre.Text)
+                && FieldsVerificator.VerificateName(TextBoxApellidoPaterno.Text)
+                && FieldsVerificator.VerificateName(TextBoxApellidoMaterno.Text);
         }
     }
 }

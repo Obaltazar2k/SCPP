@@ -74,6 +74,9 @@
                         <DataTrigger Binding="{Binding Text.Length, ElementName=PostcodeTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
                             <Setter Property="IsEnabled" Value="False" />
                         </DataTrigger>
+                        <DataTrigger Binding="{Binding Text.Length, ElementName=ComboBoxSector, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </Button.Style>
@@ -118,6 +121,13 @@
             VerticalAlignment="Bottom"
             Style="{DynamicResource TextBox}" 
             KeyDown="NumbersTextBox_KeyDown"/>
+
+        <ComboBox
+            Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"
+            VerticalAlignment="Bottom"
+            materialDesign:HintAssist.Hint="Sector"
+            materialDesign:TextFieldAssist.UnderlineBrush="#04539c"
+            x:Name="ComboBoxSector" />
 
         <TextBox
             x:Name="StreetTextBox"

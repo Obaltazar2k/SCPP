@@ -24,9 +24,10 @@ namespace SCPP.DataAcces
         public string Apellidopaterno { get; set; }
         public string Nombre { get; set; }
         public string Correopersonal { get; set; }
-        public string Rfc { get; set; }
-        public string Contraseña { get; set; }
+        public string Numtrabajador { get; set; }
         public int Activo { get; set; }
+        public string Contraseña { get; set; }
+        public string Telefono { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ObservableCollection<Grupo> Grupo { get; set; }

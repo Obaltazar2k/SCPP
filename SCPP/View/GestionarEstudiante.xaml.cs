@@ -129,7 +129,7 @@ namespace SCPP.View
                     }
                 }
 
-                var coordinator = context.Coordinador.FirstOrDefault(c => c.Rfc == _user);
+                var coordinator = context.Coordinador.FirstOrDefault(c => c.Numtrabajador == _user);
                 if (coordinator != null)
                     DeleteStudentButton.Visibility = Visibility.Visible;
             }

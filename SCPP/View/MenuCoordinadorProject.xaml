@@ -46,5 +46,14 @@
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                 Margin="0 0 0 0"
                 Click="RegisterProyectButton_Click" />
+
+        <Button x:Name="GenerateReportButton"
+                Style="{DynamicResource PrimaryButton }"
+                Grid.Column="1" Grid.Row="5"
+                Grid.ColumnSpan="2"
+                Content="Generar reporte"
+                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"                
+                Margin="0 0 0 0"
+                Click="GenerateReportButton_Click" />
     </Grid>
 </UserControl>

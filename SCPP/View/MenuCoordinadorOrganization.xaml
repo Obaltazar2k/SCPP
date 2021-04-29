@@ -46,5 +46,14 @@
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                 Margin="0 0 0 0"
                 Click="RegisterOrganizationButton_Click" />
+
+        <Button x:Name="ResigterResponsableButton"
+                Style="{DynamicResource PrimaryButton }"
+                Grid.Column="1" Grid.Row="4"
+                Grid.ColumnSpan="2"
+                Content="Registrar responsable"
+                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"                
+                Margin="0 0 0 0"
+                Click="RegisterResponsableButton_Click" />
     </Grid>
 </UserControl>

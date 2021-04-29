@@ -25,9 +25,11 @@ namespace SCPP.View
             InitializeComponent();
         }
 
-        private void GetProfessorsButton_Click(object sender, RoutedEventArgs e)
+        private void ConsultProfesorsButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new ConsultarProfesores());
+            return;
         }
 
         private void AssignGroupButton_Click(object sender, RoutedEventArgs e)

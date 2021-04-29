@@ -59,8 +59,8 @@
             Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"
             VerticalAlignment="Bottom"
             Margin="10 0 15 0"
-            materialDesign:HintAssist.Hint="RFC"
-            x:Name="TextBoxRFC" Style="{DynamicResource TextBox}" />
+            materialDesign:HintAssist.Hint="Numero de trabajador"
+            x:Name="TextBoxWorkerNumber" Style="{DynamicResource TextBox}" />
 
         <TextBox
             Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2"
@@ -69,15 +69,22 @@
             materialDesign:HintAssist.Hint="Correo"
             x:Name="TextBoxEMail" Style="{DynamicResource TextBox}" />
 
+        <TextBox
+            Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2"
+            VerticalAlignment="Bottom"
+            Margin="10 0 15 0"
+            materialDesign:HintAssist.Hint="Teléfono"
+            x:Name="TextBoxPhone" Style="{DynamicResource TextBox}" />
+
         <PasswordBox
-            Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2"
+            Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2"
             VerticalAlignment="Bottom"
             Margin="10 0 15 0"
             materialDesign:HintAssist.Hint="Contraseña"
             x:Name="TextBoxPassword" Style="{DynamicResource PasswordBox}" />
 
         <CheckBox
-            Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2"
+            Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2"
             HorizontalAlignment="Center" VerticalAlignment="Bottom"
             IsEnabled="{Binding ElementName=TextBoxRFC, Path=Text.Length, Mode=OneWay}"
             Content="Generar contraseña automaticamente"
@@ -118,10 +125,13 @@
                         <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxMothersLastName, UpdateSourceTrigger=PropertyChanged}" Value="0">
                             <Setter Property="IsEnabled" Value="False" />
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxRFC, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                        <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxWorkerNumber, UpdateSourceTrigger=PropertyChanged}" Value="0">
                             <Setter Property="IsEnabled" Value="False" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxEMail, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxPhone, UpdateSourceTrigger=PropertyChanged}" Value="0">
                             <Setter Property="IsEnabled" Value="False" />
                         </DataTrigger>
                     </Style.Triggers>
