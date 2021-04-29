@@ -49,7 +49,7 @@ namespace SCPP.View
             using (SCPPContext context = new SCPPContext())
             {
                 var profesorsBySearch = context.Profesor.Where(
-                    s => s.Rfc.Contains(searchText) ||
+                    s => s.Numtrabajador.Contains(searchText) ||
                     s.Nombre.Contains(searchText) ||
                     s.Apellidomaterno.Contains(searchText) ||
                     s.Apellidopaterno.Contains(searchText) ||

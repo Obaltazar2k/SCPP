@@ -63,8 +63,16 @@
             materialDesign:HintAssist.Hint="Apellido materno"
             x:Name="TextBoxApellidoMaterno" Style="{DynamicResource TextBox}" />
 
-        <TextBox
+        <ComboBox
             Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2"
+            VerticalAlignment="Bottom"
+            Margin="10 0 15 0"
+            materialDesign:HintAssist.Hint="Género"
+            materialDesign:TextFieldAssist.UnderlineBrush="#04539c"
+            x:Name="ComboBoxGender" />
+        
+        <TextBox
+            Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"
             VerticalAlignment="Bottom"
             Margin="10 0 15 0"
             materialDesign:HintAssist.Hint="Telefono"
@@ -72,32 +80,32 @@
             KeyDown="NumbersTextBox_KeyDown" />
 
         <TextBox
-            Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"
+            Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2"
             VerticalAlignment="Bottom"
             Margin="10 0 15 0"
             materialDesign:HintAssist.Hint="Correo"
             x:Name="TextBoxCorreo" Style="{DynamicResource TextBox}" />
 
         <TextBox
-            Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2"
+            Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2"
             VerticalAlignment="Bottom"
             Margin="10 0 15 0"
             materialDesign:HintAssist.Hint="Promedio"
             x:Name="TextBoxPromedio" Style="{DynamicResource TextBox}" />
 
-        <Label Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2"
+        <Label Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2"
                HorizontalAlignment="Left" VerticalAlignment="Bottom"
                Margin="10 0"
                Content="Elija el estado de inscripción: " />
         <ComboBox
-            Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2"
+            Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2"
             VerticalAlignment="Bottom"
             Margin="10 0 15 0"
             materialDesign:HintAssist.Hint="Estado de inscripción"
             materialDesign:TextFieldAssist.UnderlineBrush="#04539c"
             x:Name="ComboBoxStates" />
         <CheckBox
-            Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="3"
+            Grid.Row="6" Grid.Column="4" Grid.ColumnSpan="3"
             HorizontalAlignment="Left" VerticalAlignment="Bottom"
             Margin="10 0" IsEnabled="{Binding ElementName=TextBoxMatricula, Path=Text.Length, Mode=OneWay}"
             Content="Generar contraseña automaticamente"
@@ -105,20 +113,20 @@
             Name="CheckBoxPassword" />
 
         <PasswordBox
-            Grid.Row="6" Grid.Column="4" Grid.ColumnSpan="2"
+            Grid.Row="7" Grid.Column="4" Grid.ColumnSpan="2"
             VerticalAlignment="Bottom"
             Margin="10 0 15 0"
             materialDesign:HintAssist.Hint="Contraseña"
             x:Name="TextBoxContraseña" Style="{DynamicResource PasswordBox}" />
 
         <Button x:Name="CancelButton"
-                Grid.Column="4" Grid.Row="8" Margin="15 5"
+                Grid.Column="4" Grid.Row="9" Margin="15 5"
                 Content="Cancelar"
                 HorizontalAlignment="Right"
                 Click="CancelButton_Click"
                 Style="{DynamicResource SecundaryButton }" />
         <Button x:Name="RegisterButton"
-                Grid.Column="5" Grid.Row="8" Margin="15 5"
+                Grid.Column="5" Grid.Row="9" Margin="15 5"
                 Content="Registrar"
                 HorizontalAlignment="Left"
                 Click="RegisterButton_Click">
@@ -154,6 +162,9 @@
                             <Setter Property="IsEnabled" Value="False" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxContraseña, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Text.Length, ElementName=ComboBoxGender, UpdateSourceTrigger=PropertyChanged}" Value="0">
                             <Setter Property="IsEnabled" Value="False" />
                         </DataTrigger>
                     </Style.Triggers>

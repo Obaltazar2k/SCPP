@@ -59,7 +59,7 @@ namespace SCPP
                     return;
 
                 MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que desea desasignar al PROFESOR "
-                    + profesorSelected.Nombre + " " + profesorSelected.Apellidopaterno + " " + profesorSelected.Apellidopaterno + " con Rfc " + profesorSelected.Rfc
+                    + profesorSelected.Nombre + " " + profesorSelected.Apellidopaterno + " " + profesorSelected.Apellidopaterno + " con numero de trabajador " + profesorSelected.Numtrabajador
                     + " del GRUPO " + groupSelected.Nrc + "?", "Confirmación", "Si", "No");
                 var assignDone = false;
                 if (confirmation == MessageBoxResult.Yes)
@@ -67,7 +67,7 @@ namespace SCPP
                     Grupo grupo;
                     using (SCPPContext context = new SCPPContext())
                     {
-                        grupo = context.Grupo.FirstOrDefault(s => s.Rfcprofesor == profesorSelected.Rfc && s.Nrc == groupSelected.Nrc);
+                        grupo = context.Grupo.FirstOrDefault(s => s.Rfcprofesor == profesorSelected.Numtrabajador && s.Nrc == groupSelected.Nrc);
                         //grupo.Activo = 0;  Se debe agregar el campo de activo para grupo
                         context.SaveChanges();
                         assignDone = true;
@@ -94,7 +94,7 @@ namespace SCPP
             List<Grupo> groupsCollection = new List<Grupo>();
             using (SCPPContext context = new SCPPContext())
             {
-                var groupsList = context.Grupo.Where(p => p.Rfcprofesor.Equals(profesorSelected.Rfc) && p.Periodo.Equals(_period));
+                var groupsList = context.Grupo.Where(p => p.Rfcprofesor.Equals(profesorSelected.Numtrabajador) && p.Periodo.Equals(_period));
                 if (groupsList != null)
                 {
                     foreach (Grupo grupo in groupsList)

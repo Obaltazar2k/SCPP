@@ -21,7 +21,6 @@ namespace SCPP.View
     {
         private Profesor actualProfesor;
         private ObservableCollection<Grupo> groupsCollection;
-        private Inscripción inscriptionSelected;
         private bool isModifying = false;
         private string _user;
 
@@ -58,7 +57,7 @@ namespace SCPP.View
             try
             {
                 MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que desea eliminar al PROFESOR "
-                    + actualProfesor.Nombre + " " + actualProfesor.Apellidopaterno + " con matricula " + actualProfesor.Rfc
+                    + actualProfesor.Nombre + " " + actualProfesor.Apellidopaterno + " con matricula " + actualProfesor.Numtrabajador
                     + "?", "Confirmación", "Si", "No");
 
                 if (confirmation == MessageBoxResult.Yes)
@@ -66,7 +65,7 @@ namespace SCPP.View
                     Profesor profesor;
                     using (SCPPContext context = new SCPPContext())
                     {
-                        profesor = context.Profesor.FirstOrDefault(s => s.Rfc == actualProfesor.Rfc);
+                        profesor = context.Profesor.FirstOrDefault(s => s.Numtrabajador == actualProfesor.Numtrabajador);
                         profesor.Activo = 0;
                         context.SaveChanges();
                     }
@@ -97,12 +96,12 @@ namespace SCPP.View
 
         private void FillTextBoxes()
         {
-            TextBoxNumeroTrabajador.Text = actualProfesor.Rfc;
+            TextBoxNumeroTrabajador.Text = actualProfesor.Numtrabajador;
             TextBoxName.Text = actualProfesor.Nombre;
             TextBoxApellidoPaterno.Text = actualProfesor.Apellidopaterno;
             TextBoxApellidoMaterno.Text = actualProfesor.Apellidomaterno;
             TextBoxEmail.Text = actualProfesor.Correopersonal;
-            //TextBoxPhone.Text = actualProfesor.Telefono;
+            TextBoxPhone.Text = actualProfesor.Telefono;
             TextBoxStatus.Text = actualProfesor.Activo.ToString();
         }
 
@@ -111,7 +110,7 @@ namespace SCPP.View
             groupsCollection = new ObservableCollection<Grupo>();
             using (SCPPContext context = new SCPPContext())
             {
-                var groupsList = context.Grupo.Where(p => p.Rfcprofesor.Equals(actualProfesor.Rfc));
+                var groupsList = context.Grupo.Where(p => p.Rfcprofesor.Equals(actualProfesor.Numtrabajador));
                 if (groupsList != null)
                 {
                     foreach (Grupo grupo in groupsList)
@@ -196,12 +195,12 @@ namespace SCPP.View
             Profesor profesor;
             using (SCPPContext context = new SCPPContext())
             {
-                profesor = context.Profesor.FirstOrDefault(s => s.Rfc == actualProfesor.Rfc);
+                profesor = context.Profesor.FirstOrDefault(s => s.Numtrabajador == actualProfesor.Numtrabajador);
 
                 profesor.Nombre = TextBoxName.Text;
                 profesor.Apellidopaterno = TextBoxApellidoPaterno.Text;
                 profesor.Apellidomaterno = TextBoxApellidoMaterno.Text;
-                //profesor.Telefono = TextBoxPhone.Text;
+                profesor.Telefono = TextBoxPhone.Text;
                 profesor.Correopersonal = TextBoxEmail.Text;
                 profesor.Activo = Int32.Parse(TextBoxStatus.Text);
 

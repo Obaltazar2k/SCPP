@@ -154,10 +154,10 @@ namespace SCPP
         {
             using (SCPPContext context = new SCPPContext())
             {
-                var profesor = context.Profesor.FirstOrDefault(u => u.Rfc == _user);
+                var profesor = context.Profesor.FirstOrDefault(u => u.Numtrabajador == _user);
                 if (profesor != null && profesor.Contraseña == _password)
                 {
-                    SetSesion(profesor.Rfc, profesor.Correopersonal);
+                    SetSesion(profesor.Numtrabajador, profesor.Correopersonal);
                     return true;
                 }
                 else

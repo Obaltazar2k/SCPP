@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SCPPModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="SCPPModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Archivo">
           <Key>
             <PropertyRef Name="ArchivoID" />
@@ -41,6 +41,7 @@
           <Property Name="Telefono" Type="varchar" MaxLength="50" />
           <Property Name="Activo" Type="int" Nullable="false" />
           <Property Name="Contraseña" Type="varchar" MaxLength="150" />
+          <Property Name="Genero" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Expediente">
           <Key>
@@ -91,18 +92,20 @@
           <Property Name="Telefono" Type="varchar" MaxLength="50" />
           <Property Name="Activo" Type="int" Nullable="false" />
           <Property Name="OrganizaciónID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Sector" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Profesor">
           <Key>
-            <PropertyRef Name="Rfc" />
+            <PropertyRef Name="Numtrabajador" />
           </Key>
           <Property Name="Apellidomaterno" Type="varchar" MaxLength="50" />
           <Property Name="Apellidopaterno" Type="varchar" MaxLength="50" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
           <Property Name="Correopersonal" Type="varchar" MaxLength="50" />
-          <Property Name="Rfc" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Numtrabajador" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Activo" Type="int" Nullable="false" />
           <Property Name="Contraseña" Type="varchar" MaxLength="150" />
+          <Property Name="Telefono" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Proyecto">
           <Key>
@@ -178,7 +181,7 @@
           <End Role="Grupo" Type="Self.Grupo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Profesor">
-              <PropertyRef Name="Rfc" />
+              <PropertyRef Name="Numtrabajador" />
             </Principal>
             <Dependent Role="Grupo">
               <PropertyRef Name="Rfcprofesor" />
@@ -355,7 +358,8 @@
             <End Role="Selecciónproyecto" EntitySet="Selecciónproyecto" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SCPPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -395,10 +399,11 @@
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Promedio" Type="Double" />
           <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Activo" Type="Int32" Nullable="false" />
           <Property Name="Contraseña" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Genero" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Inscripción" Relationship="Self.FK_Inscripción_Estudiante" FromRole="Estudiante" ToRole="Inscripción" />
           <NavigationProperty Name="Selecciónproyecto" Relationship="Self.FK_SelecciónProyecto_Estudiante" FromRole="Estudiante" ToRole="Selecciónproyecto" />
-          <Property Name="Activo" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Expediente">
           <Key>
@@ -455,23 +460,25 @@
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Numext" Type="Int32" />
           <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OrganizaciónID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Proyecto" Relationship="Self.FK_Proyecto_Organización" FromRole="Organización" ToRole="Proyecto" />
           <Property Name="Activo" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Responsableproyecto" Relationship="SCPPModel.FK_Responsableproyecto_Organización" FromRole="Organización" ToRole="Responsableproyecto" />
+          <Property Name="OrganizaciónID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Sector" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Proyecto" Relationship="Self.FK_Proyecto_Organización" FromRole="Organización" ToRole="Proyecto" />
+          <NavigationProperty Name="Responsableproyecto" Relationship="Self.FK_Responsableproyecto_Organización" FromRole="Organización" ToRole="Responsableproyecto" />
         </EntityType>
         <EntityType Name="Profesor">
           <Key>
-            <PropertyRef Name="Rfc" />
+            <PropertyRef Name="Numtrabajador" />
           </Key>
           <Property Name="Apellidomaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Apellidopaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Correopersonal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Rfc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Contraseña" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Grupo" Relationship="Self.FK_Grupo_Profesor" FromRole="Profesor" ToRole="Grupo" />
+          <Property Name="Numtrabajador" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Activo" Type="Int32" Nullable="false" />
+          <Property Name="Contraseña" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Grupo" Relationship="Self.FK_Grupo_Profesor" FromRole="Profesor" ToRole="Grupo" />
         </EntityType>
         <EntityType Name="Proyecto">
           <Key>
@@ -483,13 +490,13 @@
           <Property Name="Fecharegistro" Type="DateTime" Precision="0" />
           <Property Name="Noestudiantes" Type="Int32" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ResponsableproyectoID" Type="Int32" Nullable="false" />
+          <Property Name="Activo" Type="Int32" Nullable="false" />
           <Property Name="OrganizaciónID" Type="Int32" />
           <NavigationProperty Name="Inscripción" Relationship="Self.FK_Inscripción_Proyecto" FromRole="Proyecto" ToRole="Inscripción" />
           <NavigationProperty Name="Organización" Relationship="Self.FK_Proyecto_Organización" FromRole="Proyecto" ToRole="Organización" />
+          <NavigationProperty Name="Responsableproyecto" Relationship="Self.FK_Proyecto_Responsableproyecto" FromRole="Proyecto" ToRole="Responsableproyecto" />
           <NavigationProperty Name="Selecciónproyecto" Relationship="Self.FK_SelecciónProyecto_Proyecto" FromRole="Proyecto" ToRole="Selecciónproyecto" />
-          <Property Name="Activo" Type="Int32" Nullable="false" />
-          <Property Name="ResponsableproyectoID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Responsableproyecto" Relationship="SCPPModel.FK_Proyecto_Responsableproyecto" FromRole="Proyecto" ToRole="Responsableproyecto" />
         </EntityType>
         <EntityType Name="Reporte">
           <Key>
@@ -499,6 +506,21 @@
           <Property Name="Tiporeporte" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ReporteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Archivo" Relationship="Self.FK_Reporte_Archivo" FromRole="Reporte" ToRole="Archivo" />
+        </EntityType>
+        <EntityType Name="Responsableproyecto">
+          <Key>
+            <PropertyRef Name="ResponsableproyectoID" />
+          </Key>
+          <Property Name="Apellidomaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Apellidopaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Correopersonal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OrganizaciónID" Type="Int32" />
+          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Activo" Type="Int32" />
+          <Property Name="ResponsableproyectoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Organización" Relationship="Self.FK_Responsableproyecto_Organización" FromRole="Responsableproyecto" ToRole="Organización" />
+          <NavigationProperty Name="Proyecto" Relationship="Self.FK_Proyecto_Responsableproyecto" FromRole="Responsableproyecto" ToRole="Proyecto" />
         </EntityType>
         <EntityType Name="Selecciónproyecto">
           <Key>
@@ -577,7 +599,7 @@
           <End Role="Grupo" Type="Self.Grupo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Profesor">
-              <PropertyRef Name="Rfc" />
+              <PropertyRef Name="Numtrabajador" />
             </Principal>
             <Dependent Role="Grupo">
               <PropertyRef Name="Rfcprofesor" />
@@ -620,6 +642,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Responsableproyecto_Organización">
+          <End Role="Organización" Type="Self.Organización" Multiplicity="0..1" />
+          <End Role="Responsableproyecto" Type="Self.Responsableproyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organización">
+              <PropertyRef Name="OrganizaciónID" />
+            </Principal>
+            <Dependent Role="Responsableproyecto">
+              <PropertyRef Name="OrganizaciónID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proyecto_Responsableproyecto">
+          <End Role="Responsableproyecto" Type="Self.Responsableproyecto" Multiplicity="1" />
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Responsableproyecto">
+              <PropertyRef Name="ResponsableproyectoID" />
+            </Principal>
+            <Dependent Role="Proyecto">
+              <PropertyRef Name="ResponsableproyectoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SelecciónProyecto_Proyecto">
           <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="0..1" />
           <End Role="Selecciónproyecto" Type="Self.Selecciónproyecto" Multiplicity="*" />
@@ -643,6 +689,7 @@
           <EntitySet Name="Profesor" EntityType="Self.Profesor" />
           <EntitySet Name="Proyecto" EntityType="Self.Proyecto" />
           <EntitySet Name="Reporte" EntityType="Self.Reporte" />
+          <EntitySet Name="Responsableproyecto" EntityType="Self.Responsableproyecto" />
           <EntitySet Name="Selecciónproyecto" EntityType="Self.Selecciónproyecto" />
           <AssociationSet Name="FK_Archivo_Expediente" Association="Self.FK_Archivo_Expediente">
             <End Role="Expediente" EntitySet="Expediente" />
@@ -680,59 +727,19 @@
             <End Role="Organización" EntitySet="Organización" />
             <End Role="Proyecto" EntitySet="Proyecto" />
           </AssociationSet>
+          <AssociationSet Name="FK_Responsableproyecto_Organización" Association="Self.FK_Responsableproyecto_Organización">
+            <End Role="Organización" EntitySet="Organización" />
+            <End Role="Responsableproyecto" EntitySet="Responsableproyecto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proyecto_Responsableproyecto" Association="Self.FK_Proyecto_Responsableproyecto">
+            <End Role="Responsableproyecto" EntitySet="Responsableproyecto" />
+            <End Role="Proyecto" EntitySet="Proyecto" />
+          </AssociationSet>
           <AssociationSet Name="FK_SelecciónProyecto_Proyecto" Association="Self.FK_SelecciónProyecto_Proyecto">
             <End Role="Proyecto" EntitySet="Proyecto" />
             <End Role="Selecciónproyecto" EntitySet="Selecciónproyecto" />
           </AssociationSet>
-          <EntitySet Name="Responsableproyecto" EntityType="SCPPModel.Responsableproyecto" />
-          <AssociationSet Name="FK_Responsableproyecto_Organización" Association="SCPPModel.FK_Responsableproyecto_Organización">
-            <End Role="Organización" EntitySet="Organización" />
-            <End Role="Responsableproyecto" EntitySet="Responsableproyecto" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Proyecto_Responsableproyecto" Association="SCPPModel.FK_Proyecto_Responsableproyecto">
-            <End Role="Responsableproyecto" EntitySet="Responsableproyecto" />
-            <End Role="Proyecto" EntitySet="Proyecto" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Responsableproyecto">
-          <Key>
-            <PropertyRef Name="ResponsableproyectoID" />
-          </Key>
-          <Property Name="Apellidomaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Apellidopaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Correopersonal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OrganizaciónID" Type="Int32" />
-          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Activo" Type="Int32" />
-          <Property Name="ResponsableproyectoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Organización" Relationship="SCPPModel.FK_Responsableproyecto_Organización" FromRole="Responsableproyecto" ToRole="Organización" />
-          <NavigationProperty Name="Proyecto" Relationship="SCPPModel.FK_Proyecto_Responsableproyecto" FromRole="Responsableproyecto" ToRole="Proyecto" />
-        </EntityType>
-        <Association Name="FK_Responsableproyecto_Organización">
-          <End Type="SCPPModel.Organización" Role="Organización" Multiplicity="0..1" />
-          <End Type="SCPPModel.Responsableproyecto" Role="Responsableproyecto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Organización">
-              <PropertyRef Name="OrganizaciónID" />
-            </Principal>
-            <Dependent Role="Responsableproyecto">
-              <PropertyRef Name="OrganizaciónID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Proyecto_Responsableproyecto">
-          <End Type="SCPPModel.Responsableproyecto" Role="Responsableproyecto" Multiplicity="1" />
-          <End Type="SCPPModel.Proyecto" Role="Proyecto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Responsableproyecto">
-              <PropertyRef Name="ResponsableproyectoID" />
-            </Principal>
-            <Dependent Role="Proyecto">
-              <PropertyRef Name="ResponsableproyectoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -766,7 +773,6 @@
           <EntitySetMapping Name="Estudiante">
             <EntityTypeMapping TypeName="SCPPModel.Estudiante">
               <MappingFragment StoreEntitySet="Estudiante">
-                <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="Apellidomaterno" ColumnName="Apellidomaterno" />
                 <ScalarProperty Name="Apellidopaterno" ColumnName="Apellidopaterno" />
                 <ScalarProperty Name="Correopersonal" ColumnName="Correopersonal" />
@@ -775,7 +781,9 @@
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Promedio" ColumnName="Promedio" />
                 <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="Contraseña" ColumnName="Contraseña" />
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -821,7 +829,6 @@
           <EntitySetMapping Name="Organización">
             <EntityTypeMapping TypeName="SCPPModel.Organización">
               <MappingFragment StoreEntitySet="Organización">
-                <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="Calle" ColumnName="Calle" />
                 <ScalarProperty Name="Codigopostal" ColumnName="Codigopostal" />
                 <ScalarProperty Name="Colonia" ColumnName="Colonia" />
@@ -829,34 +836,37 @@
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Numext" ColumnName="Numext" />
                 <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="OrganizaciónID" ColumnName="OrganizaciónID" />
+                <ScalarProperty Name="Sector" ColumnName="Sector" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Profesor">
             <EntityTypeMapping TypeName="SCPPModel.Profesor">
               <MappingFragment StoreEntitySet="Profesor">
-                <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="Apellidomaterno" ColumnName="Apellidomaterno" />
                 <ScalarProperty Name="Apellidopaterno" ColumnName="Apellidopaterno" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Correopersonal" ColumnName="Correopersonal" />
-                <ScalarProperty Name="Rfc" ColumnName="Rfc" />
+                <ScalarProperty Name="Numtrabajador" ColumnName="Numtrabajador" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="Contraseña" ColumnName="Contraseña" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Proyecto">
             <EntityTypeMapping TypeName="SCPPModel.Proyecto">
               <MappingFragment StoreEntitySet="Proyecto">
-                <ScalarProperty Name="ResponsableproyectoID" ColumnName="ResponsableproyectoID" />
-                <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="Actividades" ColumnName="Actividades" />
                 <ScalarProperty Name="Clave" ColumnName="Clave" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="Fecharegistro" ColumnName="Fecharegistro" />
                 <ScalarProperty Name="Noestudiantes" ColumnName="Noestudiantes" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ResponsableproyectoID" ColumnName="ResponsableproyectoID" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="OrganizaciónID" ColumnName="OrganizaciónID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -870,6 +880,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Responsableproyecto">
+            <EntityTypeMapping TypeName="SCPPModel.Responsableproyecto">
+              <MappingFragment StoreEntitySet="Responsableproyecto">
+                <ScalarProperty Name="Apellidomaterno" ColumnName="Apellidomaterno" />
+                <ScalarProperty Name="Apellidopaterno" ColumnName="Apellidopaterno" />
+                <ScalarProperty Name="Correopersonal" ColumnName="Correopersonal" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="OrganizaciónID" ColumnName="OrganizaciónID" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="ResponsableproyectoID" ColumnName="ResponsableproyectoID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Selecciónproyecto">
             <EntityTypeMapping TypeName="SCPPModel.Selecciónproyecto">
               <MappingFragment StoreEntitySet="Selecciónproyecto">
@@ -878,20 +902,6 @@
                 <ScalarProperty Name="SelecciónproyectoID" ColumnName="SelecciónproyectoID" />
                 <ScalarProperty Name="Matriculaestudiante" ColumnName="Matriculaestudiante" />
                 <ScalarProperty Name="Claveproyecto" ColumnName="Claveproyecto" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Responsableproyecto">
-            <EntityTypeMapping TypeName="SCPPModel.Responsableproyecto">
-              <MappingFragment StoreEntitySet="Responsableproyecto">
-                <ScalarProperty Name="ResponsableproyectoID" ColumnName="ResponsableproyectoID" />
-                <ScalarProperty Name="Activo" ColumnName="Activo" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="OrganizaciónID" ColumnName="OrganizaciónID" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Correopersonal" ColumnName="Correopersonal" />
-                <ScalarProperty Name="Apellidopaterno" ColumnName="Apellidopaterno" />
-                <ScalarProperty Name="Apellidomaterno" ColumnName="Apellidomaterno" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

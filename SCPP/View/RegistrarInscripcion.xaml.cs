@@ -1,6 +1,7 @@
 ﻿using SCPP.DataAcces;
 using SCPP.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity.Core;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,9 +15,12 @@ namespace SCPP
     /// </summary>
     public partial class RegistrarInscripcion : Page
     {
+        private readonly List<string> genderList = new List<string> { "Masculino", "Femenino" };
+
         public RegistrarInscripcion()
         {
             InitializeComponent();
+            ComboBoxGender.ItemsSource = genderList;
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -66,6 +70,7 @@ namespace SCPP
                 Correopersonal = TextBoxEMail.Text,
                 Promedio = Convert.ToDouble(TextBoxAverage.Text),
                 Estado = "Preinscrito",
+                Genero = ComboBoxGender.Text,
                 Activo = 1,
                 Contraseña = Encrypt.GetSHA256(TextBoxPassword.Password)
             };

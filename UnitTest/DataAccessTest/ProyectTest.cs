@@ -26,8 +26,8 @@ namespace UnitTest.DataAccessTest
                 Fecharegistro = thisDay,
                 Noestudiantes = 20,
                 Nombre = "Hotel Paradise",
-                Resbonsablenombre = "Aldo Colorado Díaz"
-            };
+                ResponsableproyectoID = 1
+        };
 
             testProyectList = new List<Proyecto>()
             {
@@ -38,7 +38,7 @@ namespace UnitTest.DataAccessTest
                     Fecharegistro = thisDay,
                     Noestudiantes = 20,
                     Nombre = "Web Store",
-                    Resbonsablenombre = "Jon Snow"
+                    ResponsableproyectoID = 1
                 },
 
                 new Proyecto
@@ -48,8 +48,8 @@ namespace UnitTest.DataAccessTest
                     Fecharegistro = thisDay,
                     Noestudiantes = 20,
                     Nombre = "Web Warzone",
-                    Resbonsablenombre = "Arya Stark"
-                }
+                    ResponsableproyectoID = 1
+        }
             };
         }
 

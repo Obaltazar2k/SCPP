@@ -9,6 +9,7 @@ using WPFCustomMessageBox;
 using SCPP.DataAcces;
 using System.Data.Entity.Core;
 
+
 namespace SCPP
 {
     /// <summary>
@@ -17,6 +18,7 @@ namespace SCPP
     public partial class RegistrarProfesor : Page
     {
         private string password;
+        FieldsVerificator verificator = new FieldsVerificator();
         public RegistrarProfesor()
         {
             InitializeComponent();
@@ -36,7 +38,7 @@ namespace SCPP
             string generatedPassword = GeneratePassword();
 
             TextBoxPassword.IsEnabled = false;
-            TextBoxPassword.Password = password = generatedPassword + TextBoxRFC.Text;
+            TextBoxPassword.Password = password = generatedPassword + TextBoxWorkerNumber.Text;
         }
 
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
@@ -67,7 +69,7 @@ namespace SCPP
             {
                 using(SCPPContext context = new SCPPContext())
                 {
-                    var foundProfessor = context.Profesor.Find(TextBoxRFC.Text);
+                    var foundProfessor = context.Profesor.Find(TextBoxWorkerNumber.Text);
                     if(foundProfessor == null)
                     {
                         if(VerificateFields())
@@ -99,8 +101,9 @@ namespace SCPP
                 Nombre = TextBoxName.Text,
                 Apellidopaterno = TextBoxLastName.Text,
                 Apellidomaterno = TextBoxMothersLastName.Text,
-                Rfc = TextBoxRFC.Text,
+                Numtrabajador = TextBoxWorkerNumber.Text,
                 Correopersonal = TextBoxEMail.Text,
+                Telefono = TextBoxPhone.Text,
                 Contraseña = Encrypt.GetSHA256(TextBoxPassword.Password),
                 Activo = 1
             };
@@ -128,12 +131,12 @@ namespace SCPP
         {
             MailTemplate mt = new MailTemplate();
             mt.SetReceiver(TextBoxName.Text + " " + TextBoxLastName.Text, TextBoxEMail.Text);
-            mt.SetMessage("Contraseña de SCPP", "Profesor con RFC: " + TextBoxRFC.Text + ", tu contraseña para el SCPP es: " + password);
+            mt.SetMessage("Contraseña de SCPP", "Profesor con el numero de trabajador: " + TextBoxWorkerNumber.Text + ", tu contraseña para el SCPP es: " + password);
             try
             {
                 mt.Send();
             }
-            catch(Exception ex)
+            catch(Exception)
             {
 
             }
@@ -164,7 +167,7 @@ namespace SCPP
         private bool ValidateFullFields()
         {
             if(string.IsNullOrEmpty(TextBoxName.Text) || string.IsNullOrEmpty(TextBoxLastName.Text) || string.IsNullOrEmpty(TextBoxMothersLastName.Text)
-                || string.IsNullOrEmpty(TextBoxEMail.Text) || string.IsNullOrEmpty(TextBoxRFC.Text)
+                || string.IsNullOrEmpty(TextBoxEMail.Text) || string.IsNullOrEmpty(TextBoxPhone.Text) || string.IsNullOrEmpty(TextBoxWorkerNumber.Text)
                 || string.IsNullOrEmpty(TextBoxPassword.Password))
             {
                 MessageBox.Show("Campos incompletos. Por favor asegurese de no dejar campos vacíos.");
@@ -174,49 +177,16 @@ namespace SCPP
             return true;
         }
 
-        private bool VerificateEmail()
-        {
-            string emailFormat = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
-            if(Regex.IsMatch(TextBoxEMail.Text, emailFormat))
-                return true;
-            else
-            {
-                CustomMessageBox.ShowOK("Asegurese de introducir un correo valido.", "Error de formato de correo", "Aceptar");
-                return false;
-            }
-        }
-
         private bool VerificateFields()
         {
+            
             if(!ValidateFullFields())
             {
                 return false;
             }
 
-            if(!VerificateEmail())
-            {
-                return false;
-            }
-
-            if(!VerificateRFC())
-            {
-                return false;
-            }
-
-            return true;
+            return FieldsVerificator.VerificateEmail(TextBoxEMail.Text)
+                && FieldsVerificator.VerificateWorkerNumber(TextBoxWorkerNumber.Text);
         }
-
-        private bool VerificateRFC()
-        {
-            Regex rgx = new Regex(@"^([A-ZÑ\x26]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))([A-Z\d]{3})?$");
-            if(rgx.IsMatch(TextBoxRFC.Text))
-                return true;
-            else
-            {
-                CustomMessageBox.ShowOK("Asegurese de ingresar un RFC Valido", "Error de formato de RFC", "Aceptar");
-                return false;
-            }
-        }
-
     }
 }

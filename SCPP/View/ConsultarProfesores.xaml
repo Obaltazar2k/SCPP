@@ -91,7 +91,7 @@
             VerticalAlignment="Stretch"
             x:Name="ProfesorsList">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="No. Trabjador" IsReadOnly="True" Width="Auto" Binding="{Binding Rfc}" />
+                <DataGridTextColumn Header="No. Trabjador" IsReadOnly="True" Width="Auto" Binding="{Binding Numtrabajador}" />
                 <DataGridTextColumn Header="Nombre" IsReadOnly="True" Width="Auto" Binding="{Binding Nombre}" />
                 <DataGridTextColumn Header="Apellido paterno" IsReadOnly="True" Width="Auto" Binding="{Binding Apellidopaterno}" />
                 <DataGridTextColumn Header="Apellido materno" IsReadOnly="True" Width="Auto" Binding="{Binding Apellidomaterno}" />

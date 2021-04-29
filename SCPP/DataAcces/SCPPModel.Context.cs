@@ -35,7 +35,7 @@ namespace SCPP.DataAcces
         public virtual DbSet<Profesor> Profesor { get; set; }
         public virtual DbSet<Proyecto> Proyecto { get; set; }
         public virtual DbSet<Reporte> Reporte { get; set; }
-        public virtual DbSet<Selecciónproyecto> Selecciónproyecto { get; set; }
         public virtual DbSet<Responsableproyecto> Responsableproyecto { get; set; }
+        public virtual DbSet<Selecciónproyecto> Selecciónproyecto { get; set; }
     }
 }

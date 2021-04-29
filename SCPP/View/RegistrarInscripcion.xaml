@@ -67,6 +67,13 @@
             Grid.ColumnSpan="2">
         </TextBox>
 
+        <ComboBox
+            Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2"
+            VerticalAlignment="Bottom"
+            materialDesign:HintAssist.Hint="Género"
+            materialDesign:TextFieldAssist.UnderlineBrush="#04539c"
+            x:Name="ComboBoxGender" />
+
         <TextBox
             x:Name="TextBoxEMail" materialDesign:HintAssist.Hint="Correo"
             Style="{DynamicResource TextBox}"
@@ -142,6 +149,9 @@
                             <Setter Property="IsEnabled" Value="False" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxPassword, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Text.Length, ElementName=ComboBoxGender, UpdateSourceTrigger=PropertyChanged}" Value="0">
                             <Setter Property="IsEnabled" Value="False" />
                         </DataTrigger>
                     </Style.Triggers>

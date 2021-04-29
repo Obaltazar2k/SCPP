@@ -29,8 +29,9 @@ namespace SCPP.DataAcces
         public string Nombre { get; set; }
         public Nullable<double> Promedio { get; set; }
         public string Telefono { get; set; }
-        public string Contraseña { get; set; }
         public int Activo { get; set; }
+        public string Contraseña { get; set; }
+        public string Genero { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ObservableCollection<Inscripción> Inscripción { get; set; }

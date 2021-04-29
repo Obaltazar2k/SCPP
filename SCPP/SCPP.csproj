@@ -17,6 +17,21 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -97,6 +112,7 @@
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -121,7 +137,52 @@
     <Compile Include="DataAcces\Archivo.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataAcces\Coordinador.cs">
+      <DependentUpon>SCPPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAcces\Estudiante.cs">
+      <DependentUpon>SCPPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAcces\Expediente.cs">
+      <DependentUpon>SCPPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAcces\Grupo.cs">
+      <DependentUpon>SCPPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAcces\Inscripción.cs">
+      <DependentUpon>SCPPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAcces\Organización.cs">
+      <DependentUpon>SCPPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAcces\Profesor.cs">
+      <DependentUpon>SCPPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAcces\Proyecto.cs">
+      <DependentUpon>SCPPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAcces\Reporte.cs">
+      <DependentUpon>SCPPModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataAcces\Responsableproyecto.cs">
+      <DependentUpon>SCPPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAcces\SCPPModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SCPPModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAcces\SCPPModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SCPPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAcces\SCPPModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SCPPModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DataAcces\Selecciónproyecto.cs">
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Utilities\FieldsVerificator.cs" />
@@ -133,9 +194,6 @@
     </Compile>
     <Compile Include="View\AsociarEstudianteGrupo.xaml.cs">
       <DependentUpon>AsociarEstudianteGrupo.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DataAcces\Coordinador.cs">
-      <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="View\ConsultarEstudiantes.xaml.cs">
       <DependentUpon>ConsultarEstudiantes.xaml</DependentUpon>
@@ -149,14 +207,8 @@
     <Compile Include="View\EscogerProyecto.xaml.cs">
       <DependentUpon>EscogerProyecto.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DataAcces\Estudiante.cs">
-      <DependentUpon>SCPPModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAcces\Expediente.cs">
-      <DependentUpon>SCPPModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAcces\Grupo.cs">
-      <DependentUpon>SCPPModel.tt</DependentUpon>
+    <Compile Include="View\GenerarReporte.xaml.cs">
+      <DependentUpon>GenerarReporte.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\GestionarEstudiante.xaml.cs">
       <DependentUpon>GestionarEstudiante.xaml</DependentUpon>
@@ -166,9 +218,6 @@
     </Compile>
     <Compile Include="View\IniciarSesion.xaml.cs">
       <DependentUpon>IniciarSesion.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DataAcces\Inscripción.cs">
-      <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="View\MenuCoordinador.xaml.cs">
       <DependentUpon>MenuCoordinador.xaml</DependentUpon>
@@ -191,15 +240,6 @@
     <Compile Include="View\MenuProfesor.xaml.cs">
       <DependentUpon>MenuProfesor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DataAcces\Organización.cs">
-      <DependentUpon>SCPPModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAcces\Profesor.cs">
-      <DependentUpon>SCPPModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAcces\Proyecto.cs">
-      <DependentUpon>SCPPModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="View\RegistrarEstudiante.xaml.cs">
       <DependentUpon>RegistrarEstudiante.xaml</DependentUpon>
     </Compile>
@@ -214,27 +254,6 @@
     </Compile>
     <Compile Include="View\RegistrarProyecto.xaml.cs">
       <DependentUpon>RegistrarProyecto.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DataAcces\Reporte.cs">
-      <DependentUpon>SCPPModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAcces\SCPPModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SCPPModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAcces\SCPPModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SCPPModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAcces\SCPPModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SCPPModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="DataAcces\Selecciónproyecto.cs">
-      <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Encrypt.cs" />
     <Compile Include="Utilities\Period.cs" />
@@ -274,6 +293,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\EscogerProyecto.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GenerarReporte.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -380,17 +403,17 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
     <EntityDeploy Include="DataAcces\SCPPModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>SCPPModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="DataAcces\SCPPModel.edmx.diagram">
       <DependentUpon>SCPPModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -403,16 +426,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DataAcces\SCPPModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>SCPPModel.edmx</DependentUpon>
-      <LastGenOutput>SCPPModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="DataAcces\SCPPModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>SCPPModel.edmx</DependentUpon>
-      <LastGenOutput>SCPPModel.cs</LastGenOutput>
-    </Content>
     <Resource Include="Utilities\Imágenes\tgBtn_MouseOver.png" />
     <Resource Include="Utilities\Imágenes\tgBtn_default.png" />
   </ItemGroup>
@@ -444,6 +457,30 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataAcces\SCPPModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SCPPModel.edmx</DependentUpon>
+      <LastGenOutput>SCPPModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DataAcces\SCPPModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SCPPModel.edmx</DependentUpon>
+      <LastGenOutput>SCPPModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 y x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets')" />

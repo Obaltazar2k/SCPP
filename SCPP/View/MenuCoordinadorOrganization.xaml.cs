@@ -36,5 +36,10 @@ namespace SCPP.View
             mainWindow?.ChangeView(new RegistrarOrganizacion());
             return;
         }
+
+        private void RegisterResponsableButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

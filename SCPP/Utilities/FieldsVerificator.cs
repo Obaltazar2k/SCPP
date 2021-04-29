@@ -30,6 +30,18 @@ namespace SCPP.Utilities
             }
         }
 
+        public static bool VerificateWorkerNumber(string workerNumber)
+        {
+            Regex rgx = new Regex(@"^\+?[\d- ]{9,}$");
+            if (rgx.IsMatch(workerNumber))
+                return true;
+            else
+            {
+                CustomMessageBox.ShowOK("Asegurese de ingresar un RFC Valido", "Error de formato de RFC", "Aceptar");
+                return false;
+            }
+        }
+
         public static bool VerificatePhone(string phoneNumber)
         {
             Regex rgx = new Regex(@"^\+?[\d- ]{9,}$");
