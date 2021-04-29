@@ -17,7 +17,8 @@ namespace SCPP.View
     /// </summary>
     public partial class GenerarReporte : Page
     {
-        private readonly List<string> sectorsList = new List<string> { "Trasporte"};
+        private readonly List<string> sectorsList = new List<string> { "Transporte", "Comunicaciones", "Comercial", "Turístico" , "Sanitario" ,
+            "Educativo" , "Artes" , "Financiero" , "Administrativo", "Tecnológico" };
 
         private static string selectedPath;
 
@@ -49,7 +50,7 @@ namespace SCPP.View
                 CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");
         }
 
-        private static async Task GenerateExcelReport()
+        private async Task GenerateExcelReport()
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             var file = new FileInfo(selectedPath);
@@ -69,7 +70,7 @@ namespace SCPP.View
             }
         }
 
-        private static async Task SaveExcelFile(FileInfo file)
+        private async Task SaveExcelFile(FileInfo file)
         {
             DeleteIfExists(file);
 
@@ -113,6 +114,22 @@ namespace SCPP.View
                 var range = workSheet.Cells["A3:A8"];
                 range.AutoFitColumns();
 
+                int cellsIndex = 13;
+                foreach (string sector in sectorsList)
+                {
+                    workSheet.Cells["A" + cellsIndex.ToString()].Value = sector;
+
+                    int mujeres = countStudentsByGender(sector, "Femenino");
+                    int hombres = countStudentsByGender(sector, "Masculino");
+                    workSheet.Cells["E" + cellsIndex.ToString()].Value = mujeres;
+                    workSheet.Cells["C" + cellsIndex.ToString()].Value = hombres;
+
+                    workSheet.Cells["G" + cellsIndex.ToString()].Value = (hombres + mujeres);
+                    
+                    workSheet.Row(cellsIndex).Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                    cellsIndex++;
+                }
+
                 await package.SaveAsync();
             }
 
@@ -132,9 +149,39 @@ namespace SCPP.View
             int totalStudents = 0;
             using (SCPPContext context = new SCPPContext())
             {
-                
+                var studentsList = context.Estudiante.Join(
+                        context.Inscripción,
+                        s => s.Matricula,
+                        i => i.Matriculaestudiante,
+                        (s, i) => new { student = s, inscription = i })
+                        .Join(
+                        context.Proyecto,
+                        j => j.inscription.Claveproyecto,
+                        p => p.Clave,
+                        (j, p) => new { join = j, project = p })
+                        .Join(
+                        context.Organización,
+                        j2 => j2.project.OrganizaciónID,
+                        o => o.OrganizaciónID,
+                        (j2, o) => new { join2 = j2, organization = o })
+                        .Where(q => q.organization.Sector.Equals(sector))
+                        .Where(q => q.join2.join.student.Genero.Equals(gender))
+                        .Select(q => q.join2.join.student);
+
+                totalStudents = studentsList.Count();
             }
             return totalStudents;
+        }
+
+        private int RecorrerList()
+        {
+            int total = 0;
+            foreach(string sector in sectorsList)
+            {
+                total = countStudentsByGender(sector, "Femenino");
+            }
+
+            return total;
         }
     }
 }

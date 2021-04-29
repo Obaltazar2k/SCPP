@@ -39,7 +39,7 @@ namespace SCPP.View
 
         private void RegisterResponsableButton_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
     }
 }
