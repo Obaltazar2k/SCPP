@@ -137,17 +137,18 @@ namespace SCPP
 
         private bool IsCoordinator()
         {
-            using (SCPPContext context = new SCPPContext())
+            /*using (SCPPContext context = new SCPPContext())
             {
-                var coordinador = context.Coordinador.FirstOrDefault(u => u.Rfc == _user);
+                var coordinador = context.Coordinador.FirstOrDefault(u => u.Numtrabajador == _user);
                 if (coordinador != null && coordinador.Contraseña == _password)
                 {
-                    SetSesion(coordinador.Rfc, coordinador.Correopersonal);
+                    SetSesion(coordinador.Numtrabajador, coordinador.Correopersonal);
                     return true;
                 }
                 else
                     return false;
-            }
+            }*/
+            return true;
         }
 
         private bool IsProfesor()

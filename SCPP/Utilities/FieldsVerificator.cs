@@ -30,14 +30,26 @@ namespace SCPP.Utilities
             }
         }
 
+        public static bool VerificateName(string name)
+        {
+            Regex rgx = new Regex(@"^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$");
+            if (rgx.IsMatch(name))
+                return true;
+            else
+            {
+                CustomMessageBox.ShowOK("Asegurese de que el nombre y apellidos solo contenga datos alfabéticos", "Error nombre inválido", "Aceptar");
+                return false;
+            }
+        }
+
         public static bool VerificateWorkerNumber(string workerNumber)
         {
-            Regex rgx = new Regex(@"^\+?[\d- ]{9,}$");
+            Regex rgx = new Regex("^[0-9]+$");
             if (rgx.IsMatch(workerNumber))
                 return true;
             else
             {
-                CustomMessageBox.ShowOK("Asegurese de ingresar un RFC Valido", "Error de formato de RFC", "Aceptar");
+                CustomMessageBox.ShowOK("Asegurese de ingresar un numero de trabajador válido", "Error de formato de RFC", "Aceptar");
                 return false;
             }
         }

@@ -179,14 +179,11 @@ namespace SCPP
 
         private bool VerificateFields()
         {
-            
-            if(!ValidateFullFields())
-            {
-                return false;
-            }
-
             return FieldsVerificator.VerificateEmail(TextBoxEMail.Text)
-                && FieldsVerificator.VerificateWorkerNumber(TextBoxWorkerNumber.Text);
+                && FieldsVerificator.VerificatePhone(TextBoxPhone.Text)
+                && FieldsVerificator.VerificateName(TextBoxName.Text)
+                && FieldsVerificator.VerificateName(TextBoxMothersLastName.Text)
+                && FieldsVerificator.VerificateName(TextBoxLastName.Text);
         }
     }
 }

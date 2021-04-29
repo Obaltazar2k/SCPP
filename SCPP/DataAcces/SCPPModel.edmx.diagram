@@ -4,8 +4,8 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="13eb425ee24449f09533a9dc92208ec5" Name="Diagram1">
-        <EntityTypeShape EntityType="SCPPModel.Archivo" Width="1.5" PointX="12" PointY="11.125" IsExpanded="true" />
+      <Diagram DiagramId="6f86ddb90f6744c8b5f5d801ec1d2f24" Name="Diagram1">
+        <EntityTypeShape EntityType="SCPPModel.Archivo" Width="1.5" PointX="12" PointY="11" IsExpanded="true" />
         <EntityTypeShape EntityType="SCPPModel.Coordinador" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SCPPModel.Estudiante" Width="1.5" PointX="5.25" PointY="1.875" IsExpanded="true" />
         <EntityTypeShape EntityType="SCPPModel.Expediente" Width="1.5" PointX="9.75" PointY="11.125" IsExpanded="true" />

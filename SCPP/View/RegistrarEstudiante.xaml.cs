@@ -155,7 +155,10 @@ namespace SCPP
         {
             return FieldsVerificator.VerificateEmail(TextBoxCorreo.Text)
                 && FieldsVerificator.VerificateMatricula(TextBoxMatricula.Text)
-                && FieldsVerificator.VerificatePromedio(TextBoxPromedio.Text);
+                && FieldsVerificator.VerificatePromedio(TextBoxPromedio.Text)
+                && FieldsVerificator.VerificateName(TextBoxNombre.Text)
+                && FieldsVerificator.VerificateName(TextBoxApellidoPaterno.Text)
+                && FieldsVerificator.VerificateName(TextBoxApellidoMaterno.Text);
         }
     }
 }

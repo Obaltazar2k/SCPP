@@ -213,7 +213,10 @@ namespace SCPP.View
         private bool VerificateFields()
         {
             return FieldsVerificator.VerificateEmail(TextBoxEmail.Text)
-                && FieldsVerificator.VerificatePhone(TextBoxPhone.Text);
+                && FieldsVerificator.VerificatePhone(TextBoxPhone.Text)
+                && FieldsVerificator.VerificateName(TextBoxName.Text)
+                && FieldsVerificator.VerificateName(TextBoxApellidoPaterno.Text)
+                && FieldsVerificator.VerificateName(TextBoxApellidoPaterno.Text);
         }
     }
 }

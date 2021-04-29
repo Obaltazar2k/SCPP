@@ -121,13 +121,16 @@ namespace SCPP.View
 
                     int mujeres = countStudentsByGender(sector, "Femenino");
                     int hombres = countStudentsByGender(sector, "Masculino");
-                    workSheet.Cells["E" + cellsIndex.ToString()].Value = mujeres;
-                    workSheet.Cells["C" + cellsIndex.ToString()].Value = hombres;
+                    if(mujeres != 0 || hombres != 0)
+                    {
+                        workSheet.Cells["E" + cellsIndex.ToString()].Value = mujeres;
+                        workSheet.Cells["C" + cellsIndex.ToString()].Value = hombres;
 
-                    workSheet.Cells["G" + cellsIndex.ToString()].Value = (hombres + mujeres);
-                    
-                    workSheet.Row(cellsIndex).Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
-                    cellsIndex++;
+                        workSheet.Cells["G" + cellsIndex.ToString()].Value = (hombres + mujeres);
+
+                        workSheet.Row(cellsIndex).Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                        cellsIndex++;
+                    }                   
                 }
 
                 await package.SaveAsync();

@@ -14,14 +14,22 @@ namespace SCPP.DataAcces
     
     public partial class Archivo
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Archivo()
+        {
+            this.Reporte = new ObservableCollection<Reporte>();
+        }
+    
         public Nullable<System.DateTime> Fechaentrega { get; set; }
-        public string Rutaubicación { get; set; }
+        public byte[] Archivo1 { get; set; }
         public string Titulo { get; set; }
         public Nullable<int> Validado { get; set; }
         public int ArchivoID { get; set; }
         public Nullable<int> ExpedienteID { get; set; }
+        public string Tipodocumento { get; set; }
     
         public virtual Expediente Expediente { get; set; }
-        public virtual Reporte Reporte { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ObservableCollection<Reporte> Reporte { get; set; }
     }
 }

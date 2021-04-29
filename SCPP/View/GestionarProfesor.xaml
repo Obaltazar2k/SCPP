@@ -16,7 +16,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
@@ -263,18 +263,16 @@
         <Button 
             Click="CancelButton_Click"
             Content="Cancelar"
-            Grid.Column="5" 
-            Grid.ColumnSpan="2"
+            Grid.Column="6" 
             Grid.Row="10" 
             HorizontalAlignment="Right"
-            Margin="15 5"
             Style="{DynamicResource SecundaryButton }"
             x:Name="CancelButton" />
 
         <Button 
             Click="SaveChanges_Click"
             Content="Guardar"
-            Grid.Column="6" 
+            Grid.Column="5" 
             Grid.Row="10" 
             HorizontalAlignment="Left"
             Visibility="Hidden"

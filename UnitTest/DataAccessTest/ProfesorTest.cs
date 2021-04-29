@@ -24,7 +24,7 @@ namespace UnitTest.DataAccessTest
                 Apellidopaterno = "Hernández",
                 Apellidomaterno = "Gutiérrez",
                 Nombre = "Adrian",
-                Rfc = "HEGA201093H01",
+                Numtrabajador = "HEGA201093H01",
                 Contraseña = "Jinchuriki2k"
             };
 
@@ -36,7 +36,7 @@ namespace UnitTest.DataAccessTest
                     Apellidopaterno = "Jímenez",
                     Apellidomaterno = "Galván",
                     Nombre = "Erick",
-                    Rfc = "JIGE201093H01",
+                    Numtrabajador = "JIGE201093H01",
                     Contraseña = "KakashiHatake"
                 },
                 new Profesor
@@ -45,7 +45,7 @@ namespace UnitTest.DataAccessTest
                     Apellidopaterno = "Lagunes",
                     Apellidomaterno = "Martínez",
                     Nombre = "Joel",
-                    Rfc = "LAMJ201093H01",
+                    Numtrabajador = "LAMJ201093H01",
                     Contraseña = "KakashiHatake"
                 }
             };
@@ -59,9 +59,9 @@ namespace UnitTest.DataAccessTest
                 expectedInDB = context.Profesor.ToList().Count();
                 context.Profesor.Add(testProfesor);
                 context.SaveChanges();
-                soloID = testProfesor.Rfc;
-                var expected = context.Profesor.Find(testProfesor.Rfc);
-                Assert.AreEqual(expected.Rfc, testProfesor.Rfc);
+                soloID = testProfesor.Numtrabajador;
+                var expected = context.Profesor.Find(testProfesor.Numtrabajador);
+                Assert.AreEqual(expected.Numtrabajador, testProfesor.Numtrabajador);
             }
         }
 
@@ -72,9 +72,9 @@ namespace UnitTest.DataAccessTest
             {
                 context.Profesor.AddRange(testProfesorsList);
                 context.SaveChanges();
-                duoID[0] = testProfesorsList[0].Rfc;
-                duoID[1] = testProfesorsList[1].Rfc;
-                var expected = context.Profesor.Find(testProfesorsList[0].Rfc);
+                duoID[0] = testProfesorsList[0].Numtrabajador;
+                duoID[1] = testProfesorsList[1].Numtrabajador;
+                var expected = context.Profesor.Find(testProfesorsList[0].Numtrabajador);
                 Assert.IsNotNull(expected);
                 Assert.AreEqual(expected.Nombre, testProfesorsList[0].Nombre);
             }

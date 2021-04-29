@@ -10,20 +10,21 @@
             <PropertyRef Name="ArchivoID" />
           </Key>
           <Property Name="Fechaentrega" Type="date" />
-          <Property Name="Rutaubicación" Type="varchar" MaxLength="50" />
+          <Property Name="Archivo" Type="varbinary(max)" />
           <Property Name="Titulo" Type="varchar" MaxLength="50" />
           <Property Name="Validado" Type="int" />
           <Property Name="ArchivoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ExpedienteID" Type="int" />
+          <Property Name="Tipodocumento" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Coordinador">
           <Key>
-            <PropertyRef Name="Rfc" />
+            <PropertyRef Name="Numtrabajador" />
           </Key>
           <Property Name="Apellidomaterno" Type="varchar" MaxLength="50" />
           <Property Name="Apellidopaterno" Type="varchar" MaxLength="50" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
-          <Property Name="Rfc" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Numtrabajador" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Correopersonal" Type="varchar" MaxLength="50" />
           <Property Name="Contraseña" Type="varchar" MaxLength="150" />
         </EntityType>
@@ -128,6 +129,7 @@
           <Property Name="Horasreportadas" Type="int" />
           <Property Name="Tiporeporte" Type="varchar" MaxLength="50" />
           <Property Name="ReporteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ArchivoID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Responsableproyecto">
           <Key>
@@ -250,13 +252,13 @@
         </Association>
         <Association Name="FK_Reporte_Archivo">
           <End Role="Archivo" Type="Self.Archivo" Multiplicity="1" />
-          <End Role="Reporte" Type="Self.Reporte" Multiplicity="0..1" />
+          <End Role="Reporte" Type="Self.Reporte" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Archivo">
               <PropertyRef Name="ArchivoID" />
             </Principal>
             <Dependent Role="Reporte">
-              <PropertyRef Name="ReporteID" />
+              <PropertyRef Name="ArchivoID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -368,22 +370,23 @@
             <PropertyRef Name="ArchivoID" />
           </Key>
           <Property Name="Fechaentrega" Type="DateTime" Precision="0" />
-          <Property Name="Rutaubicación" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Archivo1" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="Titulo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Validado" Type="Int32" />
           <Property Name="ArchivoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ExpedienteID" Type="Int32" />
+          <Property Name="Tipodocumento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Expediente" Relationship="Self.FK_Archivo_Expediente" FromRole="Archivo" ToRole="Expediente" />
           <NavigationProperty Name="Reporte" Relationship="Self.FK_Reporte_Archivo" FromRole="Archivo" ToRole="Reporte" />
         </EntityType>
         <EntityType Name="Coordinador">
           <Key>
-            <PropertyRef Name="Rfc" />
+            <PropertyRef Name="Numtrabajador" />
           </Key>
           <Property Name="Apellidomaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Apellidopaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Rfc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Numtrabajador" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Correopersonal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Contraseña" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
         </EntityType>
@@ -505,6 +508,7 @@
           <Property Name="Horasreportadas" Type="Int32" />
           <Property Name="Tiporeporte" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ReporteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArchivoID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Archivo" Relationship="Self.FK_Reporte_Archivo" FromRole="Reporte" ToRole="Archivo" />
         </EntityType>
         <EntityType Name="Responsableproyecto">
@@ -548,13 +552,13 @@
         </Association>
         <Association Name="FK_Reporte_Archivo">
           <End Role="Archivo" Type="Self.Archivo" Multiplicity="1" />
-          <End Role="Reporte" Type="Self.Reporte" Multiplicity="0..1" />
+          <End Role="Reporte" Type="Self.Reporte" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Archivo">
               <PropertyRef Name="ArchivoID" />
             </Principal>
             <Dependent Role="Reporte">
-              <PropertyRef Name="ReporteID" />
+              <PropertyRef Name="ArchivoID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -750,11 +754,12 @@
             <EntityTypeMapping TypeName="SCPPModel.Archivo">
               <MappingFragment StoreEntitySet="Archivo">
                 <ScalarProperty Name="Fechaentrega" ColumnName="Fechaentrega" />
-                <ScalarProperty Name="Rutaubicación" ColumnName="Rutaubicación" />
+                <ScalarProperty Name="Archivo1" ColumnName="Archivo" />
                 <ScalarProperty Name="Titulo" ColumnName="Titulo" />
                 <ScalarProperty Name="Validado" ColumnName="Validado" />
                 <ScalarProperty Name="ArchivoID" ColumnName="ArchivoID" />
                 <ScalarProperty Name="ExpedienteID" ColumnName="ExpedienteID" />
+                <ScalarProperty Name="Tipodocumento" ColumnName="Tipodocumento" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -764,7 +769,7 @@
                 <ScalarProperty Name="Apellidomaterno" ColumnName="Apellidomaterno" />
                 <ScalarProperty Name="Apellidopaterno" ColumnName="Apellidopaterno" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Rfc" ColumnName="Rfc" />
+                <ScalarProperty Name="Numtrabajador" ColumnName="Numtrabajador" />
                 <ScalarProperty Name="Correopersonal" ColumnName="Correopersonal" />
                 <ScalarProperty Name="Contraseña" ColumnName="Contraseña" />
               </MappingFragment>
@@ -877,6 +882,7 @@
                 <ScalarProperty Name="Horasreportadas" ColumnName="Horasreportadas" />
                 <ScalarProperty Name="Tiporeporte" ColumnName="Tiporeporte" />
                 <ScalarProperty Name="ReporteID" ColumnName="ReporteID" />
+                <ScalarProperty Name="ArchivoID" ColumnName="ArchivoID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
