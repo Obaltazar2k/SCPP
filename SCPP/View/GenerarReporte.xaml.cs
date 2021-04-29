@@ -78,7 +78,7 @@ namespace SCPP.View
             {
                 var workSheet = package.Workbook.Worksheets.Add("Reporte");
 
-                workSheet.Cells["A1"].Value = "Informe prácticas profesionales";
+                workSheet.Cells["A1"].Value = "Informe de prácticas profesionales";
                 workSheet.Cells["A1:J1"].Merge = true;
                 workSheet.Row(1).Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
                 workSheet.Row(1).Style.Font.Size = 16;
