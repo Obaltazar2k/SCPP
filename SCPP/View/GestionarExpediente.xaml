@@ -1,0 +1,415 @@
+﻿<Page x:Class="SCPP.View.GestionarExpediente"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      d:DesignHeight="605" d:DesignWidth="1080"
+      Title="GestionarExpediente">
+
+    <Grid Margin="20 10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Margin="20 10" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Label
+            Content="Detalles de la Inscripción:"
+            Grid.ColumnSpan="3"
+            Grid.Row="0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom" />
+
+            <TextBox
+            Grid.Column="0"
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin=" 10 0 10 0"
+            materialDesign:HintAssist.Hint="Fecha"
+            Style="{DynamicResource TextBox}"
+            VerticalAlignment="Bottom"
+            VerticalContentAlignment="Center"
+            x:Name="InscriptionDateTextBox" />
+
+            <TextBox
+            Grid.Column="1"
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin=" 10 0 10 0"
+            materialDesign:HintAssist.Hint="Tipo"
+            Style="{DynamicResource TextBox}"
+            VerticalAlignment="Bottom"
+            VerticalContentAlignment="Center"
+            x:Name="KindInscriptionTextBox" />
+
+            <TextBox
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Grid.Row="2"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin=" 10 0 10 0"
+            materialDesign:HintAssist.Hint="Nombre de proyecto"
+            Style="{DynamicResource TextBox}"
+            VerticalAlignment="Bottom"
+            VerticalContentAlignment="Center"
+            x:Name="PorjectTextBox" />
+
+            <TextBox
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Grid.Row="3"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin=" 10 0 10 0"
+            materialDesign:HintAssist.Hint="Nombre de organización"
+            Style="{DynamicResource TextBox}"
+            VerticalAlignment="Bottom"
+            VerticalContentAlignment="Center"
+            x:Name="OrganizationTextBox" />
+
+            <Label
+            Content="Detalles de la Experiencia Educativa:"
+            Grid.ColumnSpan="3"
+            Grid.Row="5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom" />
+
+            <TextBox
+            Grid.Column="0"
+            Grid.Row="6"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin=" 10 0 10 0"
+            materialDesign:HintAssist.Hint="Fecha inicio de PP"
+            Style="{DynamicResource TextBox}"
+            VerticalAlignment="Bottom"
+            VerticalContentAlignment="Center"
+            x:Name="StartDateTextBox" />
+
+            <TextBox
+            Grid.Column="1"
+            Grid.Row="6"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin=" 10 0 10 0"
+            materialDesign:HintAssist.Hint="Fecha fin de PP"
+            Style="{DynamicResource TextBox}"
+            VerticalAlignment="Bottom"
+            VerticalContentAlignment="Center"
+            x:Name="EndDateTextBox" />
+
+            <Label
+            Content="Detalles de Grupo:"
+            Grid.ColumnSpan="3"
+            Grid.Row="8"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom" />
+
+            <TextBox
+            Grid.Column="0"
+            Grid.Row="9"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin=" 10 0 10 0"
+            materialDesign:HintAssist.Hint="Bloque"
+            Style="{DynamicResource TextBox}"
+            VerticalAlignment="Bottom"
+            VerticalContentAlignment="Center"
+            x:Name="BlockTextBox" />
+
+            <TextBox
+            Grid.Column="1"
+            Grid.Row="9"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin=" 10 0 10 0"
+            materialDesign:HintAssist.Hint="Sección"
+            Style="{DynamicResource TextBox}"
+            VerticalAlignment="Bottom"
+            VerticalContentAlignment="Center"
+            x:Name="SectionTextBox" />
+
+            <TextBox
+            Grid.Column="0"
+            Grid.Row="10"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin=" 10 0 10 0"
+            materialDesign:HintAssist.Hint="NRC"
+            Style="{DynamicResource TextBox}"
+            VerticalAlignment="Bottom"
+            VerticalContentAlignment="Center"
+            x:Name="NRCTextBox" />
+
+            <TextBox
+            Grid.Column="1"
+            Grid.Row="10"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin=" 10 0 10 0"
+            materialDesign:HintAssist.Hint="Periodo"
+            Style="{DynamicResource TextBox}"
+            VerticalAlignment="Bottom"
+            VerticalContentAlignment="Center"
+            x:Name="PeriodTextBox" />
+        </Grid>
+
+        <Grid Margin="20 10" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Label
+            Content="Archivos en expediente: "
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Grid.Row="0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom" />
+
+            <TextBox
+            Grid.Column="0"
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin=" 10 0 10 0"
+            materialDesign:HintAssist.Hint="No. de reportes"
+            Style="{DynamicResource TextBox}"
+            VerticalAlignment="Bottom"
+            VerticalContentAlignment="Center"
+            x:Name="NumOfReportsTextBox" />
+
+            <TextBox
+            Grid.Column="1"
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin=" 10 0 10 0"
+            materialDesign:HintAssist.Hint="Horas acumuladas"
+            Style="{DynamicResource TextBox}"
+            VerticalAlignment="Bottom"
+            VerticalContentAlignment="Center"
+            x:Name="TotalHoursTextBox" />
+
+            <DataGrid
+            AutoGenerateColumns = "False"
+            BorderThickness="3"
+            CanUserAddRows="False"
+            CanUserDeleteRows="False"
+            CanUserReorderColumns="False"
+            CanUserResizeColumns="False"
+            CanUserResizeRows="False"
+            CanUserSortColumns="True"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Grid.Row="3"
+            Grid.RowSpan="4"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin="10"
+            SelectionChanged="ReportsGrid_SelectionChanged"
+            SelectionMode="Single"
+            VerticalAlignment="Stretch"
+            x:Name="ReportsGrid">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Reporte" IsReadOnly="True" Width="Auto" Binding="{Binding Estatus}" />
+                    <DataGridTextColumn Header="Fecha" IsReadOnly="True" Width="Auto" Binding="{Binding Periodo}" />
+                    <DataGridTextColumn Header="Tipo" IsReadOnly="True" Width="Auto" Binding="{Binding Periodo}" />
+                    <DataGridTextColumn Header="Horas" IsReadOnly="True" Width="Auto" Binding="{Binding Periodo}" />
+                    <DataGridCheckBoxColumn Header="Validado" IsReadOnly="True" Width="Auto" Binding="{Binding Validado}" />
+                    <DataGridTemplateColumn Header="Eliminar">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                Click="DeleteFileButton_Click"
+                                Background="Red"
+                                BorderBrush="Red"
+                                HorizontalAlignment="Left"
+                                Margin="10 10 10 10"
+                                Style="{DynamicResource PrimaryButton }"
+                                x:Name="DeleteFileButton">
+                                    <materialDesign:PackIcon
+                                    Height="Auto"
+                                    Kind="Delete"
+                                    Margin="0 0 5 0"
+                                    Width="Auto" />
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridCell">
+                        <Style.Triggers>
+                            <Trigger Property="IsReadOnly" Value="True">
+                                <Setter Property="IsTabStop" Value="False" />
+                                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#049c33" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#04539c" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
+                </DataGrid.Resources>
+            </DataGrid>
+
+            <Button
+            Grid.Column="2"
+            Grid.Row="1"
+            HorizontalAlignment="Right"
+            Margin="10 10 10 10"
+            Style="{DynamicResource PrimaryButton }"
+            x:Name="EditStudentButton">
+                <materialDesign:PackIcon
+                Height="Auto"
+                Kind="FileUploadOutline"
+                Margin="0 0 5 0"
+                Width="Auto" />
+            </Button>
+
+            <Button
+            Click="UploadFileButton_Click"
+            Grid.Column="2"
+            Grid.Row="7"
+            HorizontalAlignment="Right"
+            Margin="10 10 10 10"
+            Style="{DynamicResource PrimaryButton }"
+            x:Name="UploadFileButton">
+                <materialDesign:PackIcon
+                Height="Auto"
+                Kind="FileUpload"
+                Margin="0 0 5 0"
+                Width="Auto" />
+            </Button>
+
+            <DataGrid
+            AutoGenerateColumns = "False"
+            BorderThickness="3"
+            CanUserAddRows="False"
+            CanUserDeleteRows="False"
+            CanUserReorderColumns="False"
+            CanUserResizeColumns="False"
+            CanUserResizeRows="False"
+            CanUserSortColumns="True"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Grid.Row="8"
+            Grid.RowSpan="4"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin="10"
+            SelectionChanged="FilesGrid_SelectionChanged"
+            SelectionMode="Single"
+            VerticalAlignment="Stretch"
+            x:Name="FilesGrid">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn x:Name="DownloadFileColumn" Header="Descargar">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Click="DeleteFileButton_Click"
+                                    Background="#04539c"
+                                    BorderBrush="#04539c"
+                                    Style="{DynamicResource PrimaryButton }"
+                                    x:Name="DeleteFileButton">
+                                    <materialDesign:PackIcon
+                                        Height="20"
+                                        Kind="Download"
+                                        Width="20" />
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Nombre de archivo" IsReadOnly="True" Width="Auto" Binding="{Binding Titulo}" />
+                    <DataGridTextColumn Header="Fecha" IsReadOnly="True" Width="Auto" Binding="{Binding Fechaentrega}" />
+                    <DataGridCheckBoxColumn Header="Validado" IsReadOnly="True" Width="Auto" Binding="{Binding Validado}" />
+                    <DataGridTemplateColumn x:Name="DeleteFileColumn" Header="Eliminar" Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Click="DeleteFileButton_Click"
+                                    Background="Red"
+                                    BorderBrush="Red"
+                                    Style="{DynamicResource PrimaryButton }"
+                                    x:Name="DeleteFileButton">
+                                    <materialDesign:PackIcon
+                                        Height="20"
+                                        Kind="Delete"
+                                        Width="20" />
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridCell">
+                        <Style.Triggers>
+                            <Trigger Property="IsReadOnly" Value="True">
+                                <Setter Property="IsTabStop" Value="False" />
+                                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#049c33" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#04539c" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
+                </DataGrid.Resources>
+            </DataGrid>
+
+            <Button
+            Click="CancelButton_Click"
+            Content="Cancelar"
+            Grid.Column="7"
+            Grid.Row="12"
+            HorizontalAlignment="Right"
+            Margin="15 5"
+            Style="{DynamicResource SecundaryButton }"
+            x:Name="CancelButton" />
+
+        </Grid>
+
+        
+    </Grid>
+</Page>

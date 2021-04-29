@@ -4,7 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="SCPP" Height="510" Width="875"  WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="SCPP" Height="607.50" Width="1080"  WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Frame Name ="FrameContent" NavigationUIVisibility="Hidden">
     </Frame>
 </Window>

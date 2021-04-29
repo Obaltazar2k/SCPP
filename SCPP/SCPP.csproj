@@ -148,6 +148,9 @@
     <Compile Include="View\GestionarEstudiante.xaml.cs">
       <DependentUpon>GestionarEstudiante.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\GestionarExpediente.xaml.cs">
+      <DependentUpon>GestionarExpediente.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\IniciarSesion.xaml.cs">
       <DependentUpon>IniciarSesion.xaml</DependentUpon>
     </Compile>
@@ -260,6 +263,10 @@
     <Page Include="View\GestionarEstudiante.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GestionarExpediente.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\IniciarSesion.xaml">
       <SubType>Designer</SubType>

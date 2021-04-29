@@ -25,11 +25,6 @@ namespace SCPP.View
         private bool isModifying = false;
         private string _user;
 
-        public GestionarEstudiante()
-        {
-            InitializeComponent();
-        }
-
         public GestionarEstudiante(Estudiante student)
         {
             InitializeComponent();
@@ -110,7 +105,7 @@ namespace SCPP.View
         {
             //NavigationService.Navigated += NavigationService_Navigated;
             var mainWindow = (MainWindow)Application.Current.MainWindow;
-            //mainWindow?.ChangeView(new GestionarExpediente());
+            mainWindow?.ChangeView(new GestionarExpediente(inscriptionSelected));
             return;
         }
 
@@ -119,7 +114,10 @@ namespace SCPP.View
             inscriptionsCollection = new ObservableCollection<Inscripción>();
             using (SCPPContext context = new SCPPContext())
             {
-                var inscriptionsList = context.Inscripción.Where(i => i.Matriculaestudiante == actualStudent.Matricula).Include(i => i.Proyecto).Include(i => i.Proyecto.Organización);
+                var inscriptionsList = context.Inscripción.Where(i => i.Matriculaestudiante == actualStudent.Matricula)
+                    .Include(i => i.Proyecto)
+                    .Include(i => i.Proyecto.Organización)
+                    .Include(i => i.Expediente);
                 if (inscriptionsList != null)
                 {
                     foreach (Inscripción inscription in inscriptionsList)
