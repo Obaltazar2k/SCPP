@@ -92,7 +92,7 @@ namespace SCPP.View
                         j => j.inscription.Matriculaestudiante,
                         s => s.Matricula,
                         (j, s) => new { join = j, student = s })
-                        .Where(q => q.join.group.Rfcprofesor == profesor.Rfc)
+                        .Where(q => q.join.group.Rfcprofesor == profesor.Numtrabajador)
                         .Select(q => q.student);
                 }
 
@@ -119,7 +119,7 @@ namespace SCPP.View
             studentsCollection = new ObservableCollection<Estudiante>();
             using (SCPPContext context = new SCPPContext())
             {
-                profesor = context.Profesor.FirstOrDefault(c => c.Rfc == _user);
+                profesor = context.Profesor.FirstOrDefault(c => c.Numtrabajador == _user);
                 if (profesor != null)
                 {
                     isCordinator = false;
@@ -165,7 +165,7 @@ namespace SCPP.View
                     j => j.inscription.Matriculaestudiante,
                     s => s.Matricula,
                     (j, s) => new { join = j, student = s })
-                    .Where(q => q.join.group.Rfcprofesor == profesor.Rfc)
+                    .Where(q => q.join.group.Rfcprofesor == profesor.Numtrabajador)
                     .Select(q => q.student).Where(
                     s => s.Matricula.Contains(searchText) ||
                     s.Nombre.Contains(searchText) ||

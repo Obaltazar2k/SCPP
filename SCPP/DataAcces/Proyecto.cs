@@ -27,15 +27,15 @@ namespace SCPP.DataAcces
         public Nullable<System.DateTime> Fecharegistro { get; set; }
         public Nullable<int> Noestudiantes { get; set; }
         public string Nombre { get; set; }
-        public Nullable<int> OrganizaciónID { get; set; }
-        public int Activo { get; set; }
         public int ResponsableproyectoID { get; set; }
+        public int Activo { get; set; }
+        public Nullable<int> OrganizaciónID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ObservableCollection<Inscripción> Inscripción { get; set; }
         public virtual Organización Organización { get; set; }
+        public virtual Responsableproyecto Responsableproyecto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ObservableCollection<Selecciónproyecto> Selecciónproyecto { get; set; }
-        public virtual Responsableproyecto Responsableproyecto { get; set; }
     }
 }

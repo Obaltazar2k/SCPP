@@ -44,7 +44,7 @@ namespace SCPP
                     return;
 
                 MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que desea asignar al PROFESOR "
-                    + profesorSelected.Nombre + " " + profesorSelected.Apellidopaterno + " " + profesorSelected.Apellidomaterno + " con Rfc " + profesorSelected.Rfc
+                    + profesorSelected.Nombre + " " + profesorSelected.Apellidopaterno + " " + profesorSelected.Apellidomaterno + " con Numero de trabajador: " + profesorSelected.Numtrabajador
                     + " al GRUPO " + groupSelected.Nrc + "?", "Confirmación", "Si", "No");
                 var assignDone = false;
                 if (confirmation == MessageBoxResult.Yes)
@@ -54,7 +54,7 @@ namespace SCPP
                     grupoAsignado.Cupo = groupSelected.Cupo;
                     grupoAsignado.Nrc = groupSelected.Nrc;
                     grupoAsignado.Seccion = groupSelected.Seccion;
-                    grupoAsignado.Rfcprofesor = profesorSelected.Rfc;
+                    grupoAsignado.Rfcprofesor = profesorSelected.Numtrabajador;
                     grupoAsignado.Periodo = _period;
                     using (SCPPContext context = new SCPPContext())
                     {

@@ -8,6 +8,7 @@ using WPFCustomMessageBox;
 using SCPP.DataAcces;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
+using System.Collections.Generic;
 
 namespace SCPP
 {
@@ -16,9 +17,12 @@ namespace SCPP
     /// </summary>
     public partial class RegistrarOrganizacion : Page
     {
+        private readonly List<string> sectorsList = new List<string> { "Transporte", "Comunicaciones", "Comercial", "Turístico" , "Sanitario" , 
+            "Educativo" , "Artes" , "Financiero" , "Administrativo", "Tecnológico" };
         public RegistrarOrganizacion()
         {
             InitializeComponent();
+            ComboBoxSector.ItemsSource = sectorsList;
         }
 
         public void OrganizationRegisteredMessage(object organization)
@@ -47,7 +51,8 @@ namespace SCPP
                 Nombre = NameTextBox.Text,
                 Numext = Int32.Parse(NumextTextBox.Text),
                 Telefono = PhoneTextBox.Text,
-                Activo = 1
+                Activo = 1,
+                Sector = ComboBoxSector.Text
             };
             using (SCPPContext context = new SCPPContext())
             {

@@ -132,17 +132,17 @@ namespace SCPP
         private void GetDataFromFields()
         {
             _user = UserTextBox.Text;
-            _password = Encrypt.GetSHA256(PasswordTextBox.Password);
+            _password = Encrypt.GetSHA256(PasswordTextBox.Password);           
         }
 
         private bool IsCoordinator()
         {
             using (SCPPContext context = new SCPPContext())
             {
-                var coordinador = context.Coordinador.FirstOrDefault(u => u.Rfc == _user);
+                var coordinador = context.Coordinador.FirstOrDefault(u => u.Numtrabajador == _user);
                 if (coordinador != null && coordinador.Contraseña == _password)
                 {
-                    SetSesion(coordinador.Rfc, coordinador.Correopersonal);
+                    SetSesion(coordinador.Numtrabajador, coordinador.Correopersonal);
                     return true;
                 }
                 else
@@ -154,10 +154,10 @@ namespace SCPP
         {
             using (SCPPContext context = new SCPPContext())
             {
-                var profesor = context.Profesor.FirstOrDefault(u => u.Rfc == _user);
+                var profesor = context.Profesor.FirstOrDefault(u => u.Numtrabajador == _user);
                 if (profesor != null && profesor.Contraseña == _password)
                 {
-                    SetSesion(profesor.Rfc, profesor.Correopersonal);
+                    SetSesion(profesor.Numtrabajador, profesor.Correopersonal);
                     return true;
                 }
                 else

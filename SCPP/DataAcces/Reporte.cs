@@ -17,6 +17,7 @@ namespace SCPP.DataAcces
         public Nullable<int> Horasreportadas { get; set; }
         public string Tiporeporte { get; set; }
         public int ReporteID { get; set; }
+        public int ArchivoID { get; set; }
     
         public virtual Archivo Archivo { get; set; }
     }

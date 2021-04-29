@@ -39,8 +39,8 @@
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserResizeColumns="False"
                   CanUserReorderColumns="False" CanUserSortColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Rfc" IsReadOnly="True" Width="*"
-                                    Binding="{Binding Rfc }" />
+                <DataGridTextColumn Header="No. Trabajador" IsReadOnly="True" Width="*"
+                                    Binding="{Binding Numtrabajador }" />
                 <DataGridTextColumn Header="Nombre" IsReadOnly="True" Width="*"
                                     Binding="{Binding Nombre }" />
                 <DataGridTextColumn Header="Apellido paterno" IsReadOnly="True" Width="*"
