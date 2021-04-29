@@ -116,17 +116,15 @@ namespace SCPP.View
 
                 int cellsIndex = 13;
                 foreach (string sector in sectorsList)
-                {
-                    workSheet.Cells["A" + cellsIndex.ToString()].Value = sector;
-
+                {       
                     int mujeres = countStudentsByGender(sector, "Femenino");
                     int hombres = countStudentsByGender(sector, "Masculino");
                     if(mujeres != 0 || hombres != 0)
                     {
+                        workSheet.Cells["A" + cellsIndex.ToString()].Value = sector;
                         workSheet.Cells["E" + cellsIndex.ToString()].Value = mujeres;
                         workSheet.Cells["C" + cellsIndex.ToString()].Value = hombres;
-
-                        workSheet.Cells["G" + cellsIndex.ToString()].Value = (hombres + mujeres);
+                       workSheet.Cells["G" + cellsIndex.ToString()].Value = (hombres + mujeres);
 
                         workSheet.Row(cellsIndex).Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
                         cellsIndex++;
