@@ -7,6 +7,7 @@ using SCPP.DataAcces;
 using System.Data.Entity.Core;
 using WPFCustomMessageBox;
 using System.Text.RegularExpressions;
+using MaterialDesignThemes.Wpf;
 
 namespace SCPP
 {
@@ -19,9 +20,15 @@ namespace SCPP
         private int _attempts = 0;
         private bool _lockedLogin = false;
         private string _user, _password;
-        
+        private readonly PaletteHelper _paletteHelper = new PaletteHelper();
+
         public IniciarSesion()
         {
+            ITheme theme = _paletteHelper.GetTheme();
+            theme.SetSecondaryColor(System.Windows.Media.Color.FromRgb(4, 156, 51)); //verde
+            theme.SetPrimaryColor(System.Windows.Media.Color.FromRgb(4, 83, 156)); //azul
+            _paletteHelper.SetTheme(theme);
+
             InitializeComponent();
         }
 
@@ -37,13 +44,13 @@ namespace SCPP
                     {
                         if (StudentIsValidated(student))
                         {
-                            SetSesion(student.Matricula, student.Correopersonal);
+                            SetSesion(student.Matricula, student.Correopersonal, "Student");
                             var mainWindow = (MainWindow)Application.Current.MainWindow;
                             mainWindow?.ChangeView(new MenuEstudiante());
                             return;
                         }
                         else
-                            MessageBox.Show("El coordinador aun no ha validado tu registro.");
+                            CustomMessageBox.Show("El coordinador aun no ha validado tu registro.");
                     }
                     else if (IsProfesor())
                     {
@@ -65,7 +72,7 @@ namespace SCPP
             }
             catch (EntityException)
             {
-                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.", 
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
                     "Fallo en conexión con la base de datos", "Aceptar");
                 UserTextBox.Clear();
                 PasswordTextBox.Clear();
@@ -78,11 +85,12 @@ namespace SCPP
             mainWindow?.ChangeView(new RegistrarInscripcion());
             return;
         }
-        private void SetSesion(string user, string email)
+        private void SetSesion(string user, string email, string kind)
         {
             Sesion userSesion = Sesion.GetSesion;
             userSesion.Username = user;
             userSesion.Email = email;
+            userSesion.Kind = kind;
         }
 
         private bool StudentIsValidated(Estudiante student)
@@ -95,7 +103,7 @@ namespace SCPP
 
         private void FailedAttempt()
         {
-            MessageBox.Show("Usuario no encontrado. Por favor verifique que sus datos sean correctos.");
+            CustomMessageBox.Show("Usuario no encontrado. Por favor verifique que sus datos sean correctos.");
             UserTextBox.Clear();
             PasswordTextBox.Clear();
             _attempts++;
@@ -103,7 +111,7 @@ namespace SCPP
             {
                 _lockedLogin = true;
                 LoginButton.IsEnabled = false;
-                MessageBox.Show("Ah sobre pasado el numero de intentos disponibles, intente mas tarde");
+                CustomMessageBox.Show("Ah sobre pasado el numero de intentos disponibles, intente mas tarde");
             }
         }
 
@@ -116,7 +124,7 @@ namespace SCPP
                     return true;
                 else
                 {
-                    MessageBox.Show("Campos erróneos. Por favor asegurese de introducir datos alfanumericos en usuario.");
+                    CustomMessageBox.Show("Campos erróneos. Por favor asegurese de introducir datos alfanumericos en usuario.");
                     UserTextBox.Clear();
                     PasswordTextBox.Clear();
                     return false;
@@ -124,7 +132,7 @@ namespace SCPP
             }
             else
             {
-                MessageBox.Show("Campos incompletos. Por favor asegurese de no dejar campos vacíos.");
+                CustomMessageBox.Show("Campos incompletos. Por favor asegurese de no dejar campos vacíos.");
                 return false;
             }
         }
@@ -132,7 +140,8 @@ namespace SCPP
         private void GetDataFromFields()
         {
             _user = UserTextBox.Text;
-            _password = Encrypt.GetSHA256(PasswordTextBox.Password);           
+            _password = Encrypt.GetSHA256(PasswordTextBox.Password);
+            Console.WriteLine(_password);
         }
 
         private bool IsCoordinator()
@@ -142,7 +151,7 @@ namespace SCPP
                 var coordinador = context.Coordinador.FirstOrDefault(u => u.Numtrabajador == _user);
                 if (coordinador != null && coordinador.Contraseña == _password)
                 {
-                    SetSesion(coordinador.Numtrabajador, coordinador.Correopersonal);
+                    SetSesion(coordinador.Numtrabajador, coordinador.Correopersonal, "Coordinator");
                     return true;
                 }
                 else
@@ -157,7 +166,7 @@ namespace SCPP
                 var profesor = context.Profesor.FirstOrDefault(u => u.Numtrabajador == _user);
                 if (profesor != null && profesor.Contraseña == _password)
                 {
-                    SetSesion(profesor.Numtrabajador, profesor.Correopersonal);
+                    SetSesion(profesor.Numtrabajador, profesor.Correopersonal, "Profesor");
                     return true;
                 }
                 else

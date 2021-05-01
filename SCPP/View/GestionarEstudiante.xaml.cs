@@ -19,11 +19,11 @@ namespace SCPP.View
     /// </summary>
     public partial class GestionarEstudiante : Page
     {
+        private static Sesion userSesion;
         private Estudiante actualStudent;
         private ObservableCollection<Inscripción> inscriptionsCollection;
         private Inscripción inscriptionSelected;
         private bool isModifying = false;
-        private string _user;
 
         public GestionarEstudiante(Estudiante student)
         {
@@ -126,11 +126,11 @@ namespace SCPP.View
                             inscriptionsCollection.Add(inscription);
                     }
                 }
-
-                var coordinator = context.Coordinador.FirstOrDefault(c => c.Numtrabajador == _user);
-                if (coordinator != null)
-                    DeleteStudentButton.Visibility = Visibility.Visible;
             }
+
+
+            if (userSesion.Kind == "Coordinator")
+                DeleteStudentButton.Visibility = Visibility.Visible;
 
             ProyectColumn.Binding = new Binding("Proyecto.Nombre");
             OrganizationColumn.Binding = new Binding("Proyecto.Organización.Nombre");
@@ -141,8 +141,7 @@ namespace SCPP.View
 
         private void GetSesion()
         {
-            Sesion userSesion = Sesion.GetSesion;
-            _user = userSesion.Username;
+            userSesion = Sesion.GetSesion;
         }
 
         private void InscriptionList_SelectionChanged(object sender, SelectionChangedEventArgs e)

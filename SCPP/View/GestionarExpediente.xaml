@@ -187,18 +187,18 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition />
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Label
@@ -233,6 +233,21 @@
             VerticalContentAlignment="Center"
             x:Name="TotalHoursTextBox" />
 
+            <Button
+                Click="UploadReportButton_Click"
+                Grid.Column="2"
+                Grid.Row="1"
+                HorizontalAlignment="Right"
+                Margin="10 10 10 10"
+                Style="{DynamicResource PrimaryButton }"
+                x:Name="UploadReportButton">
+                <materialDesign:PackIcon
+                    Height="Auto"
+                    Kind="FileUploadOutline"
+                    Margin="0 0 5 0"
+                    Width="Auto" />
+            </Button>
+
             <DataGrid
             AutoGenerateColumns = "False"
             BorderThickness="3"
@@ -249,32 +264,51 @@
             HorizontalAlignment="Stretch"
             IsReadOnly="True"
             Margin="10"
-            SelectionChanged="ReportsGrid_SelectionChanged"
             SelectionMode="Single"
             VerticalAlignment="Stretch"
             x:Name="ReportsGrid">
                 <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Descargar">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Click="DownloadFileButton_Click"
+                                    Background="#04539c"
+                                    BorderBrush="#04539c"
+                                    Style="{DynamicResource PrimaryButton }"
+                                    x:Name="DownloadFileButton">
+                                    <materialDesign:PackIcon
+                                        Height="20"
+                                        Kind="Download"
+                                        Width="20" />
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Reporte" IsReadOnly="True" Width="Auto" Binding="{Binding Estatus}" />
                     <DataGridTextColumn Header="Fecha" IsReadOnly="True" Width="Auto" Binding="{Binding Periodo}" />
                     <DataGridTextColumn Header="Tipo" IsReadOnly="True" Width="Auto" Binding="{Binding Periodo}" />
                     <DataGridTextColumn Header="Horas" IsReadOnly="True" Width="Auto" Binding="{Binding Periodo}" />
-                    <DataGridCheckBoxColumn Header="Validado" IsReadOnly="True" Width="Auto" Binding="{Binding Validado}" />
-                    <DataGridTemplateColumn Header="Eliminar">
+                    <DataGridTemplateColumn Header="Validado" Width="Auto" x:Name="ReportValidationColumn">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate x:Name="ReportDataTemplate">
+                                <CheckBox HorizontalAlignment="Center" Checked="OnChecked" Unchecked="OnChecked" IsChecked="{Binding Validado}" x:Name="ReportValidationCheckbox" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn x:Name="DeleteReportColumn" Header="Eliminar" Width="*" HeaderStyle="{DynamicResource CenterColumnHeader }">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button
-                                Click="DeleteFileButton_Click"
-                                Background="Red"
-                                BorderBrush="Red"
-                                HorizontalAlignment="Left"
-                                Margin="10 10 10 10"
-                                Style="{DynamicResource PrimaryButton }"
-                                x:Name="DeleteFileButton">
+                                    Click="DeleteFileButton_Click"
+                                    Background="Red"
+                                    BorderBrush="Red"
+                                    Style="{DynamicResource PrimaryButton }"
+                                    x:Name="DeleteReportButton">
                                     <materialDesign:PackIcon
-                                    Height="Auto"
-                                    Kind="Delete"
-                                    Margin="0 0 5 0"
-                                    Width="Auto" />
+                                        Height="20"
+                                        Kind="Delete"
+                                        Width="20" />
                                 </Button>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -296,32 +330,18 @@
             </DataGrid>
 
             <Button
-            Grid.Column="2"
-            Grid.Row="1"
-            HorizontalAlignment="Right"
-            Margin="10 10 10 10"
-            Style="{DynamicResource PrimaryButton }"
-            x:Name="EditStudentButton">
+                Click="UploadFileButton_Click"
+                Grid.Column="2"
+                Grid.Row="7"
+                HorizontalAlignment="Right"
+                Margin="10 10 10 10"
+                Style="{DynamicResource PrimaryButton }"
+                x:Name="UploadFileButton">
                 <materialDesign:PackIcon
-                Height="Auto"
-                Kind="FileUploadOutline"
-                Margin="0 0 5 0"
-                Width="Auto" />
-            </Button>
-
-            <Button
-            Click="UploadFileButton_Click"
-            Grid.Column="2"
-            Grid.Row="7"
-            HorizontalAlignment="Right"
-            Margin="10 10 10 10"
-            Style="{DynamicResource PrimaryButton }"
-            x:Name="UploadFileButton">
-                <materialDesign:PackIcon
-                Height="Auto"
-                Kind="FileUpload"
-                Margin="0 0 5 0"
-                Width="Auto" />
+                    Height="Auto"
+                    Kind="FileUpload"
+                    Margin="0 0 5 0"
+                    Width="Auto" />
             </Button>
 
             <DataGrid
@@ -338,22 +358,21 @@
             Grid.Row="8"
             Grid.RowSpan="4"
             HorizontalAlignment="Stretch"
-            IsReadOnly="True"
             Margin="10"
-            SelectionChanged="FilesGrid_SelectionChanged"
             SelectionMode="Single"
             VerticalAlignment="Stretch"
+                VirtualizingStackPanel.IsVirtualizing="False"
             x:Name="FilesGrid">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn x:Name="DownloadFileColumn" Header="Descargar">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button
-                                    Click="DeleteFileButton_Click"
+                                    Click="DownloadFileButton_Click"
                                     Background="#04539c"
                                     BorderBrush="#04539c"
                                     Style="{DynamicResource PrimaryButton }"
-                                    x:Name="DeleteFileButton">
+                                    x:Name="DownloadFileButton">
                                     <materialDesign:PackIcon
                                         Height="20"
                                         Kind="Download"
@@ -364,8 +383,25 @@
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Nombre de archivo" IsReadOnly="True" Width="Auto" Binding="{Binding Titulo}" />
                     <DataGridTextColumn Header="Fecha" IsReadOnly="True" Width="Auto" Binding="{Binding Fechaentrega}" />
-                    <DataGridCheckBoxColumn Header="Validado" IsReadOnly="True" Width="Auto" Binding="{Binding Validado}" />
-                    <DataGridTemplateColumn x:Name="DeleteFileColumn" Header="Eliminar" Width="Auto">
+                    <DataGridTemplateColumn Header="Validado" Width="Auto" x:Name="FileValidationColumn">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate x:Name="FileDataTemplate">
+                                <CheckBox HorizontalAlignment="Center" Checked="OnChecked" Unchecked="OnChecked" IsChecked="{Binding Validado}" x:Name="FileValidationCheckbox" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!--
+                    <DataGridCheckBoxColumn Header="Validado" Width="Auto" Binding="{Binding Validado}" x:Name="FileValidationColumn">
+                        <DataGridCheckBoxColumn.CellStyle>
+                            <Style>
+                                <EventSetter Event="CheckBox.Checked" Handler="OnChecked" />
+                                <EventSetter Event="CheckBox.Unchecked" Handler="OnChecked" />
+                            </Style>
+                        </DataGridCheckBoxColumn.CellStyle>
+                    </DataGridCheckBoxColumn>
+                    -->
+                    <DataGridTemplateColumn x:Name="DeleteFileColumn" Header="Eliminar" Width="*" HeaderStyle="{DynamicResource CenterColumnHeader }">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button
@@ -407,9 +443,6 @@
             Margin="15 5"
             Style="{DynamicResource SecundaryButton }"
             x:Name="CancelButton" />
-
         </Grid>
-
-        
     </Grid>
 </Page>
