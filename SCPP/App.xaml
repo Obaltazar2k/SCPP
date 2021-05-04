@@ -113,6 +113,9 @@
                 </Setter>
             </Style>
 
+            <Style x:Key="CenterColumnHeader" TargetType="DataGridColumnHeader"  BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
