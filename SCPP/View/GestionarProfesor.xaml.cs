@@ -57,7 +57,7 @@ namespace SCPP.View
             try
             {
                 MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que desea eliminar al PROFESOR "
-                    + actualProfesor.Nombre + " " + actualProfesor.Apellidopaterno + " con matricula " + actualProfesor.Numtrabajador
+                    + actualProfesor.Nombre + " " + actualProfesor.Apellidopaterno + " con numero de trabajador:  " + actualProfesor.Numtrabajador
                     + "?", "Confirmación", "Si", "No");
 
                 if (confirmation == MessageBoxResult.Yes)
