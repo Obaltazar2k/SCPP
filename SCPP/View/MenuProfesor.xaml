@@ -53,21 +53,29 @@
 
         <Button x:Name="CalificarReporteButton"
                 Style="{DynamicResource PrimaryButton }"
-                Grid.Column="2" Grid.Row="2"
-                Grid.ColumnSpan="2"
+                Grid.Column="4" Grid.Row="2"
                 Content="Calificar reporte"
                 HorizontalAlignment="Center"
-                Width="150"
+                Width="150" Margin="0,11,36,12"
+        />
+
+        <Button x:Name="ConsultarGruposButton"
+                Style="{DynamicResource PrimaryButton }"
+                Grid.Column="3" Grid.Row="3"
+                Grid.ColumnSpan="2"
+                Content="Consultar Grupos"
+                HorizontalAlignment="Center"
+                Width="150" Click="ConsultarGruposButton_Click" Margin="17.5,27,55.5,37" Grid.RowSpan="2"
         ></Button>
 
         <Button x:Name="AsociarEstudianteGrupoButton"
                 Style="{DynamicResource PrimaryButton }"
-                Grid.Column="2" Grid.Row="3"
+                Grid.Column="1" Grid.Row="3"
                 Grid.ColumnSpan="2"
                 Content="Asociar estudiante a grupo"
                 HorizontalAlignment="Center"
                 Width="210"
-                Click="AsociarEstudianteGrupoButton_Click"
+                Click="AsociarEstudianteGrupoButton_Click" Margin="0,27,49,37" Grid.RowSpan="2"
         ></Button>
     </Grid>
 </Page>
