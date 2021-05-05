@@ -204,6 +204,9 @@
     <Compile Include="View\ConsultarEstudiantes.xaml.cs">
       <DependentUpon>ConsultarEstudiantes.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ConsultarGrupos.xaml.cs">
+      <DependentUpon>ConsultarGrupos.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ConsultarProfesores.xaml.cs">
       <DependentUpon>ConsultarProfesores.xaml</DependentUpon>
     </Compile>
@@ -218,6 +221,9 @@
     </Compile>
     <Compile Include="View\GestionarEstudiante.xaml.cs">
       <DependentUpon>GestionarEstudiante.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GestionarGrupo.xaml.cs">
+      <DependentUpon>GestionarGrupo.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\GestionarProfesor.xaml.cs">
       <DependentUpon>GestionarProfesor.xaml</DependentUpon>
@@ -293,6 +299,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\ConsultarGrupos.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ConsultarProfesores.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -316,6 +326,10 @@
     <Page Include="View\GestionarExpediente.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\GestionarGrupo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\GestionarProfesor.xaml">
       <Generator>MSBuild:Compile</Generator>
