@@ -4,11 +4,14 @@ using SCPP.Utilities;
 using Syroot.Windows.IO;
 using System;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Navigation;
 using WPFCustomMessageBox;
 
 namespace SCPP.View
@@ -23,7 +26,7 @@ namespace SCPP.View
         private Archivo fileSelected;
         private Inscripción inscription;
         private bool pageIsLoad = false;
-        private ObservableCollection<Reporte> reportsCollection;
+        private ObservableCollection<Archivo> reportsCollection;
 
         public GestionarExpediente(Inscripción inscription)
         {
@@ -67,9 +70,12 @@ namespace SCPP.View
             {
                 using (SCPPContext context = new SCPPContext())
                 {
+                    if (fileSelected.Reporte.Count != 0)
+                        context.Reporte.Remove(context.Reporte.First(f => f.ArchivoID == fileSelected.ArchivoID));
                     context.Archivo.Remove(context.Archivo.Find(fileSelected.ArchivoID));
                     context.SaveChanges();
 
+                    reportsCollection.Remove(fileSelected);
                     filesCollection.Remove(fileSelected);
                 }
             }
@@ -143,29 +149,49 @@ namespace SCPP.View
         private void GetDocuments()
         {
             filesCollection = new ObservableCollection<Archivo>();
-            reportsCollection = new ObservableCollection<Reporte>();
+            reportsCollection = new ObservableCollection<Archivo>();
             var expedientID = inscription.Expediente.First().ExpedienteID;
             using (SCPPContext context = new SCPPContext())
             {
-                var filesList = context.Archivo.Where(f => f.ExpedienteID == expedientID);
-
+                var filesList = context.Archivo.Where(f => f.ExpedienteID == expedientID)
+                    .Include(f => f.Reporte);
                 if (filesList != null)
                 {
                     foreach (Archivo file in filesList)
                     {
                         if (file != null)
-                            filesCollection.Add(file);
+                        {
+                            if (file.Reporte.Count != 0)
+                                reportsCollection.Add(file);
+                            else
+                                filesCollection.Add(file);
+                        }
                     }
                 }
             }
 
+            /*
+             * Esto debería funcionar pero no lo hace porque Archivo.Reporte no es un objeto, es un ObservableCollection
+             * 
+            KindColumn.Binding = new Binding("Reporte.Tiporeporte"); 
+            HoursColumn.Binding = new Binding("Reporte.Horasreportadas");
+             *
+             */
+
             FilesGrid.ItemsSource = filesCollection;
-            DataContext = filesCollection;
+            ReportsGrid.ItemsSource = reportsCollection;
+            DataContext = this;
         }
 
         private void GetSesion()
         {
             userSesion = Sesion.GetSesion;
+        }
+
+        private void NavigationService_Navigated(object sender, NavigationEventArgs e)
+        {
+            pageIsLoad = false;
+            GetDocuments();
         }
 
         private void OnChecked(object sender, RoutedEventArgs e)
@@ -240,6 +266,10 @@ namespace SCPP.View
 
         private void UploadReportButton_Click(object sender, RoutedEventArgs e)
         {
+            NavigationService.Navigated += NavigationService_Navigated;
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new EntregarReporte(inscription));
+            return;
         }
     }
 }

@@ -285,10 +285,10 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Reporte" IsReadOnly="True" Width="Auto" Binding="{Binding Estatus}" />
-                    <DataGridTextColumn Header="Fecha" IsReadOnly="True" Width="Auto" Binding="{Binding Periodo}" />
-                    <DataGridTextColumn Header="Tipo" IsReadOnly="True" Width="Auto" Binding="{Binding Periodo}" />
-                    <DataGridTextColumn Header="Horas" IsReadOnly="True" Width="Auto" Binding="{Binding Periodo}" />
+                    <DataGridTextColumn Header="Nombre de reporte" IsReadOnly="True" Width="Auto" Binding="{Binding Titulo}" />
+                    <DataGridTextColumn Header="Fecha" IsReadOnly="True" Width="Auto" Binding="{Binding Fechaentrega}" />
+                    <DataGridTextColumn x:Name="KindColumn" Header="Tipo" IsReadOnly="True" Width="Auto"  />
+                    <DataGridTextColumn x:Name="HoursColumn" Header="Horas" IsReadOnly="True" Width="Auto"  />
                     <DataGridTemplateColumn Header="Validado" Width="Auto" x:Name="ReportValidationColumn">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate x:Name="ReportDataTemplate">
