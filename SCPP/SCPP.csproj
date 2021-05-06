@@ -213,6 +213,9 @@
     <Compile Include="View\DesasignarProfesorGrupo.xaml.cs">
       <DependentUpon>DesasignarProfesorGrupo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\EntregarReporte.xaml.cs">
+      <DependentUpon>EntregarReporte.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EscogerProyecto.xaml.cs">
       <DependentUpon>EscogerProyecto.xaml</DependentUpon>
     </Compile>
@@ -308,6 +311,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DesasignarProfesorGrupo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EntregarReporte.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
