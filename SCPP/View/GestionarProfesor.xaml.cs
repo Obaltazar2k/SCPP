@@ -34,7 +34,6 @@ namespace SCPP.View
             InitializeComponent();
             actualProfesor = profesor;
             FillTextBoxes();
-            GetSesion();
             GetGroups();
         }
 
@@ -122,12 +121,6 @@ namespace SCPP.View
             }
             GroupsList.ItemsSource = groupsCollection;
             DataContext = groupsCollection;
-        }
-
-        private void GetSesion()
-        {
-            Sesion userSesion = Sesion.GetSesion;
-            _user = userSesion.Username;
         }
 
         private void ItsModifying()

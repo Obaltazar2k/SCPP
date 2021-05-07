@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using WPFCustomMessageBox;
 using SCPP.DataAcces;
 using System.Data.Entity.Core;
+using SCPP.View;
 
 namespace SCPP
 {

@@ -1,4 +1,4 @@
-﻿<Page x:Class="SCPP.MenuEstudiante"
+﻿<Page x:Class="SCPP.View.MenuEstudiante"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -44,6 +44,7 @@
                 Content="Subir reporte"
                 HorizontalAlignment="Center"
                 Width="150"
+                Click="SubirReporteButton_Click"
         ></Button>
 
         <Button x:Name="EscogerProyectoButton"

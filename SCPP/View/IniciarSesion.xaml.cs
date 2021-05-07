@@ -9,7 +9,7 @@ using WPFCustomMessageBox;
 using System.Text.RegularExpressions;
 using MaterialDesignThemes.Wpf;
 
-namespace SCPP
+namespace SCPP.View
 {
     /// <summary>
     /// Lógica de interacción para Login.xaml
