@@ -9,7 +9,7 @@ using SCPP.DataAcces;
 using System.Data.Entity.Core;
 using SCPP.View;
 
-namespace SCPP
+namespace SCPP.View
 {
     /// <summary>
     /// Lógica de interacción para AsignarProfesorGrupo.xaml

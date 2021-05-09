@@ -22,7 +22,7 @@ namespace SCPP.View
 
         private static string selectedPath;
 
-        private static bool exitReport = false;
+        private static bool succesReport = false;
         public GenerarReporte()
         {
             InitializeComponent();
@@ -56,7 +56,7 @@ namespace SCPP.View
             var file = new FileInfo(selectedPath);
 
             await SaveExcelFile(file);
-            if (exitReport)
+            if (succesReport)
             {
                 MessageBoxResult confirmation = CustomMessageBox.ShowOK("El reporte se ha generado con éxito", "Reporte exitoso",
                 "Finalizar");
@@ -65,7 +65,7 @@ namespace SCPP.View
                 return;
             }
             else{
-                MessageBoxResult confirmation = CustomMessageBox.ShowOK("Error al generar reporte, intente mas tarde", "Reporte fallido",
+                MessageBoxResult confirmation = CustomMessageBox.ShowOK("Error al generar reporte, el archivo ya existe en la ruta especificada y se encuentra abierto", "Reporte fallido",
                 "Aceptar");
             }
         }
@@ -134,7 +134,7 @@ namespace SCPP.View
                 await package.SaveAsync();
             }
 
-            exitReport = true;
+            succesReport = true;
         }
 
         private static void DeleteIfExists(FileInfo file)

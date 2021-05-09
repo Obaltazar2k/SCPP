@@ -8,7 +8,7 @@ using System.Windows.Navigation;
 using WPFCustomMessageBox;
 using SCPP.DataAcces;
 
-namespace SCPP
+namespace SCPP.View
 {
     /// <summary>
     /// Lógica de interacción para AsociarEstudianteGrupo.xaml
