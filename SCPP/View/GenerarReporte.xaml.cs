@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml;
 using SCPP.DataAcces;
 using System.Collections.Generic;
+using System.Data.Entity.Core;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,7 +31,16 @@ namespace SCPP.View
 
         private void GenerateReportButton_Clicked(object sender, RoutedEventArgs e)
         {
-            GenerateExcelReport();
+            try
+            {
+                GenerateExcelReport();
+            }
+            catch (EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                    "Fallo en conexión con la base de datos", "Aceptar");
+                ReturnToLogin(new object(), new RoutedEventArgs());
+            }           
         }
 
         private void SelectPathButton_Clicked(object sender, RoutedEventArgs e)
@@ -174,15 +184,11 @@ namespace SCPP.View
             return totalStudents;
         }
 
-        private int RecorrerList()
+        public void ReturnToLogin(object sender, RoutedEventArgs e)
         {
-            int total = 0;
-            foreach(string sector in sectorsList)
-            {
-                total = countStudentsByGender(sector, "Femenino");
-            }
-
-            return total;
+            var mainWindow = (MainWindow)System.Windows.Application.Current.MainWindow;
+            mainWindow?.ChangeView(new IniciarSesion());
+            return;
         }
     }
 }

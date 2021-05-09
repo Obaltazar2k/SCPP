@@ -31,10 +31,19 @@ namespace SCPP.View
 
         public GestionarProfesor(Profesor profesor)
         {
-            InitializeComponent();
-            actualProfesor = profesor;
-            FillTextBoxes();
-            GetGroups();
+            try
+            {
+                InitializeComponent();
+                actualProfesor = profesor;
+                FillTextBoxes();
+                GetGroups();
+            }
+            catch (EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                    "Fallo en conexión con la base de datos", "Aceptar");
+                ReturnToLogin(new object(), new RoutedEventArgs());
+            }           
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -84,7 +93,7 @@ namespace SCPP.View
             {
                 CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
                      "Fallo en conexión con la base de datos", "Aceptar");
-                //ReturnToLogin(new object(), new RoutedEventArgs());
+                ReturnToLogin(new object(), new RoutedEventArgs());
             }
         }
 
@@ -159,15 +168,24 @@ namespace SCPP.View
 
         private void SaveChanges_Click(object sender, RoutedEventArgs e)
         {
-            if (VerificateFields())
+            try
             {
-                using (SCPPContext context = new SCPPContext())
+                if (VerificateFields())
                 {
-                    var profesroUpdated = UpdateProfesor();
-                    ProfesortUpdatedMessage(profesroUpdated);
+                    using (SCPPContext context = new SCPPContext())
+                    {
+                        var profesroUpdated = UpdateProfesor();
+                        ProfesortUpdatedMessage(profesroUpdated);
+                    }
+                    ItsNotModifying();
                 }
-                ItsNotModifying();
             }
+            catch (EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                    "Fallo en conexión con la base de datos", "Aceptar");
+                ReturnToLogin(new object(), new RoutedEventArgs());
+            }           
         }
 
         private void ProfesortUpdatedMessage(object profesorUpdated)
@@ -210,6 +228,13 @@ namespace SCPP.View
                 && FieldsVerificator.VerificateName(TextBoxName.Text)
                 && FieldsVerificator.VerificateName(TextBoxApellidoPaterno.Text)
                 && FieldsVerificator.VerificateName(TextBoxApellidoPaterno.Text);
+        }
+
+        public void ReturnToLogin(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new IniciarSesion());
+            return;
         }
     }
 }
