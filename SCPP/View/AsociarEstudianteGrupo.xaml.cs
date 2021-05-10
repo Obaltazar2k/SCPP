@@ -32,8 +32,14 @@ namespace SCPP.View
         private ObservableCollection<Grupo> groupsCollection { get; set; }
         private void AgreeButton_Click(object sender, RoutedEventArgs e)
         {
-            ChangeStudentsGroups();
-            ConfirmedAssociationMessage();
+            if (VerificateGroupCapacity())
+            {
+                ChangeStudentsGroups();
+                ConfirmedAssociationMessage();
+            }
+            else
+                CustomMessageBox.ShowOK("No hay suficiente espacio en el grupo.", "Error al asignar estudiantes a grupo", "Aceptar");
+
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -163,6 +169,21 @@ namespace SCPP.View
                 selectedStudents.Add((Estudiante)student);
             }
             CheckSelections();
+        }
+
+        private bool VerificateGroupCapacity()
+        {
+            bool isAvailable = false;
+            var selectedGroup = (Grupo)GroupComboBox.SelectedItem;
+            if (selectedGroup.Cupo <= selectedStudents.Count())
+            {
+                isAvailable = true;
+            }
+            else
+                isAvailable = false;
+
+            return isAvailable;
+            ;
         }
     }
 }
