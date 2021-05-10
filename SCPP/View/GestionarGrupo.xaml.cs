@@ -35,15 +35,13 @@ namespace SCPP.View
         {
             InitializeComponent();
             actualGroup = grupo;
+            studentsCollection = new ObservableCollection<Estudiante>();
             FillTextBoxes();
             GetSesion();
             GetStudents();
         }
 
-        private void GroupsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
+       
         private void GetSesion()
         {
             Sesion userSesion = Sesion.GetSesion;
@@ -58,6 +56,8 @@ namespace SCPP.View
             {
                 IQueryable<Estudiante> studentsInDB = null;
 
+                var grupo = context.Grupo.Where(a => a.Nrc == actualGroup.Nrc).FirstOrDefault();
+
                 studentsInDB = context.Grupo.Join(
                     context.Inscripción,
                     g => g.GrupoID,
@@ -68,7 +68,7 @@ namespace SCPP.View
                     j => j.inscription.Matriculaestudiante,
                     s => s.Matricula,
                     (j, s) => new { join = j, student = s })
-                    .Where(q => q.join.group.Rfcprofesor == _user)
+                    .Where(q => q.join.group.Rfcprofesor == _user && q.join.inscription.GrupoID == grupo.GrupoID)
                     .Select(q => q.student);
 
 
@@ -101,7 +101,6 @@ namespace SCPP.View
             isModifying = true;
             SaveChangesButton.Visibility = Visibility.Visible;
 
-            TextBoxNRC.IsReadOnly = false;
             TextBoxBloque.IsReadOnly = false;
             TextBoxCupo.IsReadOnly = false;
             TextBoxPeriodo.IsReadOnly = false;
@@ -128,14 +127,15 @@ namespace SCPP.View
 
         private void SaveChanges_Click(object sender, RoutedEventArgs e)
         {
-            
-            using(SCPPContext context = new SCPPContext())
+            if(VerificateFields())
             {
-                var studentUptdated = UpdateGroup();
-                GroupUpdatedMessage(studentUptdated);
-            }
-            ItsNotModifying();
-            
+                using(SCPPContext context = new SCPPContext())
+                {
+                    var studentUptdated = UpdateGroup();
+                    GroupUpdatedMessage(studentUptdated);
+                }
+                ItsNotModifying();
+            }             
         }
 
         private void GroupUpdatedMessage(object studentUptdated)
@@ -219,6 +219,17 @@ namespace SCPP.View
             {
                 ReturnToPreviousList(new object(), new RoutedEventArgs());
             }
+        }
+
+        private void GroupsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private bool VerificateFields()
+        {
+            return FieldsVerificator.VerificateCupo(TextBoxCupo.Text);
+                
         }
     }
 }
