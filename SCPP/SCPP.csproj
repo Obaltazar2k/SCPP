@@ -234,6 +234,9 @@
     <Compile Include="View\GestionarExpediente.xaml.cs">
       <DependentUpon>GestionarExpediente.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\GestionarResposable.xaml.cs">
+      <DependentUpon>GestionarResposable.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\IniciarSesion.xaml.cs">
       <DependentUpon>IniciarSesion.xaml</DependentUpon>
     </Compile>
@@ -281,6 +284,9 @@
     </Compile>
     <Compile Include="View\MenuCoordinadorStudent.xaml.cs">
       <DependentUpon>MenuCoordinadorStudent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RegistrarResposable.xaml.cs">
+      <DependentUpon>RegistrarResposable.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ValidarInscripcion.xaml.cs">
       <DependentUpon>ValidarInscripcion.xaml</DependentUpon>
@@ -341,6 +347,10 @@
     <Page Include="View\GestionarProfesor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\GestionarResposable.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\IniciarSesion.xaml">
       <SubType>Designer</SubType>
@@ -411,6 +421,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MenuCoordinadorStudent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RegistrarResposable.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

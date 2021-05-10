@@ -89,5 +89,42 @@ namespace SCPP.Utilities
                 return false;
             }
         }
+
+        public static bool VerificateNRC(string Nrc)
+        {
+
+            Regex rgx = new Regex("^[0-9]+$");
+            if(rgx.IsMatch(Nrc))
+                return true;
+            else
+            {
+                CustomMessageBox.ShowOK("Asegurese de ingresar un valor valido de NRC", "Error de formato de NRC", "Aceptar");
+                return false;
+            }
+        }
+
+        public static bool VerificateCupo(string cupo)
+        {
+            double capacity = 0;
+            bool IsDouble = false;
+
+            try
+            {
+                capacity = Convert.ToDouble(cupo);
+                IsDouble = true;
+            }
+            catch(Exception)
+            {
+            }
+
+            Regex rgx = new Regex(@"^((\d+)((\.\d{1,2})?))$");
+            if(rgx.IsMatch(cupo) && capacity <= 35 && IsDouble)
+                return true;
+            else
+            {
+                CustomMessageBox.ShowOK("El cupo no tiene el formato correcto", "Error de formato de cupo", "Aceptar");
+                return false;
+            }
+        }
     }
 }

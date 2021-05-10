@@ -10,10 +10,12 @@
 
     <Grid Margin="20 10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition  Width="auto"  />
-            <ColumnDefinition  Width="auto" />
-            <ColumnDefinition  Width="auto" />
-            <ColumnDefinition  Width="auto" />
+            <ColumnDefinition  Width="*"  />
+            <ColumnDefinition  Width="*" />
+            <ColumnDefinition  Width="*" />
+            <ColumnDefinition  Width="*" />
+            <ColumnDefinition  Width="*" />
+
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
@@ -37,45 +39,42 @@
             </TextBlock>
         </materialDesign:ColorZone>
 
-        <materialDesign:PackIcon
-            Kind="Person"
-            VerticalAlignment="Center" HorizontalAlignment="Left"
-            Width="35" Height="35"
-            Grid.Column="0" Grid.Row="2" Margin="10 10 10 10" />
-
         <Button x:Name="GetStudentsButton"
                 Style="{DynamicResource PrimaryButton }"
-                Grid.Column="1" Grid.Row="2"
+                Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2"
                 Content="Consultar estudiantes"
                 VerticalAlignment="Stretch" HorizontalAlignment="Stretch"                
-                Margin="0 0 0 0"
+                Margin="20 0 20 0"
                 Click="GetStudentsButton_Click" />
 
         <Button x:Name="CalificarReporteButton"
                 Style="{DynamicResource PrimaryButton }"
-                Grid.Column="4" Grid.Row="2"
+                Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2"
                 Content="Calificar reporte"
-                HorizontalAlignment="Center"
-                Width="150" Margin="0,11,36,12"
+                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"                       
+                Margin="20 0 20 0"
+
         />
 
         <Button x:Name="ConsultarGruposButton"
                 Style="{DynamicResource PrimaryButton }"
-                Grid.Column="3" Grid.Row="3"
+                Grid.Column="4" Grid.Row="4"
                 Grid.ColumnSpan="2"
                 Content="Consultar Grupos"
-                HorizontalAlignment="Center"
-                Width="150" Click="ConsultarGruposButton_Click" Margin="17.5,27,55.5,37" Grid.RowSpan="2"
+                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"                
+                Margin="20 0 20 0"
+                Click="ConsultarGruposButton_Click" 
         ></Button>
 
         <Button x:Name="AsociarEstudianteGrupoButton"
                 Style="{DynamicResource PrimaryButton }"
-                Grid.Column="1" Grid.Row="3"
+                Grid.Column="1" Grid.Row="4"
                 Grid.ColumnSpan="2"
                 Content="Asociar estudiante a grupo"
-                HorizontalAlignment="Center"
-                Width="210"
-                Click="AsociarEstudianteGrupoButton_Click" Margin="0,27,49,37" Grid.RowSpan="2"
+                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"                
+                Margin="20 0 20 0"
+                Click="AsociarEstudianteGrupoButton_Click" 
+                
         ></Button>
     </Grid>
 </Page>
