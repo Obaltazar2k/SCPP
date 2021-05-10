@@ -28,10 +28,12 @@ namespace SCPP.View
         private string _user;
         private ObservableCollection<Grupo> groupsCollection;
         private Grupo groupSelected = null;
+        private string _period;
 
         public ConsultarGrupos()
         {
             InitializeComponent();
+            _period = Period.GetPeriod();
             _user = "";
             DataContext = this;
             groupsCollection = new ObservableCollection<Grupo>();
@@ -76,7 +78,7 @@ namespace SCPP.View
                 using(SCPPContext context = new SCPPContext())
                 {
                     
-                    var groupsList = context.Grupo.Where(p => p.Rfcprofesor.Equals(_user));
+                    var groupsList = context.Grupo.Where(p => p.Rfcprofesor.Equals(_user) && p.Periodo.Equals(_period));
 
                     if(groupsList != null)
                     {

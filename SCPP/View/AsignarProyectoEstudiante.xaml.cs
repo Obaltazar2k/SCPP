@@ -8,7 +8,7 @@ using WPFCustomMessageBox;
 using SCPP.DataAcces;
 using System.Data.Entity.Core;
 
-namespace SCPP
+namespace SCPP.View
 {
     /// <summary>
     /// Lógica de interacción para AsignarEstudianteProyecto.xaml

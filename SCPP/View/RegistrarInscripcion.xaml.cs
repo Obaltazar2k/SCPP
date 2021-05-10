@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using WPFCustomMessageBox;
 
-namespace SCPP
+namespace SCPP.View
 {
     /// <summary>
     /// Lógica de interacción para RegistrarInscripcion.xaml

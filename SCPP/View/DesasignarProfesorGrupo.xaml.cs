@@ -8,7 +8,7 @@ using WPFCustomMessageBox;
 using SCPP.DataAcces;
 using System.Data.Entity.Core;
 
-namespace SCPP
+namespace SCPP.View
 {
     /// <summary>
     /// Lógica de interacción para Desasignar_profesor_a_grupo.xaml
@@ -61,20 +61,20 @@ namespace SCPP
                 MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que desea desasignar al PROFESOR "
                     + profesorSelected.Nombre + " " + profesorSelected.Apellidopaterno + " " + profesorSelected.Apellidopaterno + " con numero de trabajador " + profesorSelected.Numtrabajador
                     + " del GRUPO " + groupSelected.Nrc + "?", "Confirmación", "Si", "No");
-                var assignDone = false;
+                var desassignDone = false;
                 if (confirmation == MessageBoxResult.Yes)
                 {
                     Grupo grupo;
                     using (SCPPContext context = new SCPPContext())
                     {
                         grupo = context.Grupo.FirstOrDefault(s => s.Rfcprofesor == profesorSelected.Numtrabajador && s.Nrc == groupSelected.Nrc);
-                        //grupo.Activo = 0;  Se debe agregar el campo de activo para grupo
+                        grupo.Estado = "Disponible";
                         context.SaveChanges();
-                        assignDone = true;
+                        desassignDone = true;
                     }
                 }
 
-                if (assignDone == true)
+                if (desassignDone == true)
                 {
                     MessageBoxResult result = CustomMessageBox.Show("La desasignación ha sido realizada con éxito.");
                     var mainWindow = (MainWindow)Application.Current.MainWindow;

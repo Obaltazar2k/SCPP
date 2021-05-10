@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using WPFCustomMessageBox;
 
-namespace SCPP
+namespace SCPP.View
 {
     /// <summary>
     /// Lógica de interacción para RegistrarEstudiante.xaml

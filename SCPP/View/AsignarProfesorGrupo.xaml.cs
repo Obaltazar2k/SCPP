@@ -7,8 +7,9 @@ using System.Windows.Controls;
 using WPFCustomMessageBox;
 using SCPP.DataAcces;
 using System.Data.Entity.Core;
+using SCPP.View;
 
-namespace SCPP
+namespace SCPP.View
 {
     /// <summary>
     /// Lógica de interacción para AsignarProfesorGrupo.xaml
@@ -49,16 +50,12 @@ namespace SCPP
                 var assignDone = false;
                 if (confirmation == MessageBoxResult.Yes)
                 {
-                    Grupo grupoAsignado = new Grupo();
-                    grupoAsignado.Bloque = groupSelected.Bloque;
-                    grupoAsignado.Cupo = groupSelected.Cupo;
-                    grupoAsignado.Nrc = groupSelected.Nrc;
-                    grupoAsignado.Seccion = groupSelected.Seccion;
-                    grupoAsignado.Rfcprofesor = profesorSelected.Numtrabajador;
-                    grupoAsignado.Periodo = _period;
+                    Grupo grupo;
                     using (SCPPContext context = new SCPPContext())
                     {
-                        context.Grupo.Add(grupoAsignado);
+                        grupo = context.Grupo.FirstOrDefault(s => s.GrupoID == groupSelected.GrupoID);
+                        grupo.Rfcprofesor = profesorSelected.Numtrabajador;
+                        grupo.Estado = "Asignado";
                         context.SaveChanges();
                     }
 
@@ -102,8 +99,8 @@ namespace SCPP
             List<Grupo> groupsCollection = new List<Grupo>();
             using (SCPPContext context = new SCPPContext())
             {
-                var groupList = context.Grupo.Where(p => p.Rfcprofesor == null && p.Periodo == null);
-                var groupAssginedList = context.Grupo.Where(g => g.Periodo != null && g.Periodo.Equals(_period));
+                var groupList = context.Grupo.Where(p => p.Rfcprofesor == null && p.Periodo == _period && p.Estado.Equals("Disponible"));
+                /*var groupAssginedList = context.Grupo.Where(g => g.Periodo != null && g.Periodo.Equals(_period));
 
                 if (groupList != null)
                 {
@@ -126,18 +123,14 @@ namespace SCPP
                                 groupsCollection.Add(grupo);
                             }
                         }
-                    }
-                    else
+                    }*/
+                    foreach (Grupo grupo in groupList)
                     {
-                        foreach (Grupo grupo in groupList)
+                        if (grupo != null)
                         {
-                            if (grupo != null)
-                            {
-                                groupsCollection.Add(grupo);
-                            }
+                            groupsCollection.Add(grupo);
                         }
-                    }
-                }
+                    }               
             }
             GroupsList.ItemsSource = groupsCollection;
         }

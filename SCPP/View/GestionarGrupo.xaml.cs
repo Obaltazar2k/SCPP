@@ -178,6 +178,8 @@ namespace SCPP.View
                     using(SCPPContext context = new SCPPContext())
                     {
                         group = context.Grupo.FirstOrDefault(s => s.Nrc == actualGroup.Nrc);
+                        group.Rfcprofesor = null;
+                        group.Estado = "Disponible";
                         context.SaveChanges();
                     }
                     actualGroup = group;

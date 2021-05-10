@@ -206,8 +206,7 @@
             HorizontalAlignment="Left"
             Margin="10 10 10 10"
             Style="{DynamicResource PrimaryButton }"
-            Visibility="Hidden"
-            x:Name="DeleteStudentButton">
+            x:Name="DeleteProfesorButton">
             <materialDesign:PackIcon
                 Grid.Column="0" 
                 Height="Auto"

@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml;
 using SCPP.DataAcces;
 using System.Collections.Generic;
+using System.Data.Entity.Core;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace SCPP.View
 
         private static string selectedPath;
 
-        private static bool exitReport = false;
+        private static bool succesReport = false;
         public GenerarReporte()
         {
             InitializeComponent();
@@ -30,7 +31,16 @@ namespace SCPP.View
 
         private void GenerateReportButton_Clicked(object sender, RoutedEventArgs e)
         {
-            GenerateExcelReport();
+            try
+            {
+                GenerateExcelReport();
+            }
+            catch (EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                    "Fallo en conexión con la base de datos", "Aceptar");
+                ReturnToLogin(new object(), new RoutedEventArgs());
+            }           
         }
 
         private void SelectPathButton_Clicked(object sender, RoutedEventArgs e)
@@ -56,7 +66,7 @@ namespace SCPP.View
             var file = new FileInfo(selectedPath);
 
             await SaveExcelFile(file);
-            if (exitReport)
+            if (succesReport)
             {
                 MessageBoxResult confirmation = CustomMessageBox.ShowOK("El reporte se ha generado con éxito", "Reporte exitoso",
                 "Finalizar");
@@ -65,7 +75,7 @@ namespace SCPP.View
                 return;
             }
             else{
-                MessageBoxResult confirmation = CustomMessageBox.ShowOK("Error al generar reporte, intente mas tarde", "Reporte fallido",
+                MessageBoxResult confirmation = CustomMessageBox.ShowOK("Error al generar reporte, el archivo ya existe en la ruta especificada y se encuentra abierto", "Reporte fallido",
                 "Aceptar");
             }
         }
@@ -134,7 +144,7 @@ namespace SCPP.View
                 await package.SaveAsync();
             }
 
-            exitReport = true;
+            succesReport = true;
         }
 
         private static void DeleteIfExists(FileInfo file)
@@ -174,15 +184,11 @@ namespace SCPP.View
             return totalStudents;
         }
 
-        private int RecorrerList()
+        public void ReturnToLogin(object sender, RoutedEventArgs e)
         {
-            int total = 0;
-            foreach(string sector in sectorsList)
-            {
-                total = countStudentsByGender(sector, "Femenino");
-            }
-
-            return total;
+            var mainWindow = (MainWindow)System.Windows.Application.Current.MainWindow;
+            mainWindow?.ChangeView(new IniciarSesion());
+            return;
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using WPFCustomMessageBox;
+using System.Data.Entity.Core;
 
 namespace SCPP.View
 {
@@ -23,11 +24,20 @@ namespace SCPP.View
 
         public ConsultarProfesores()
         {
-            InitializeComponent();
-            ComboBoxFilter.ItemsSource = filters;
-            DataContext = this;
-            GetProfesors();
-            ComboBoxFilter.SelectedItem = "Activo";
+            try
+            {
+                InitializeComponent();
+                ComboBoxFilter.ItemsSource = filters;
+                DataContext = this;
+                GetProfesors();
+                ComboBoxFilter.SelectedItem = "Activo";
+            }
+            catch (EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                    "Fallo en conexión con la base de datos", "Aceptar");
+                ReturnToLogin(new object(), new RoutedEventArgs());
+            }          
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -164,6 +174,13 @@ namespace SCPP.View
         {
             string searchText = TextBoxSearch.Text;
             SpecificSearch(searchText);
+        }
+
+        public void ReturnToLogin(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new IniciarSesion());
+            return;
         }
     }
 }
