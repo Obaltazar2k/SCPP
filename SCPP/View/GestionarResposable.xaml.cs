@@ -94,7 +94,15 @@ namespace SCPP.View
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if(isModifying)
+            {
+                FillTextBoxes();
+                ItsNotModifying();
+            }
+            else
+            {
+                ReturnToPreviousList(new object(), new RoutedEventArgs());
+            }
         }
 
         private void SaveChanges_Click(object sender, RoutedEventArgs e)
