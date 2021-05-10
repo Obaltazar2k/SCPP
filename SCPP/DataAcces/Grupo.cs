@@ -27,6 +27,7 @@ namespace SCPP.DataAcces
         public int GrupoID { get; set; }
         public string Rfcprofesor { get; set; }
         public string Periodo { get; set; }
+        public string Estado { get; set; }
     
         public virtual Profesor Profesor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
