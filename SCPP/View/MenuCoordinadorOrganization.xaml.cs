@@ -39,7 +39,9 @@ namespace SCPP.View
 
         private void RegisterResponsableButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new RegistrarResposable());
+            return;
         }
     }
 }
