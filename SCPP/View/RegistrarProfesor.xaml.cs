@@ -1,7 +1,6 @@
 ﻿using MemoryGameService.Utilities;
 using SCPP.Utilities;
 using System;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
@@ -18,7 +17,6 @@ namespace SCPP.View
     public partial class RegistrarProfesor : Page
     {
         private string password;
-        FieldsVerificator verificator = new FieldsVerificator();
         public RegistrarProfesor()
         {
             InitializeComponent();
@@ -162,19 +160,6 @@ namespace SCPP.View
             var mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow?.ChangeView(new IniciarSesion());
             return;
-        }
-
-        private bool ValidateFullFields()
-        {
-            if(string.IsNullOrEmpty(TextBoxName.Text) || string.IsNullOrEmpty(TextBoxLastName.Text) || string.IsNullOrEmpty(TextBoxMothersLastName.Text)
-                || string.IsNullOrEmpty(TextBoxEMail.Text) || string.IsNullOrEmpty(TextBoxPhone.Text) || string.IsNullOrEmpty(TextBoxWorkerNumber.Text)
-                || string.IsNullOrEmpty(TextBoxPassword.Password))
-            {
-                MessageBox.Show("Campos incompletos. Por favor asegurese de no dejar campos vacíos.");
-                return false;
-            }
-
-            return true;
         }
 
         private bool VerificateFields()

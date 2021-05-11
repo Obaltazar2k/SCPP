@@ -1,21 +1,12 @@
 ﻿using SCPP.DataAcces;
 using SCPP.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity.Core;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WPFCustomMessageBox;
 
 namespace SCPP.View
@@ -67,6 +58,7 @@ namespace SCPP.View
                 else
                 {
                     isCoordinator = true;
+                    DeleteGroupButton.Visibility = Visibility.Visible;
                     ManageButtonsCoordinator();
                 }
 
@@ -138,7 +130,6 @@ namespace SCPP.View
 
             TextBoxBloque.IsReadOnly = false;
             TextBoxCupo.IsReadOnly = false;
-            TextBoxPeriodo.IsReadOnly = false;
             TextBoxSeccion.IsReadOnly = false;
 
         }
@@ -151,7 +142,6 @@ namespace SCPP.View
             TextBoxNRC.IsReadOnly = true;
             TextBoxBloque.IsReadOnly = true;
             TextBoxCupo.IsReadOnly = true;
-            TextBoxPeriodo.IsReadOnly = true;
             TextBoxSeccion.IsReadOnly = true;
         }
 
@@ -187,7 +177,6 @@ namespace SCPP.View
 
                 group.Bloque = TextBoxBloque.Text;
                 group.Cupo = int.Parse(TextBoxCupo.Text);
-                group.Periodo = TextBoxPeriodo.Text;
                 group.Seccion = TextBoxSeccion.Text;
 
                 context.SaveChanges();
@@ -232,7 +221,7 @@ namespace SCPP.View
             {
                 CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
                      "Fallo en conexión con la base de datos", "Aceptar");
-
+                ReturnToLogin(new object(), new RoutedEventArgs());
             }
         }
 
@@ -305,7 +294,7 @@ namespace SCPP.View
             {
                 CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
                      "Fallo en conexión con la base de datos", "Aceptar");
-
+                ReturnToLogin(new object(), new RoutedEventArgs());
             }
         }
 
@@ -328,10 +317,19 @@ namespace SCPP.View
                     GetStudents();
                 }
             }
-            catch(EntityException ex)
+            catch(EntityException)
             {
-
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                    "Fallo en conexión con la base de datos", "Aceptar");
+                ReturnToLogin(new object(), new RoutedEventArgs());
             }
+        }
+
+        private void ReturnToLogin(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new IniciarSesion());
+            return;
         }
     }
 }

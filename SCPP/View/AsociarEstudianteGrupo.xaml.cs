@@ -173,17 +173,26 @@ namespace SCPP.View
 
         private bool VerificateGroupCapacity()
         {
-            bool isAvailable = false;
             var selectedGroup = (Grupo)GroupComboBox.SelectedItem;
-            if (selectedGroup.Cupo <= selectedStudents.Count())
+            bool isAvailable;
+            using (SCPPContext context = new SCPPContext())
             {
-                isAvailable = true;
-            }
-            else
-                isAvailable = false;
+                var studentsAlreadyInTheGroup = context.Estudiante.Join(
+                    context.Inscripción,
+                    e => e.Matricula,
+                    i => i.Matriculaestudiante,
+                    (e, i) => new { e, i })
+                    .Where(x => x.i.GrupoID == selectedGroup.GrupoID);
 
+                int totalStudents = studentsAlreadyInTheGroup.Count() + selectedStudents.Count();
+                if (totalStudents <= selectedGroup.Cupo)
+                {
+                    isAvailable = true;
+                }
+                else
+                    isAvailable = false;
+            }          
             return isAvailable;
-            ;
         }
     }
 }

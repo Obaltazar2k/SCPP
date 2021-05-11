@@ -74,12 +74,12 @@
             VerticalAlignment="Stretch"
             x:Name="GroupList">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Nrc" IsReadOnly="True" Width="130" Binding="{Binding Nrc}" />
+                <DataGridTextColumn Header="Nrc" IsReadOnly="True" Width="80" Binding="{Binding Nrc}" />
                 <DataGridTextColumn Header="Bloque" IsReadOnly="True" Width="*" Binding="{Binding Bloque}" />
                 <DataGridTextColumn Header="Cupo" IsReadOnly="True" Width="*" Binding="{Binding Cupo}" />
                 <DataGridTextColumn Header="Seccion" IsReadOnly="True" Width="*" Binding="{Binding Seccion}" />
                 <DataGridTextColumn Header="Periodo" IsReadOnly="True" Width="*" Binding="{Binding Periodo}" />
-
+                <DataGridTextColumn Header="Estado" IsReadOnly="True" Width="*" Binding="{Binding Estado}" />
             </DataGrid.Columns>
             <DataGrid.Resources>
                 <Style TargetType="DataGridCell">

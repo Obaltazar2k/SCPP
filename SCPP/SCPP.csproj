@@ -276,6 +276,9 @@
     <Compile Include="View\RegistrarEstudiante.xaml.cs">
       <DependentUpon>RegistrarEstudiante.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\RegistrarGrupo.xaml.cs">
+      <DependentUpon>RegistrarGrupo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\RegistrarInscripcion.xaml.cs">
       <DependentUpon>RegistrarInscripcion.xaml</DependentUpon>
     </Compile>
@@ -425,6 +428,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MenuProfesor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RegistrarGrupo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
