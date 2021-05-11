@@ -2,6 +2,7 @@
 using SCPP.Utilities;
 using System;
 using System.Data.Entity.Core;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
@@ -31,22 +32,29 @@ namespace SCPP.View
                 {
                     using (SCPPContext context = new SCPPContext())
                     {
-                        Grupo grupo = new Grupo
+                        int registNrc = Convert.ToInt32(TextBoxNrc.Text);
+                        var existingGroup = context.Grupo.FirstOrDefault(g => g.Nrc == registNrc && g.Periodo.Equals(_period));
+                        if(existingGroup == null)
                         {
-                            Bloque = TextBoxBlock.Text,
-                            Cupo = Convert.ToInt32(TextBoxCupo.Text),
-                            Nrc = Convert.ToInt32(TextBoxNrc.Text),
-                            Seccion = TextBoxSection.Text,
-                            Periodo = _period,
-                            Estado = "Disponible"
-                        };
+                            Grupo grupo = new Grupo
+                            {
+                                Bloque = TextBoxBlock.Text,
+                                Cupo = Convert.ToInt32(TextBoxCupo.Text),
+                                Nrc = registNrc,
+                                Seccion = TextBoxSection.Text,
+                                Periodo = _period,
+                                Estado = "Disponible"
+                            };
 
-                        context.Grupo.Add(grupo);
-                        context.SaveChanges();
-                    }
-                    MessageBoxResult confirmation = CustomMessageBox.ShowOK("El registro se ha realizado con éxito", "Registro exitoso",
-                    "Finalizar");
-                    CancelButton_Click(new object(), new RoutedEventArgs());
+                            context.Grupo.Add(grupo);
+                            context.SaveChanges();
+                            MessageBoxResult confirmation = CustomMessageBox.ShowOK("El registro se ha realizado con éxito", "Registro exitoso","Finalizar");
+                            CancelButton_Click(new object(), new RoutedEventArgs());
+                        }
+                        else
+                            CustomMessageBox.ShowOK("Ya existe un grupo registrado con NRC: " +
+                            TextBoxNrc.Text + " en el periodo " + TextBoxPeriod.Text, "Grupo ya registrado", "Aceptar");
+                    }                                      
                 }
             }
             catch (EntityException)
