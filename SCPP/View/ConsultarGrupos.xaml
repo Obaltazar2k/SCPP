@@ -43,6 +43,16 @@
             x:Name="TextBoxSearch" TextChanged="TextBoxSearch_TextChanged">
         </TextBox>
 
+        <ComboBox
+            Grid.Column="0"
+            Grid.ColumnSpan="1"
+            Grid.Row="1"
+            Margin="10 0 10 0"
+            materialDesign:TextFieldAssist.UnderlineBrush="#04539c"
+            SelectionChanged="ComboBoxFilter_SelectionChanged" 
+            VerticalAlignment="Bottom"
+            x:Name="ComboBoxFilter"/>
+
         <DataGrid 
             AutoGenerateColumns = "False" 
             BorderThickness="3"
@@ -69,7 +79,7 @@
                 <DataGridTextColumn Header="Cupo" IsReadOnly="True" Width="*" Binding="{Binding Cupo}" />
                 <DataGridTextColumn Header="Seccion" IsReadOnly="True" Width="*" Binding="{Binding Seccion}" />
                 <DataGridTextColumn Header="Periodo" IsReadOnly="True" Width="*" Binding="{Binding Periodo}" />
-                
+
             </DataGrid.Columns>
             <DataGrid.Resources>
                 <Style TargetType="DataGridCell">
