@@ -16,7 +16,9 @@ namespace SCPP.View
 
         private void GetGroupsButton_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new ConsultarGrupos());
+            return;
         }
 
         private void RegisterGroupButton_Click(object sender, RoutedEventArgs e)

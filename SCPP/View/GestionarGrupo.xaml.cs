@@ -19,19 +19,22 @@ namespace SCPP.View
         private string _user;
         private Grupo actualGroup;
         private bool isModifying = false;
+        private bool isCoordinator = false;
+        private Estudiante studentSelected = null;
 
 
-        public GestionarGrupo(Grupo grupo )
+        public GestionarGrupo(Grupo grupo)
         {
             InitializeComponent();
             actualGroup = grupo;
             studentsCollection = new ObservableCollection<Estudiante>();
             FillTextBoxes();
             GetSesion();
+            IsCoordinator();
             GetStudents();
         }
 
-       
+
         private void GetSesion()
         {
             Sesion userSesion = Sesion.GetSesion;
@@ -39,9 +42,41 @@ namespace SCPP.View
 
         }
 
+        private void IsCoordinator()
+        {
+
+            using(SCPPContext context = new SCPPContext())
+            {
+                var profesor = context.Profesor.FirstOrDefault(c => c.Numtrabajador.Equals(_user));
+
+                if(profesor != null)
+                {
+                    isCoordinator = false;
+                    ManageButtonProfesor();
+                }
+                else
+                {
+                    isCoordinator = true;
+                    ManageButtonsCoordinator();
+                }
+
+            }
+        }
+
+        private void ManageButtonsCoordinator()
+        {
+            DeleteStudentButton.Visibility = Visibility.Hidden;
+        }
+
+        private void ManageButtonProfesor()
+        {
+            EditGroupButton.Visibility = Visibility.Hidden;
+            DeleteStudentButton.Visibility = Visibility.Visible;
+            DeleteStudentButton.IsEnabled = false;
+        }
+
         private void GetStudents()
         {
-            
             using(SCPPContext context = new SCPPContext())
             {
                 IQueryable<Estudiante> studentsInDB = null;
@@ -58,7 +93,7 @@ namespace SCPP.View
                     j => j.inscription.Matriculaestudiante,
                     s => s.Matricula,
                     (j, s) => new { join = j, student = s })
-                    .Where(q => q.join.group.Rfcprofesor == _user && q.join.inscription.GrupoID == grupo.GrupoID)
+                    .Where(q => q.join.inscription.GrupoID == grupo.GrupoID)
                     .Select(q => q.student);
 
 
@@ -125,7 +160,7 @@ namespace SCPP.View
                     GroupUpdatedMessage(studentUptdated);
                 }
                 ItsNotModifying();
-            }             
+            }
         }
 
         private void GroupUpdatedMessage(object studentUptdated)
@@ -150,7 +185,7 @@ namespace SCPP.View
 
             actualGroup = group;
             return group;
-            
+
         }
 
         private void DeleteGroupButton_Click(object sender, RoutedEventArgs e)
@@ -168,8 +203,7 @@ namespace SCPP.View
                     using(SCPPContext context = new SCPPContext())
                     {
                         group = context.Grupo.FirstOrDefault(s => s.Nrc == actualGroup.Nrc);
-                        group.Rfcprofesor = null;
-                        group.Estado = "Disponible";
+                        context.Grupo.Remove(group);
                         context.SaveChanges();
                     }
                     actualGroup = group;
@@ -188,7 +222,7 @@ namespace SCPP.View
             {
                 CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
                      "Fallo en conexión con la base de datos", "Aceptar");
-                
+
             }
         }
 
@@ -213,15 +247,81 @@ namespace SCPP.View
             }
         }
 
-        private void GroupsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void StudentList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            try
+            {
+                DataGrid dataGrid = sender as DataGrid;
+                studentSelected = (Estudiante)dataGrid.SelectedItems[0];
+                if(studentSelected != null)
+                    DeleteStudentButton.IsEnabled = true;
+            }
+            catch(ArgumentOutOfRangeException)
+            {
+                // Catch necesario al seleccionar de la tabla y dar clic en registrar
+            }
         }
 
         private bool VerificateFields()
         {
             return FieldsVerificator.VerificateCupo(TextBoxCupo.Text);
-                
+
+        }
+
+        private void DeleteStudentButton_Click(object sender, RoutedEventArgs e)
+        {
+            bool unasingDone = false;
+            try
+            {
+                MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que desea desasignar al alumno con nombre: "
+                    + studentSelected.Nombre
+                    + " del grupo?", "Confirmación", "Si", "No");
+
+                if(confirmation == MessageBoxResult.Yes)
+                {
+                    UnasingStudent();
+                    unasingDone = true;
+                }
+                else
+                    return;
+
+                if(unasingDone)
+                {
+                    MessageBoxResult result = CustomMessageBox.ShowOK("El estudiante se ha quitado del grupo.", "Alumno desasignado", "Finalizar");
+                    ReturnToPreviousList(new object(), new RoutedEventArgs());
+                }
+            }
+            catch(EntityException)
+            {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                     "Fallo en conexión con la base de datos", "Aceptar");
+
+            }
+        }
+
+        private void UnasingStudent()
+        {
+            try
+            {
+                using(SCPPContext context = new SCPPContext())
+                {
+
+                    var group = context.Grupo.Where(a => a.Nrc == actualGroup.Nrc).FirstOrDefault();
+
+                    Inscripción inscripcion = context.Inscripción.Where(i => i.GrupoID == group.GrupoID
+                    && i.Matriculaestudiante == studentSelected.Matricula).FirstOrDefault();
+
+                    inscripcion.GrupoID = null;
+                    context.SaveChanges();
+
+                    studentsCollection.Clear();
+                    GetStudents();
+                }
+            }
+            catch(EntityException ex)
+            {
+
+            }
         }
     }
 }
