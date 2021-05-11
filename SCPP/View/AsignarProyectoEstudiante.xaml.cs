@@ -1,12 +1,12 @@
-﻿using SCPP.Utilities;
+﻿using SCPP.DataAcces;
+using SCPP.Utilities;
 using System;
 using System.Collections.ObjectModel;
+using System.Data.Entity.Core;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using WPFCustomMessageBox;
-using SCPP.DataAcces;
-using System.Data.Entity.Core;
 
 namespace SCPP.View
 {
@@ -33,9 +33,7 @@ namespace SCPP.View
             }
             catch (EntityException)
             {
-                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
-                        "Fallo en conexión con la base de datos", "Aceptar");
-                Loaded += ReturnToLogin;
+                Restarter.RestarSCPP();
             }
         }
 
@@ -55,9 +53,7 @@ namespace SCPP.View
             }
             catch (EntityException)
             {
-                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
-                        "Fallo en conexión con la base de datos", "Aceptar");
-                Loaded += ReturnToLogin;
+                Restarter.RestarSCPP();
             }
         }
 
@@ -103,14 +99,12 @@ namespace SCPP.View
             }
             catch (EntityException)
             {
-                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
-                     "Fallo en conexión con la base de datos", "Aceptar");
-                ReturnToLogin(new object(), new RoutedEventArgs());
+                Restarter.RestarSCPP();
             }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {           
+        {
             if (NavigationService.CanGoBack)
                 NavigationService.GoBack();
             else
@@ -265,9 +259,7 @@ namespace SCPP.View
             }
             catch (EntityException)
             {
-                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
-                     "Fallo en conexión con la base de datos", "Aceptar");
-                ReturnToLogin(new object(), new RoutedEventArgs());
+                Restarter.RestarSCPP();
             }
         }
     }

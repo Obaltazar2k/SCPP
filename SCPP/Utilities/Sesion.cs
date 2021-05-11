@@ -12,10 +12,8 @@
         {
             get
             {
-                if (_userSesion == null)
-                {
+                if (_userSesion == null)                
                     _userSesion = new Sesion();
-                }
                 return _userSesion;
             }
         }

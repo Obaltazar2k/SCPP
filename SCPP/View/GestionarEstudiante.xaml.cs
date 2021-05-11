@@ -27,11 +27,18 @@ namespace SCPP.View
 
         public GestionarEstudiante(Estudiante student)
         {
-            InitializeComponent();
-            actualStudent = student;
-            FillTextBoxes();
-            GetSesion();
-            GetInscriptions();
+            try
+            {
+                InitializeComponent();
+                actualStudent = student;
+                FillTextBoxes();
+                GetSesion();
+                GetInscriptions();
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -79,9 +86,7 @@ namespace SCPP.View
             }
             catch (EntityException)
             {
-                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
-                     "Fallo en conexión con la base de datos", "Aceptar");
-                //ReturnToLogin(new object(), new RoutedEventArgs());
+                Restarter.RestarSCPP();
             }
         }
 
@@ -127,7 +132,6 @@ namespace SCPP.View
                     }
                 }
             }
-
 
             if (userSesion.Kind == "Coordinator")
                 DeleteStudentButton.Visibility = Visibility.Visible;
@@ -205,20 +209,22 @@ namespace SCPP.View
 
         private void SaveChanges_Click(object sender, RoutedEventArgs e)
         {
-            if (VerificateFields())
+            try
             {
-                using (SCPPContext context = new SCPPContext())
+                if (VerificateFields())
                 {
-                    var studentUptdated = UpdateStudent();
-                    StudentUpdatedMessage(studentUptdated);
+                    using (SCPPContext context = new SCPPContext())
+                    {
+                        var studentUptdated = UpdateStudent();
+                        CustomMessageBox.ShowOK("El registro se ha cambiado con éxito", "Cambio exitoso", "Finalizar");
+                    }
+                    ItsNotModifying();
                 }
-                ItsNotModifying();
             }
-        }
-
-        private void StudentUpdatedMessage(object studentUptdated)
-        {
-            CustomMessageBox.ShowOK("El registro se ha cambiado con éxito", "Cambio exitoso", "Finalizar");
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
         private void TextBoxPhone_KeyUp(object sender, KeyEventArgs e)

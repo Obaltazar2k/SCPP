@@ -5,12 +5,12 @@ using Syroot.Windows.IO;
 using System;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.Data.Entity.Core;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Navigation;
 using WPFCustomMessageBox;
 
@@ -24,20 +24,27 @@ namespace SCPP.View
         private static Sesion userSesion;
         private ObservableCollection<Archivo> filesCollection;
         private Archivo fileSelected;
-        private Inscripción inscription;
+        private readonly Inscripción inscription;
         private bool pageIsLoad = false;
         private ObservableCollection<Archivo> reportsCollection;
 
         public GestionarExpediente(Inscripción inscription)
         {
-            pageIsLoad = false;
-            InitializeComponent();
-            this.inscription = inscription;
-            FillTextBoxes();
-            GetSesion();
-            ChangeComponentsVisibility();
-            GetDocuments();
-            Loaded += GestionarExpediente_Loaded;
+            try
+            {
+                pageIsLoad = false;
+                InitializeComponent();
+                this.inscription = inscription;
+                FillTextBoxes();
+                GetSesion();
+                ChangeComponentsVisibility();
+                GetDocuments();
+                Loaded += GestionarExpediente_Loaded;
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -56,6 +63,8 @@ namespace SCPP.View
                 FileValidationColumn.IsReadOnly = true;
                 ReportValidationColumn.IsReadOnly = true;
             }
+            else
+                UploadReportButton.IsEnabled = false;
         }
 
         private void DeleteFileButton_Click(object sender, RoutedEventArgs e)
@@ -65,55 +74,67 @@ namespace SCPP.View
             MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que deseas eliminar el archivo <" + fileSelected.Titulo + ">?", "Confirmación", "Si", "No");
             if (confirmation == MessageBoxResult.No)
                 return;
-
-            if (fileSelected != null)
+            try
             {
-                using (SCPPContext context = new SCPPContext())
+                if (fileSelected != null)
                 {
-                    if (fileSelected.Reporte.Count != 0)
-                        context.Reporte.Remove(context.Reporte.First(f => f.ArchivoID == fileSelected.ArchivoID));
-                    context.Archivo.Remove(context.Archivo.Find(fileSelected.ArchivoID));
-                    context.SaveChanges();
+                    using (SCPPContext context = new SCPPContext())
+                    {
+                        if (fileSelected.Reporte.Count != 0)
+                            context.Reporte.Remove(context.Reporte.First(f => f.ArchivoID == fileSelected.ArchivoID));
+                        context.Archivo.Remove(context.Archivo.Find(fileSelected.ArchivoID));
+                        context.SaveChanges();
 
-                    reportsCollection.Remove(fileSelected);
-                    filesCollection.Remove(fileSelected);
+                        reportsCollection.Remove(fileSelected);
+                        filesCollection.Remove(fileSelected);
+                    }
                 }
+                CustomMessageBox.ShowOK("Archivo eliminado con éxito.", "Éxito.", "Aceptar");
             }
-            CustomMessageBox.ShowOK("Archivo eliminado con éxito.", "Éxito.", "Aceptar");
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
         private void DownloadFileButton_Click(object sender, RoutedEventArgs e)
         {
             fileSelected = ((FrameworkElement)sender).DataContext as Archivo;
-
-            if (fileSelected != null)
+            try
             {
-                string downloadsPath = new KnownFolder(KnownFolderType.Downloads).Path;
-                string folder = downloadsPath + "\\PracticasProfesionales\\";
-                string fullFilePath = folder + fileSelected.Titulo;
-
-                if (!Directory.Exists(folder))
-                    Directory.CreateDirectory(folder);
-
-                if (File.Exists(fullFilePath))
+                if (fileSelected != null)
                 {
-                    int count = 1;
+                    string downloadsPath = new KnownFolder(KnownFolderType.Downloads).Path;
+                    string folder = downloadsPath + "\\PracticasProfesionales\\";
+                    string fullFilePath = folder + fileSelected.Titulo;
 
-                    string fileNameOnly = Path.GetFileNameWithoutExtension(fullFilePath);
-                    string extension = Path.GetExtension(fullFilePath);
-                    string path = Path.GetDirectoryName(fullFilePath);
-                    string newFullPath = fullFilePath;
+                    if (!Directory.Exists(folder))
+                        Directory.CreateDirectory(folder);
 
-                    while (File.Exists(newFullPath))
+                    if (File.Exists(fullFilePath))
                     {
-                        string tempFileName = string.Format("{0}({1})", fileNameOnly, count++);
-                        newFullPath = Path.Combine(path, tempFileName + extension);
+                        int count = 1;
+
+                        string fileNameOnly = Path.GetFileNameWithoutExtension(fullFilePath);
+                        string extension = Path.GetExtension(fullFilePath);
+                        string path = Path.GetDirectoryName(fullFilePath);
+                        string newFullPath = fullFilePath;
+
+                        while (File.Exists(newFullPath))
+                        {
+                            string tempFileName = string.Format("{0}({1})", fileNameOnly, count++);
+                            newFullPath = Path.Combine(path, tempFileName + extension);
+                        }
+                        fullFilePath = newFullPath;
                     }
-                    fullFilePath = newFullPath;
+                    File.WriteAllBytes(fullFilePath, fileSelected.Archivo1);
                 }
-                File.WriteAllBytes(fullFilePath, fileSelected.Archivo1);
+                CustomMessageBox.ShowOK("Archivo descargado con éxito.", "Éxito.", "Aceptar");
             }
-            CustomMessageBox.ShowOK("Archivo descargado con éxito.", "Éxito.", "Aceptar");
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
         private void FillTextBoxes()
@@ -172,8 +193,8 @@ namespace SCPP.View
 
             /*
              * Esto debería funcionar pero no lo hace porque Archivo.Reporte no es un objeto, es un ObservableCollection
-             * 
-            KindColumn.Binding = new Binding("Reporte.Tiporeporte"); 
+             *
+            KindColumn.Binding = new Binding("Reporte.Tiporeporte");
             HoursColumn.Binding = new Binding("Reporte.Horasreportadas");
              *
              */
@@ -190,8 +211,15 @@ namespace SCPP.View
 
         private void NavigationService_Navigated(object sender, NavigationEventArgs e)
         {
-            pageIsLoad = false;
-            GetDocuments();
+            try
+            {
+                pageIsLoad = false;
+                GetDocuments();
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
         private void OnChecked(object sender, RoutedEventArgs e)
@@ -199,18 +227,24 @@ namespace SCPP.View
             if (pageIsLoad && userSesion.Kind != "Student")
             {
                 fileSelected = ((FrameworkElement)sender).DataContext as Archivo;
-
-                if (fileSelected != null)
+                try
                 {
-                    using (SCPPContext context = new SCPPContext())
+                    if (fileSelected != null)
                     {
-                        var fileInDB = context.Archivo.Find(fileSelected.ArchivoID);
-                        if (fileInDB.Validado == 1)
-                            fileInDB.Validado = 0;
-                        else
-                            fileInDB.Validado = 1;
-                        context.SaveChanges();
+                        using (SCPPContext context = new SCPPContext())
+                        {
+                            var fileInDB = context.Archivo.Find(fileSelected.ArchivoID);
+                            if (fileInDB.Validado == 1)
+                                fileInDB.Validado = 0;
+                            else
+                                fileInDB.Validado = 1;
+                            context.SaveChanges();
+                        }
                     }
+                }
+                catch (EntityException)
+                {
+                    Restarter.RestarSCPP();
                 }
             }
         }
@@ -227,7 +261,6 @@ namespace SCPP.View
             dialog.ShowDialog();
             string filePath = dialog.FileName;
             Console.WriteLine(filePath);
-            byte[] file = null;
             Stream myStream = null;
             try
             {
@@ -240,26 +273,35 @@ namespace SCPP.View
 
             if (myStream != null)
             {
-                using (MemoryStream ms = new MemoryStream())
+                try
                 {
-                    myStream.CopyTo(ms);
-                    file = ms.ToArray();
-
-                    using (SCPPContext context = new SCPPContext())
+                    using (MemoryStream ms = new MemoryStream())
                     {
-                        Archivo oDocument = new Archivo();
-                        oDocument.ExpedienteID = inscription.Expediente.First().ExpedienteID;
-                        oDocument.Archivo1 = file;
-                        oDocument.Fechaentrega = DateTime.Today;
-                        oDocument.Titulo = dialog.SafeFileName;
-                        oDocument.Validado = 0;
+                        myStream.CopyTo(ms);
+                        byte[] file = ms.ToArray();
 
-                        context.Archivo.Add(oDocument);
-                        context.SaveChanges();
+                        using (SCPPContext context = new SCPPContext())
+                        {
+                            Archivo oDocument = new Archivo
+                            {
+                                ExpedienteID = inscription.Expediente.First().ExpedienteID,
+                                Archivo1 = file,
+                                Fechaentrega = DateTime.Today,
+                                Titulo = dialog.SafeFileName,
+                                Validado = 0
+                            };
 
-                        filesCollection.Add(oDocument);
+                            context.Archivo.Add(oDocument);
+                            context.SaveChanges();
+
+                            filesCollection.Add(oDocument);
+                        }
+                        CustomMessageBox.ShowOK("Archivo agregado con éxito.", "Éxito.", "Aceptar");
                     }
-                    CustomMessageBox.ShowOK("Archivo agregado con éxito.", "Éxito.", "Aceptar");
+                }
+                catch (EntityException)
+                {
+                    Restarter.RestarSCPP();
                 }
             }
         }

@@ -3,6 +3,7 @@ using SCPP.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity.Core;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,12 +27,19 @@ namespace SCPP.View
 
         public ConsultarEstudiantes()
         {
-            InitializeComponent();
-            ComboBoxFilter.ItemsSource = filters;
-            DataContext = this;
-            GetSesion();
-            GetStudents();
-            ComboBoxFilter.SelectedItem = "Activo";
+            try
+            {
+                InitializeComponent();
+                ComboBoxFilter.ItemsSource = filters;
+                DataContext = this;
+                GetSesion();
+                GetStudents();
+                ComboBoxFilter.SelectedItem = "Activo";
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -143,11 +151,18 @@ namespace SCPP.View
 
         private void NavigationService_Navigated(object sender, NavigationEventArgs e)
         {
-            GetStudents();
-            var selectedFilter = ComboBoxFilter.SelectedItem;
-            ComboBoxFilter.SelectedItem = "Ninguno";
-            ComboBoxFilter.SelectedItem = selectedFilter;
-            ManageButton.IsEnabled = false;
+            try
+            {
+                GetStudents();
+                var selectedFilter = ComboBoxFilter.SelectedItem;
+                ComboBoxFilter.SelectedItem = "Ninguno";
+                ComboBoxFilter.SelectedItem = selectedFilter;
+                ManageButton.IsEnabled = false;
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
         private void ProfesorSearch(string searchText)
@@ -196,36 +211,43 @@ namespace SCPP.View
 
         private void SetFilter()
         {
-            var filter = (String)ComboBoxFilter.SelectedItem;
-            using (SCPPContext context = new SCPPContext())
+            try
             {
-                studentsCollectionFiltered = new ObservableCollection<Estudiante>();
-                switch (filter)
+                var filter = ComboBoxFilter.SelectedItem;
+                using (SCPPContext context = new SCPPContext())
                 {
-                    case "Ninguno":
-                        StudentList.ItemsSource = studentsCollection;
-                        break;
+                    studentsCollectionFiltered = new ObservableCollection<Estudiante>();
+                    switch (filter)
+                    {
+                        case "Ninguno":
+                            StudentList.ItemsSource = studentsCollection;
+                            break;
 
-                    case "Activo":
-                        foreach (Estudiante student in studentsCollection)
-                        {
-                            if (student.Activo == 1)
-                                studentsCollectionFiltered.Add(student);
-                        }
-                        StudentList.ItemsSource = studentsCollectionFiltered;
-                        break;
+                        case "Activo":
+                            foreach (Estudiante student in studentsCollection)
+                            {
+                                if (student.Activo == 1)
+                                    studentsCollectionFiltered.Add(student);
+                            }
+                            StudentList.ItemsSource = studentsCollectionFiltered;
+                            break;
 
-                    case "No activo":
-                        foreach (Estudiante student in studentsCollection)
-                        {
-                            if (student.Activo != 1)
-                                studentsCollectionFiltered.Add(student);
-                        }
-                        StudentList.ItemsSource = studentsCollectionFiltered;
-                        break;
+                        case "No activo":
+                            foreach (Estudiante student in studentsCollection)
+                            {
+                                if (student.Activo != 1)
+                                    studentsCollectionFiltered.Add(student);
+                            }
+                            StudentList.ItemsSource = studentsCollectionFiltered;
+                            break;
+                    }
                 }
+                DataContext = this;
             }
-            DataContext = this;
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
         private void StudentsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -245,11 +267,18 @@ namespace SCPP.View
 
         private void TextBoxSearch_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            string searchText = TextBoxSearch.Text;
-            if (isCordinator)
-                CordinatorSearch(searchText);
-            else
-                ProfesorSearch(searchText);
+            try
+            {
+                string searchText = TextBoxSearch.Text;
+                if (isCordinator)
+                    CordinatorSearch(searchText);
+                else
+                    ProfesorSearch(searchText);
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
     }
 }
