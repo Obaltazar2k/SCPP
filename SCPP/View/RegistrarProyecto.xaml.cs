@@ -1,13 +1,14 @@
-﻿using System;
+﻿using SCPP.DataAcces;
+using SCPP.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity.Core;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using WPFCustomMessageBox;
-using SCPP.DataAcces;
-using System.Data.Entity.Core;
 
 namespace SCPP.View
 {
@@ -18,8 +19,8 @@ namespace SCPP.View
     {
         private readonly List<int> numOfStudents = new List<int> { 1, 2 };
         private readonly DateTime thisDay = DateTime.Today;
-        private ObservableCollection<Organización> organizationsCollection { get; set; }
-        private ObservableCollection<Responsableproyecto> responsablesCollection { get; set; }
+        private ObservableCollection<Organización> OrganizationsCollection { get; set; }
+        private ObservableCollection<Responsableproyecto> ResponsablesCollection { get; set; }
 
         public RegistrarProyecto()
         {
@@ -31,9 +32,7 @@ namespace SCPP.View
             }
             catch (EntityException)
             {
-                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
-                        "Fallo en conexión con la base de datos", "Aceptar");
-                Loaded += ReturnToLogin;
+                Restarter.RestarSCPP();
             }
         }
 
@@ -46,9 +45,28 @@ namespace SCPP.View
                 CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");
         }
 
+        private void ComboBoxOrganizacion_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var organization = (Organización)ComboBoxOrganizacion.SelectedItem;
+            ResponsablesCollection = new ObservableCollection<Responsableproyecto>();
+            using (SCPPContext context = new SCPPContext())
+            {
+                var responsablesList = context.Responsableproyecto.Where(r => r.OrganizaciónID == organization.OrganizaciónID);
+                if (responsablesList != null)
+                {
+                    foreach (Responsableproyecto responsableProyecto in responsablesList)
+                    {
+                        if (responsableProyecto != null)
+                            ResponsablesCollection.Add(responsableProyecto);
+                    }
+                }
+            }
+            ComboBoxResponsable.ItemsSource = ResponsablesCollection;
+        }
+
         private void FillComboBoxOrganizations()
         {
-            organizationsCollection = new ObservableCollection<Organización>();
+            OrganizationsCollection = new ObservableCollection<Organización>();
             using (SCPPContext context = new SCPPContext())
             {
                 var organizationsList = context.Organización.OrderByDescending(s => s.Nombre);
@@ -57,11 +75,11 @@ namespace SCPP.View
                     foreach (Organización organizacion in organizationsList)
                     {
                         if (organizacion != null)
-                            organizationsCollection.Add(organizacion);
+                            OrganizationsCollection.Add(organizacion);
                     }
                 }
             }
-            ComboBoxOrganizacion.ItemsSource = organizationsCollection;
+            ComboBoxOrganizacion.ItemsSource = OrganizationsCollection;
         }
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
@@ -74,7 +92,14 @@ namespace SCPP.View
                     if (proyecto == null)
                     {
                         var proyectRegistered = RegisterNewProyect();
-                        StudentRegisteredMessage(proyectRegistered);
+                        MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("El registro se ha realizado con éxito", "Registro exitoso", "Gestionar proyecto", "Finalizar" );
+                        if (confirmation == MessageBoxResult.Yes)
+                        {
+                            var mainWindow = (MainWindow)Application.Current.MainWindow;
+                            mainWindow?.ChangeView(new GestionarProyecto(proyecto));
+                        }
+                        else
+                            CancelButton_Click(new object(), new RoutedEventArgs());
                     }
                     else
                         CustomMessageBox.ShowOK("Ya existe un proyecto registrado con el nombre ingresado con clave: " + proyecto.Clave, "Proyecto ya registrado", "Aceptar");
@@ -82,9 +107,7 @@ namespace SCPP.View
             }
             catch (EntityException)
             {
-                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
-                     "Fallo en conexión con la base de datos", "Aceptar");
-                ReturnToLogin(new object(), new RoutedEventArgs());
+                Restarter.RestarSCPP();
             }
         }
 
@@ -109,48 +132,6 @@ namespace SCPP.View
                 context.SaveChanges();
             }
             return proyect;
-        }
-
-        private void ReturnToLogin(object sender, RoutedEventArgs e)
-        {
-            var mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow?.ChangeView(new IniciarSesion());
-            return;
-        }
-
-        private void StudentRegisteredMessage(object proyectRegistered)
-        {
-            MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("El registro se ha realizado con éxito", "Registro exitoso",
-                "Gestionar proyecto",
-                "Finalizar"
-                );
-            if (confirmation == MessageBoxResult.Yes)
-            {
-                //extend CU Gestionar proyecto
-            }
-            if (confirmation == MessageBoxResult.No)
-            {
-                CancelButton_Click(new object(), new RoutedEventArgs());
-            }
-        }
-
-        private void ComboBoxOrganizacion_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var organization = (Organización)ComboBoxOrganizacion.SelectedItem;
-            responsablesCollection = new ObservableCollection<Responsableproyecto>();
-            using (SCPPContext context = new SCPPContext())
-            {
-                var responsablesList = context.Responsableproyecto.Where(r => r.OrganizaciónID == organization.OrganizaciónID);
-                if (responsablesList != null)
-                {
-                    foreach (Responsableproyecto responsableProyecto in responsablesList)
-                    {
-                        if (responsableProyecto != null)
-                            responsablesCollection.Add(responsableProyecto);
-                    }
-                }
-            }
-            ComboBoxResponsable.ItemsSource = responsablesCollection;
         }
     }
 }

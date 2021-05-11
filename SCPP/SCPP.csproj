@@ -192,6 +192,7 @@
       <DependentUpon>SCPPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Utilities\FieldsVerificator.cs" />
+    <Compile Include="Utilities\Restarter.cs" />
     <Compile Include="View\AsignarProfesorGrupo.xaml.cs">
       <DependentUpon>AsignarProfesorGrupo.xaml</DependentUpon>
     </Compile>

@@ -44,6 +44,7 @@
             Grid.ColumnSpan="2"
             Grid.Row="2"
             HorizontalAlignment="Stretch"
+            KeyDown="TextBoxHours_KeyDown"
             Margin=" 10 0 10 0"
             materialDesign:HintAssist.Hint="Número de horas a reportar"
             Style="{DynamicResource TextBox}"

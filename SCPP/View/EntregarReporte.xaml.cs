@@ -1,12 +1,15 @@
 ﻿using SCPP.DataAcces;
+using SCPP.Utilities;
 using Syroot.Windows.IO;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Input;
 using WPFCustomMessageBox;
 
 namespace SCPP.View
@@ -16,9 +19,9 @@ namespace SCPP.View
     /// </summary>
     public partial class EntregarReporte : Page
     {
+        private readonly Inscripción inscription;
         private readonly List<string> kindOfReport = new List<string> { "Mensual", "Temporal", "Excepcional" };
         private OpenFileDialog dialog;
-        private Inscripción inscription;
 
         public EntregarReporte(Inscripción inscription)
         {
@@ -38,7 +41,6 @@ namespace SCPP.View
 
         private void SendButton_Click(object sender, RoutedEventArgs e)
         {
-            byte[] file = null;
             Stream myStream = null;
             try
             {
@@ -51,42 +53,66 @@ namespace SCPP.View
 
             if (myStream != null)
             {
-                using (MemoryStream ms = new MemoryStream())
+                try
                 {
-                    myStream.CopyTo(ms);
-                    file = ms.ToArray();
-
-                    using (SCPPContext context = new SCPPContext())
+                    using (MemoryStream ms = new MemoryStream())
                     {
-                        Archivo oDocument = new Archivo();
-                        oDocument.ExpedienteID = inscription.Expediente.First().ExpedienteID;
-                        oDocument.Archivo1 = file;
-                        oDocument.Fechaentrega = DateTime.Today;
-                        oDocument.Titulo = dialog.SafeFileName;
-                        oDocument.Validado = 0;
+                        myStream.CopyTo(ms);
+                        byte[] file = ms.ToArray();
 
-                        Reporte oReport = new Reporte();
-                        oReport.Horasreportadas = int.Parse(TextBoxHours.Text);
-                        oReport.Tiporeporte = ComboBoxKind.Text;
+                        using (SCPPContext context = new SCPPContext())
+                        {
+                            Archivo oDocument = new Archivo
+                            {
+                                ExpedienteID = inscription.Expediente.First().ExpedienteID,
+                                Archivo1 = file,
+                                Fechaentrega = DateTime.Today,
+                                Titulo = dialog.SafeFileName,
+                                Validado = 0
+                            };
 
-                        context.Archivo.Add(oDocument);
+                            Reporte oReport = new Reporte
+                            {
+                                Horasreportadas = int.Parse(TextBoxHours.Text),
+                                Tiporeporte = ComboBoxKind.Text
+                            };
 
-                        oReport.Archivo = oDocument;
+                            context.Archivo.Add(oDocument);
 
-                        context.Reporte.Add(oReport);
-                        context.SaveChanges();
+                            oReport.Archivo = oDocument;
+
+                            context.Reporte.Add(oReport);
+                            context.SaveChanges();
+                        }
+                        CustomMessageBox.ShowOK("Reporte agregado con éxito.", "Éxito.", "Aceptar");
+                        CancelButton_Click(new object(), new RoutedEventArgs());
                     }
-                    CustomMessageBox.ShowOK("Reporte agregado con éxito.", "Éxito.", "Aceptar");
-                    CancelButton_Click(new object(), new RoutedEventArgs());
+                }
+                catch (EntityException)
+                {
+                    Restarter.RestarSCPP();
                 }
             }
+        }
+
+        private void TextBoxHours_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key >= Key.D0 && e.Key <= Key.D9 || e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9 || e.Key == Key.Tab)
+            {
+                if (TextBoxHours.Text.Length < 3)
+                    e.Handled = false;
+                else
+                    e.Handled = true;
+            }
+            else
+                e.Handled = true;
         }
 
         private void UploadReportButton_Click(object sender, RoutedEventArgs e)
         {
             dialog = new OpenFileDialog
             {
-                Filter = "Todos los archivos (*.*)|*.*",
+                Filter = "Report files|*.pdf;*.doc;*.docs;*.docx",
                 FilterIndex = 1,
                 InitialDirectory = new KnownFolder(KnownFolderType.Documents).Path,
                 RestoreDirectory = true
