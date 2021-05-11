@@ -126,5 +126,31 @@ namespace SCPP.Utilities
                 return false;
             }
         }
+
+        public static bool VerficiateBlock(string Nrc)
+        {
+
+            Regex rgx = new Regex("^[a-zA-Z0-9]+$");
+            if (rgx.IsMatch(Nrc))
+                return true;
+            else
+            {
+                CustomMessageBox.ShowOK("Asegurese de ingresar un valor valido para el Bloque", "Error de formato de bloque", "Aceptar");
+                return false;
+            }
+        }
+
+        public static bool VerficiateSection(string Nrc)
+        {
+
+            Regex rgx = new Regex("^[a-zA-Z0-9]+$");
+            if (rgx.IsMatch(Nrc))
+                return true;
+            else
+            {
+                CustomMessageBox.ShowOK("Asegurese de ingresar un valor valido la Sección", "Error de formato de sección", "Aceptar");
+                return false;
+            }
+        }
     }
 }
