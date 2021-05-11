@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using SCPP.Utilities;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace SCPP.View
@@ -17,6 +18,8 @@ namespace SCPP.View
 
         public void ChangeView(Page view)
         {
+            if (view is IniciarSesion)
+                Sesion.CloseSesion();
             FrameContent.NavigationService.Navigate(view);
         }
 
