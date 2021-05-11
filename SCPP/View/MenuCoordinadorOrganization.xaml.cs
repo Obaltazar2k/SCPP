@@ -27,7 +27,9 @@ namespace SCPP.View
 
         private void GetOrganizationsButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new ConsultarOrganizaciones());
+            return;
         }
 
         private void RegisterOrganizationButton_Click(object sender, RoutedEventArgs e)

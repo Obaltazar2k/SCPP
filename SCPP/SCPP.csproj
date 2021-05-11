@@ -207,8 +207,14 @@
     <Compile Include="View\ConsultarGrupos.xaml.cs">
       <DependentUpon>ConsultarGrupos.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ConsultarOrganizaciones.xaml.cs">
+      <DependentUpon>ConsultarOrganizaciones.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ConsultarProfesores.xaml.cs">
       <DependentUpon>ConsultarProfesores.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConsultarProyectos.xaml.cs">
+      <DependentUpon>ConsultarProyectos.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DesasignarProfesorGrupo.xaml.cs">
       <DependentUpon>DesasignarProfesorGrupo.xaml</DependentUpon>
@@ -228,11 +234,17 @@
     <Compile Include="View\GestionarGrupo.xaml.cs">
       <DependentUpon>GestionarGrupo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\GestionarOrganizacion.xaml.cs">
+      <DependentUpon>GestionarOrganizacion.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\GestionarProfesor.xaml.cs">
       <DependentUpon>GestionarProfesor.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\GestionarExpediente.xaml.cs">
       <DependentUpon>GestionarExpediente.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GestionarProyecto.xaml.cs">
+      <DependentUpon>GestionarProyecto.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\GestionarResposable.xaml.cs">
       <DependentUpon>GestionarResposable.xaml</DependentUpon>
@@ -315,7 +327,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\ConsultarOrganizaciones.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ConsultarProfesores.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConsultarProyectos.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -347,9 +367,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\GestionarOrganizacion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\GestionarProfesor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\GestionarProyecto.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\GestionarResposable.xaml">
       <SubType>Designer</SubType>
