@@ -57,7 +57,7 @@
             VerticalContentAlignment="Center" 
             x:Name="TextBoxNRC"/>
 
-        
+
         <TextBox
             Grid.Column="1" 
             Grid.ColumnSpan="2"
@@ -84,7 +84,7 @@
             VerticalContentAlignment="Center" 
             x:Name="TextBoxCupo"/>
 
-        
+
         <TextBox
             Grid.Column="4" 
             Grid.ColumnSpan="2"
@@ -166,6 +166,7 @@
             Margin="15 15"
             SelectionMode="Single"
             VerticalAlignment="Stretch"
+            SelectionChanged="StudentList_SelectionChanged"
             x:Name="StudentList" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Matricula" IsReadOnly="True" Width="110" Binding="{Binding Matricula}" />
@@ -197,6 +198,19 @@
             HorizontalAlignment="Left"
             Style="{DynamicResource SecundaryButton }"
             x:Name="CancelButton" Margin="0,5,0,0" Height="32" VerticalAlignment="Top" />
+
+        <Button 
+            Click="DeleteStudentButton_Click"
+            Content="Quitar Estudiante"
+            Grid.Column="4" 
+            Grid.Row="10" 
+            Background="Red"
+            BorderBrush="Red"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Left"
+            Style="{DynamicResource SecundaryButton }"
+            x:Name="DeleteStudentButton" Margin="0,5,0,0" Height="32" VerticalAlignment="Top" />
+
 
         <Button 
             Click="SaveChanges_Click"
@@ -232,7 +246,7 @@
                         <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxBloque, UpdateSourceTrigger=PropertyChanged}" Value="0">
                             <Setter Property="IsEnabled" Value="False" />
                         </DataTrigger>
-                        
+
                     </Style.Triggers>
                 </Style>
             </Button.Style>
