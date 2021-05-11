@@ -15,7 +15,9 @@ namespace SCPP.View
 
         private void GetProjectsButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new ConsultarProyectos());
+            return;
         }
 
         private void RegisterProyectButton_Click(object sender, RoutedEventArgs e)
