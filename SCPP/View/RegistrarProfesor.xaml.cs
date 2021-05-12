@@ -84,10 +84,7 @@ namespace SCPP.View
             }
             catch(EntityException)
             {
-                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
-                    "Fallo en conexión con la base de datos", "Aceptar");
-
-                ReturnToLogin(new object(), new RoutedEventArgs());
+                Restarter.RestarSCPP();
             }
 
         }
@@ -116,10 +113,7 @@ namespace SCPP.View
             }
             catch(EntityException)
             {
-                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
-                    "Fallo en conexión con la base de datos", "Aceptar");
-
-                ReturnToLogin(new object(), new RoutedEventArgs());
+                Restarter.RestarSCPP();
             }
 
             return professor;

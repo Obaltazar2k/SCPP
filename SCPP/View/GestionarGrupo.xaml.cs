@@ -26,21 +26,27 @@ namespace SCPP.View
 
         public GestionarGrupo(Grupo grupo)
         {
-            InitializeComponent();
-            actualGroup = grupo;
-            studentsCollection = new ObservableCollection<Estudiante>();
-            FillTextBoxes();
-            GetSesion();
-            IsCoordinator();
-            GetStudents();
+            try
+            {
+                InitializeComponent();
+                actualGroup = grupo;
+                studentsCollection = new ObservableCollection<Estudiante>();
+                FillTextBoxes();
+                GetSesion();
+                IsCoordinator();
+                GetStudents();
+            }
+            catch(EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
+           
         }
-
 
         private void GetSesion()
         {
             Sesion userSesion = Sesion.GetSesion;
             _user = userSesion.Username;
-
         }
 
         private void IsCoordinator()
@@ -152,14 +158,21 @@ namespace SCPP.View
 
         private void SaveChanges_Click(object sender, RoutedEventArgs e)
         {
-            if(VerificateFields())
+            try
             {
-                using(SCPPContext context = new SCPPContext())
+                if(VerificateFields())
                 {
-                    var studentUptdated = UpdateGroup();
-                    GroupUpdatedMessage(studentUptdated);
+                    using(SCPPContext context = new SCPPContext())
+                    {
+                        var studentUptdated = UpdateGroup();
+                        GroupUpdatedMessage(studentUptdated);
+                    }
+                    ItsNotModifying();
                 }
-                ItsNotModifying();
+            }
+            catch(EntityException)
+            {
+                Restarter.RestarSCPP();
             }
         }
 
@@ -219,9 +232,7 @@ namespace SCPP.View
             }
             catch(EntityException)
             {
-                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
-                     "Fallo en conexión con la base de datos", "Aceptar");
-                ReturnToLogin(new object(), new RoutedEventArgs());
+                Restarter.RestarSCPP();
             }
         }
 
@@ -292,9 +303,7 @@ namespace SCPP.View
             }
             catch(EntityException)
             {
-                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
-                     "Fallo en conexión con la base de datos", "Aceptar");
-                ReturnToLogin(new object(), new RoutedEventArgs());
+                Restarter.RestarSCPP();
             }
         }
 
@@ -319,9 +328,7 @@ namespace SCPP.View
             }
             catch(EntityException)
             {
-                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
-                    "Fallo en conexión con la base de datos", "Aceptar");
-                ReturnToLogin(new object(), new RoutedEventArgs());
+                Restarter.RestarSCPP();
             }
         }
 

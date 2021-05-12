@@ -35,16 +35,24 @@ namespace SCPP.View
 
         public ConsultarGrupos()
         {
-            InitializeComponent();
-            ComboBoxFilter.ItemsSource = filters;
-            DataContext = this;
-            _period = Period.GetPeriod();
-            _user = "";
-            DataContext = this;
-            groupsCollection = new ObservableCollection<Grupo>();
-            GetSesion();
-            GetGroups();
-            ComboBoxFilter.SelectedItem = "Ninguno";
+            try
+            {
+                InitializeComponent();
+                ComboBoxFilter.ItemsSource = filters;
+                DataContext = this;
+                _period = Period.GetPeriod();
+                _user = "";
+                DataContext = this;
+                groupsCollection = new ObservableCollection<Grupo>();
+                GetSesion();
+                GetGroups();
+                ComboBoxFilter.SelectedItem = "Ninguno";
+            }
+            catch(EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
+            
 
         }
 
@@ -106,31 +114,38 @@ namespace SCPP.View
         {
             groupsCollection.Clear();
 
-            using(SCPPContext context = new SCPPContext())
+            try
             {
-                IQueryable<Grupo> groupsInBD = null;
+                using(SCPPContext context = new SCPPContext())
+                {
+                    IQueryable<Grupo> groupsInBD = null;
 
-                if(isCoordinator)
-                {
-                    groupsInBD = context.Grupo;
-                }
-                else
-                {
-                    groupsInBD = context.Grupo.Where(p => p.Rfcprofesor.Equals(_user) && p.Periodo.Equals(_period));
-
-                }
-                if(groupsInBD != null)
-                {
-                    foreach(Grupo grupo in groupsInBD)
+                    if(isCoordinator)
                     {
-                        if(grupo != null)
+                        groupsInBD = context.Grupo;
+                    }
+                    else
+                    {
+                        groupsInBD = context.Grupo.Where(p => p.Rfcprofesor.Equals(_user) && p.Periodo.Equals(_period));
+
+                    }
+                    if(groupsInBD != null)
+                    {
+                        foreach(Grupo grupo in groupsInBD)
                         {
-                            groupsCollection.Add(grupo);
+                            if(grupo != null)
+                            {
+                                groupsCollection.Add(grupo);
+                            }
                         }
                     }
                 }
             }
-
+            catch(EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
+            
             return groupsCollection;
         }
 
@@ -156,23 +171,31 @@ namespace SCPP.View
                 GroupList.ItemsSource = groupsCollection;
                 DataContext = groupsCollection;
             }
-            catch(Exception ex)
+            catch(Exception)
             {
-
+                Restarter.RestarSCPP();
             }
         }
 
         private void TextBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string searchText = TextBoxSearch.Text;
-            if(isCoordinator)
+            try
             {
-                CoordinatorSearch(searchText);
+                string searchText = TextBoxSearch.Text;
+                if(isCoordinator)
+                {
+                    CoordinatorSearch(searchText);
+                }
+                else
+                {
+                    ProfessorSearch(searchText);
+                }
             }
-            else
+            catch(EntityException)
             {
-                ProfessorSearch(searchText);
+                Restarter.RestarSCPP();
             }
+            
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -193,12 +216,20 @@ namespace SCPP.View
 
         private void NavigationService_Navigated(object sender, NavigationEventArgs e)
         {
-            groupsCollection.Clear();
-            GetGroups();
-            var selectedFilter = ComboBoxFilter.SelectedItem;
-            ComboBoxFilter.SelectedItem = "Ninguno";
-            ComboBoxFilter.SelectedItem = selectedFilter;
-            ManageButton.IsEnabled = false;
+            try
+            {
+                groupsCollection.Clear();
+                GetGroups();
+                var selectedFilter = ComboBoxFilter.SelectedItem;
+                ComboBoxFilter.SelectedItem = "Ninguno";
+                ComboBoxFilter.SelectedItem = selectedFilter;
+                ManageButton.IsEnabled = false;
+            }
+            catch(EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
+            
         }
 
         private void GroupsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -256,7 +287,7 @@ namespace SCPP.View
                     }
                 }
             }
-            catch(EntityException ex)
+            catch(Exception ex)
             {
 
             }
