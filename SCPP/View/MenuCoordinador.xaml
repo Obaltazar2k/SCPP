@@ -5,7 +5,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d" 
-      d:DesignHeight="510" d:DesignWidth="865"
+      d:DesignHeight="607.50" d:DesignWidth="1080"
       Title="Menu coordinador">
 
     <Grid>
@@ -16,9 +16,9 @@
             <!--Background image-->
             <Grid x:Name="GridMain"
                   HorizontalAlignment="Right"
-                  VerticalAlignment="Bottom"
+                  VerticalAlignment="Center"
                   Height="450"
-                  Width="800"
+                  Width="1015"
                   PreviewMouseLeftButtonDown="Background_PreviewMouseLeftButtonDown">
                 <Grid.Background>
                     <ImageBrush x:Name="BackgroundImage"

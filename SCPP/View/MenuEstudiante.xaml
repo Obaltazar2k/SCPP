@@ -8,8 +8,9 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Menu estudiantes">
 
-    <Grid Margin="20 10">
+    <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
@@ -18,7 +19,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition Height="Auto"/>
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
@@ -29,31 +30,46 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <materialDesign:ColorZone Mode="Custom" Background="#04539c" Grid.Column="0"
-                                  Grid.Row="0" Grid.ColumnSpan="6" Height="40">
-            <TextBlock Text="Menu principal" HorizontalAlignment="Center"
-                       Foreground="#FFFFFF"
-                       FontSize="23" VerticalAlignment="Center">
-            </TextBlock>
-        </materialDesign:ColorZone>
+
+        <Grid Height="60" VerticalAlignment="Top" Background="#04539c"
+              Grid.Column="0" Grid.ColumnSpan="7">
+            <Label x:Name="LabelTitle" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Foreground="White"
+                   Content="Menu principal"/>
+            <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" 
+                                        StaysOpen="False" 
+                                        Height="40"
+                                        Width="40"
+                                        Margin="10"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Foreground="White">
+                <StackPanel Width="150">
+                    <Button Content="Ajustes"/>
+                    <Button Content="Cuenta"/>
+                    <Button Content="Ayuda"/>
+                    <Separator/>
+                    <Button x:Name="CloseSesionButton" Content="Cerrar sesión" Click="CloseSesionButton_Clicked"/>
+                </StackPanel>
+            </materialDesign:PopupBox>
+        </Grid>
 
         <Button x:Name="SubirReporteButton"
                 Style="{DynamicResource PrimaryButton }"
-                Grid.Column="2" Grid.Row="2"
-                Grid.ColumnSpan="2"
+                Grid.Column="2" Grid.Row="4"
+                Grid.ColumnSpan="3"
                 Content="Subir reporte"
-                HorizontalAlignment="Center"
-                Width="150"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                Margin="30 0 30 0"
                 Click="SubirReporteButton_Click"
         ></Button>
 
         <Button x:Name="EscogerProyectoButton"
                 Style="{DynamicResource PrimaryButton }"
-                Grid.Column="2" Grid.Row="3"
-                Grid.ColumnSpan="2"
+                Grid.Column="2" Grid.Row="5"
+                Grid.ColumnSpan="3"
                 Content="Escoger proyecto"
-                HorizontalAlignment="Center"
-                Width="150"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                Margin="30 0 30 0"
                 Click="EscogerProyectoButton_Click"
         ></Button>
     </Grid>

@@ -1,6 +1,7 @@
 ﻿using SCPP.DataAcces;
 using SCPP.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Data.Entity.Core;
@@ -19,6 +20,7 @@ namespace SCPP.View
     /// </summary>
     public partial class GestionarEstudiante : Page
     {
+        private readonly List<string> differentsStates = new List<string> { "Inactivo", "Preinscrito", "Inscrito"};
         private static Sesion userSesion;
         private Estudiante actualStudent;
         private ObservableCollection<Inscripción> inscriptionsCollection;
@@ -30,6 +32,7 @@ namespace SCPP.View
             try
             {
                 InitializeComponent();
+                ComboBoxState.ItemsSource = differentsStates;
                 actualStudent = student;
                 FillTextBoxes();
                 GetSesion();
@@ -70,6 +73,7 @@ namespace SCPP.View
                     {
                         student = context.Estudiante.FirstOrDefault(s => s.Matricula == actualStudent.Matricula);
                         student.Activo = 0;
+                        student.Estado = "Inactivo";
                         context.SaveChanges();
                     }
                     actualStudent = student;
@@ -104,11 +108,27 @@ namespace SCPP.View
             TextBoxEmail.Text = actualStudent.Correopersonal;
             TextBoxPhone.Text = actualStudent.Telefono;
             TextBoxStatus.Text = actualStudent.Estado;
+            switch (actualStudent.Estado)
+            {
+                case "Inactivo":
+                    ComboBoxState.SelectedIndex = 0;
+                    TextBoxStatus.Text = "Inactivo";
+                    break;
+
+                case "Inscrito":
+                    ComboBoxState.SelectedIndex = 2;
+                    TextBoxStatus.Text = "Inscrito";
+                    break;
+
+                case "Preinscrito":
+                    ComboBoxState.SelectedIndex = 1;
+                    TextBoxStatus.Text = "Preinscrito";
+                    break;
+            }
         }
 
         private void GetExpedientButton_Click(object sender, RoutedEventArgs e)
         {
-            //NavigationService.Navigated += NavigationService_Navigated;
             var mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow?.ChangeView(new GestionarExpediente(inscriptionSelected));
             return;
@@ -122,7 +142,8 @@ namespace SCPP.View
                 var inscriptionsList = context.Inscripción.Where(i => i.Matriculaestudiante == actualStudent.Matricula)
                     .Include(i => i.Proyecto)
                     .Include(i => i.Proyecto.Organización)
-                    .Include(i => i.Expediente);
+                    .Include(i => i.Expediente)
+                    .Include(i => i.Grupo);
                 if (inscriptionsList != null)
                 {
                     foreach (Inscripción inscription in inscriptionsList)
@@ -169,14 +190,14 @@ namespace SCPP.View
             GetExpedientButton.Visibility = Visibility.Hidden;
             SaveChangesButton.Visibility = Visibility.Visible;
             InscriptionList.Visibility = Visibility.Hidden;
-
-            // TextBoxMatricula.IsReadOnly = false; La matricula no debería modificarse
             TextBoxName.IsReadOnly = false;
             TextBoxApellidoPaterno.IsReadOnly = false;
             TextBoxApellidoMaterno.IsReadOnly = false;
             TextBoxEmail.IsReadOnly = false;
             TextBoxPhone.IsReadOnly = false;
             TextBoxStatus.IsReadOnly = false;
+            TextBoxStatus.Visibility = Visibility.Hidden;
+            ComboBoxState.Visibility = Visibility.Visible;
         }
 
         private void ItsNotModifying()
@@ -190,13 +211,15 @@ namespace SCPP.View
             InscriptionList.Focusable = true;
             InscriptionList.IsReadOnly = false;
 
-            // TextBoxMatricula.IsReadOnly = true; La matricula no debería modificarse
             TextBoxName.IsReadOnly = true;
             TextBoxApellidoPaterno.IsReadOnly = true;
             TextBoxApellidoMaterno.IsReadOnly = true;
             TextBoxEmail.IsReadOnly = true;
             TextBoxPhone.IsReadOnly = true;
             TextBoxStatus.IsReadOnly = true;
+            TextBoxStatus.Visibility = Visibility.Visible;
+            TextBoxStatus.Text = ComboBoxState.Text;
+            ComboBoxState.Visibility = Visibility.Hidden;
         }
 
         private void ReturnToPreviousList(object v, RoutedEventArgs routedEventArgs)
@@ -247,7 +270,7 @@ namespace SCPP.View
                 student.Apellidomaterno = TextBoxApellidoMaterno.Text;
                 student.Telefono = TextBoxPhone.Text;
                 student.Correopersonal = TextBoxEmail.Text;
-                student.Estado = TextBoxStatus.Text;
+                student.Estado = ComboBoxState.Text;
 
                 context.SaveChanges();
             }

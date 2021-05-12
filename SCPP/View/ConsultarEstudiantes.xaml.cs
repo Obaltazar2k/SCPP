@@ -226,7 +226,7 @@ namespace SCPP.View
                         case "Activo":
                             foreach (Estudiante student in studentsCollection)
                             {
-                                if (student.Activo == 1)
+                                if (student.Estado.Equals("Inscrito"))
                                     studentsCollectionFiltered.Add(student);
                             }
                             StudentList.ItemsSource = studentsCollectionFiltered;
@@ -235,7 +235,7 @@ namespace SCPP.View
                         case "No activo":
                             foreach (Estudiante student in studentsCollection)
                             {
-                                if (student.Activo != 1)
+                                if (student.Estado.Equals("Inactivo"))
                                     studentsCollectionFiltered.Add(student);
                             }
                             StudentList.ItemsSource = studentsCollectionFiltered;

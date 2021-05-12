@@ -154,7 +154,7 @@ namespace SCPP.View
             projectsCollection = new ObservableCollection<Proyecto>();
             using (SCPPContext context = new SCPPContext())
             {
-                var proyectsList = context.Proyecto.Where(p => p.Inscripción.Count <= 2);
+                var proyectsList = context.Proyecto.Where(p => p.Inscripción.Count < 1);
                 if (proyectsList != null)
                 {
                     foreach (Proyecto proyecto in proyectsList)

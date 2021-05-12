@@ -253,7 +253,7 @@ namespace SCPP.View
         {
             OpenFileDialog dialog = new OpenFileDialog
             {
-                Filter = "Todos los archivos (*.*)|*.*",
+                Filter = "Report files | *.pdf; *.doc; *.docs; *.docx",
                 FilterIndex = 1,
                 InitialDirectory = new KnownFolder(KnownFolderType.Documents).Path,
                 RestoreDirectory = true

@@ -31,28 +31,28 @@
 
         <Button x:Name="AssignProjectButton"
                 Style="{DynamicResource PrimaryButton }"
-                Grid.Column="1" Grid.Row="3"
-                Grid.ColumnSpan="2"
+                Grid.Column="2" Grid.Row="3"
+                Grid.ColumnSpan="3"
                 Content="Asignar proyecto a estudiante"
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                Margin="0 0 0 0"
+                Margin="30 0 30 0"
                 Click="AssignProjectButton_Click" />
         
         <Button x:Name="GetStudentsButton"
                 Style="{DynamicResource PrimaryButton }"
-                Grid.Column="4" Grid.Row="3"
-                Grid.ColumnSpan="2"
+                Grid.Column="2" Grid.Row="4"
+                Grid.ColumnSpan="3"
                 Content="Consultar estudiantes"
                 VerticalAlignment="Stretch" HorizontalAlignment="Stretch"                
-                Margin="0 0 0 0"
+                Margin="30 0 30 0"
                 Click="GetStudentsButton_Click" />
 
         <Button x:Name="ValidateEnrrollmentButton"
                 Style="{DynamicResource PrimaryButton }"
-                Grid.Column="1" Grid.Row="4"
-                Grid.ColumnSpan="2"
+                Grid.Column="2" Grid.Row="5"
+                Grid.ColumnSpan="3"
                 Content="Validar Preinscripcion"
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                Margin="0 0 0 0" Click="ValidateEnrrollmentButton_Click" />
+                Margin="30 0 30 0" Click="ValidateEnrrollmentButton_Click" />
     </Grid>
 </UserControl>
