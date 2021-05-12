@@ -1,4 +1,5 @@
 ﻿using SCPP.DataAcces;
+using SCPP.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,20 +32,25 @@ namespace SCPP.View
 
         public GestionarResposable(Responsableproyecto resposable)
         {
-            InitializeComponent();
-            this.actualResposable = resposable;
-            proyectsCollection = new ObservableCollection<Proyecto>();
-            FillTextBoxes();
-            GetOrganization();
+            try
+            {
+                InitializeComponent();
+                this.actualResposable = resposable;
+                proyectsCollection = new ObservableCollection<Proyecto>();
+                FillTextBoxes();
+                GetOrganization();
+            }
+            catch(EntityException)
+            {
 
-
+            }
+            
         }
 
         private void EditResponsableButton_Click(object sender, RoutedEventArgs e)
         {
             ItsModifying();
             FillTextBoxes();
-
         }
 
         private void DeleteResposableButton_Click(object sender, RoutedEventArgs e)
@@ -79,8 +85,7 @@ namespace SCPP.View
             }
             catch(EntityException)
             {
-                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
-                     "Fallo en conexión con la base de datos", "Aceptar");
+                Restarter.RestarSCPP();
             }
         }
 
@@ -107,12 +112,19 @@ namespace SCPP.View
 
         private void SaveChanges_Click(object sender, RoutedEventArgs e)
         {
-            using(SCPPContext context = new SCPPContext())
+            try
             {
-                var resposableUptdated = UpdateResposable();
-                ResposableUpdatedMessage(resposableUptdated);
+                using(SCPPContext context = new SCPPContext())
+                {
+                    var resposableUptdated = UpdateResposable();
+                    ResposableUpdatedMessage(resposableUptdated);
+                }
+                ItsNotModifying();
             }
-            ItsNotModifying();
+            catch(EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
         private void ResposableUpdatedMessage(object resposableUptdated)
@@ -151,6 +163,7 @@ namespace SCPP.View
 
         private object UpdateResposable()
         {
+           
             Responsableproyecto resposable;
             using(SCPPContext context = new SCPPContext())
             {
