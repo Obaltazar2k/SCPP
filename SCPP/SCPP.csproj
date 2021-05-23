@@ -565,6 +565,7 @@
       <DependentUpon>SCPPModel.edmx</DependentUpon>
       <LastGenOutput>SCPPModel.cs</LastGenOutput>
     </Content>
+    <Resource Include="Utilities\Imágenes\LoginImage.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets')" />

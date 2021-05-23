@@ -31,29 +31,29 @@
 
         <Button x:Name="GetOrganizationsButton"
                 Style="{DynamicResource PrimaryButton }"
-                Grid.Column="1" Grid.Row="3"
-                Grid.ColumnSpan="2"
+                Grid.Column="2" Grid.Row="3"
+                Grid.ColumnSpan="3"
                 Content="Consultar organizaciones"
                 VerticalAlignment="Stretch" HorizontalAlignment="Stretch"                
-                Margin="0 0 0 0"
+                Margin="30 0 30 0"
                 Click="GetOrganizationsButton_Click" />
         
         <Button x:Name="RegisterOrganizationButton"
                 Style="{DynamicResource PrimaryButton }"
-                Grid.Column="4" Grid.Row="3"
-                Grid.ColumnSpan="2"
+                Grid.Column="2" Grid.Row="4"
+                Grid.ColumnSpan="3"
                 Content="Registrar organización"
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                Margin="0 0 0 0"
+                Margin="30 0 30 0"
                 Click="RegisterOrganizationButton_Click" />
 
         <Button x:Name="ResigterResponsableButton"
                 Style="{DynamicResource PrimaryButton }"
-                Grid.Column="1" Grid.Row="4"
-                Grid.ColumnSpan="2"
+                Grid.Column="2" Grid.Row="5"
+                Grid.ColumnSpan="3"
                 Content="Registrar responsable"
                 VerticalAlignment="Stretch" HorizontalAlignment="Stretch"                
-                Margin="0 0 0 0"
+                Margin="30 0 30 0"
                 Click="RegisterResponsableButton_Click" />
     </Grid>
 </UserControl>

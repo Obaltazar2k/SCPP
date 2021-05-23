@@ -1,6 +1,7 @@
 ﻿using SCPP.DataAcces;
 using SCPP.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Data.Entity.Core;
@@ -22,11 +23,12 @@ namespace SCPP.View
         private Profesor actualProfesor;
         private ObservableCollection<Grupo> groupsCollection;
         private bool isModifying = false;
-        private string _user;
+        private readonly List<string> differentsStates = new List<string> { "Activo", "Inactivo" };
 
         public GestionarProfesor()
         {
             InitializeComponent();
+            ComboBoxState.ItemsSource = differentsStates;           
         }
 
         public GestionarProfesor(Profesor profesor)
@@ -34,9 +36,10 @@ namespace SCPP.View
             try
             {
                 InitializeComponent();
+                ComboBoxState.ItemsSource = differentsStates;
                 actualProfesor = profesor;
                 FillTextBoxes();
-                GetGroups();
+                GetGroups();               
             }
             catch (EntityException)
             {
@@ -110,7 +113,16 @@ namespace SCPP.View
             TextBoxApellidoMaterno.Text = actualProfesor.Apellidomaterno;
             TextBoxEmail.Text = actualProfesor.Correopersonal;
             TextBoxPhone.Text = actualProfesor.Telefono;
-            TextBoxStatus.Text = actualProfesor.Activo.ToString();
+            if(actualProfesor.Activo == 1)
+            {
+                ComboBoxState.SelectedIndex = 0;
+                TextBoxStatus.Text = "Activo";
+            }
+            else
+            {
+                ComboBoxState.SelectedIndex = 1;
+                TextBoxStatus.Text = "Inactivo";
+            }           
         }
 
         private void GetGroups()
@@ -142,7 +154,9 @@ namespace SCPP.View
             TextBoxApellidoMaterno.IsReadOnly = false;
             TextBoxEmail.IsReadOnly = false;
             TextBoxPhone.IsReadOnly = false;
-            TextBoxStatus.IsReadOnly = false;
+            ComboBoxState.IsReadOnly = false;
+            TextBoxStatus.Visibility = Visibility.Hidden;
+            ComboBoxState.Visibility = Visibility.Visible;
         }
 
         private void ItsNotModifying()
@@ -155,7 +169,10 @@ namespace SCPP.View
             TextBoxApellidoMaterno.IsReadOnly = true;
             TextBoxEmail.IsReadOnly = true;
             TextBoxPhone.IsReadOnly = true;
-            TextBoxStatus.IsReadOnly = true;
+            ComboBoxState.IsReadOnly = true;
+            TextBoxStatus.Visibility = Visibility.Visible;
+            TextBoxStatus.Text = ComboBoxState.Text;
+            ComboBoxState.Visibility = Visibility.Hidden;
         }
 
         private void ReturnToPreviousList(object v, RoutedEventArgs routedEventArgs)
@@ -213,7 +230,15 @@ namespace SCPP.View
                 profesor.Apellidomaterno = TextBoxApellidoMaterno.Text;
                 profesor.Telefono = TextBoxPhone.Text;
                 profesor.Correopersonal = TextBoxEmail.Text;
-                profesor.Activo = Int32.Parse(TextBoxStatus.Text);
+                if (ComboBoxState.Text.Equals("Activo"))
+                {
+                    profesor.Activo = 1;
+                }
+                else
+                {
+                    profesor.Activo = 0;
+                }
+                
 
                 context.SaveChanges();
             }

@@ -1,4 +1,4 @@
-﻿using SCPP.View;
+﻿using SCPP.Utilities;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -32,6 +32,14 @@ namespace SCPP.View
         {
             var mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow?.ChangeView(new ConsultarGrupos());
+            return;
+        }
+
+        private void CloseSesionButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            Sesion.CloseSesion();
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new IniciarSesion());
             return;
         }
     }

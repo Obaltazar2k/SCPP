@@ -97,6 +97,7 @@
                 <DataGridTextColumn Header="Apellido materno" IsReadOnly="True" Width="Auto" Binding="{Binding Apellidomaterno}" />
                 <DataGridTextColumn Header="Telefono" IsReadOnly="True" Width="Auto" Binding="{Binding Telefono}" />
                 <DataGridTextColumn Header="Correo" IsReadOnly="True" Width="*" Binding="{Binding Correopersonal}" />
+                <DataGridTextColumn Header="Estado" IsReadOnly="True" Width="*" Binding="{Binding Estado}" />
             </DataGrid.Columns>
             <DataGrid.Resources>
                 <Style TargetType="DataGridCell">

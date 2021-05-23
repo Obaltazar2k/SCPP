@@ -181,6 +181,17 @@
             x:Name="TextBoxStatus">
         </TextBox>
 
+        <ComboBox
+            Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2"
+            VerticalAlignment="Bottom"
+            Margin="10 0 10 0"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            materialDesign:HintAssist.Hint="Estado"
+            materialDesign:TextFieldAssist.UnderlineBrush="#04539c"
+            x:Name="ComboBoxState" 
+            Visibility="Hidden"/>
+
         <Button 
             Click="EditStudentButton_Click"
             Grid.Column="6" 
