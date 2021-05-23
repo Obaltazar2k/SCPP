@@ -168,7 +168,7 @@
             VerticalAlignment="Bottom"
             Width="Auto" />
 
-        <TextBox
+       <TextBox
             Grid.Column="4" 
             Grid.ColumnSpan="2"
             Grid.Row="5"
@@ -181,6 +181,17 @@
             VerticalContentAlignment="Center" 
             x:Name="TextBoxStatus">
         </TextBox>
+
+        <ComboBox
+            Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2"
+            VerticalAlignment="Bottom"
+            Margin="10 0 10 0"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            materialDesign:HintAssist.Hint="Estado"
+            materialDesign:TextFieldAssist.UnderlineBrush="#04539c"
+            x:Name="ComboBoxState" 
+            Visibility="Hidden"/>
 
         <Button 
             Click="EditProfesorButton_Click"

@@ -26,6 +26,7 @@ namespace SCPP.View
         private ObservableCollection<Responsableproyecto> responsablesCollection;
         private ObservableCollection<Estudiante> studentsCollection;
         private bool isModifying = false;
+        private Responsableproyecto actualResponsableProyecto;
 
         public GestionarProyecto()
         {
@@ -80,6 +81,7 @@ namespace SCPP.View
                 if (responsable != null)
                 {
                     nombre = responsable.Nombre + " " + responsable.Apellidopaterno + " " + responsable.Apellidomaterno;
+                    actualResponsableProyecto = responsable;
                 }
             }
             return nombre;
@@ -243,7 +245,13 @@ namespace SCPP.View
             using (SCPPContext context = new SCPPContext())
             {
                 var organization = (Organización)ComboBoxOrganization.SelectedItem;
-                var responsable = (Responsableproyecto)ComboBoxResponsable.SelectedItem;
+                Responsableproyecto responsable;
+                if (ComboBoxResponsable.SelectedItem == null)
+                {
+                    responsable = actualResponsableProyecto;
+                }
+                else
+                    responsable = (Responsableproyecto)ComboBoxResponsable.SelectedItem;
 
                 project = context.Proyecto.FirstOrDefault(p => p.Clave == actualProject.Clave);
 
@@ -253,7 +261,10 @@ namespace SCPP.View
                 project.Nombre = TextBoxName.Text;
                 project.OrganizaciónID = organization.OrganizaciónID;
                 project.ResponsableproyectoID = responsable.ResponsableproyectoID;
+
+                context.SaveChanges();
             }
+            actualProject = project;
             return project;
         }
 
