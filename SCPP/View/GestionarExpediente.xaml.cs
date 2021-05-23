@@ -24,9 +24,10 @@ namespace SCPP.View
         private static Sesion userSesion;
         private ObservableCollection<Archivo> filesCollection;
         private Archivo fileSelected;
+        private Reporte reportSelected;
         private readonly Inscripción inscription;
         private bool pageIsLoad = false;
-        private ObservableCollection<Archivo> reportsCollection;
+        private ObservableCollection<Reporte> reportsCollection;
 
         public GestionarExpediente(Inscripción inscription)
         {
@@ -85,8 +86,35 @@ namespace SCPP.View
                         context.Archivo.Remove(context.Archivo.Find(fileSelected.ArchivoID));
                         context.SaveChanges();
 
-                        reportsCollection.Remove(fileSelected);
                         filesCollection.Remove(fileSelected);
+                    }
+                }
+                CustomMessageBox.ShowOK("Archivo eliminado con éxito.", "Éxito.", "Aceptar");
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
+        }
+
+        private void DeleteReportButton_Click(object sender, RoutedEventArgs e)
+        {
+            reportSelected = ((FrameworkElement)sender).DataContext as Reporte;
+
+            MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que deseas eliminar el reporte <" + reportSelected.Archivo.Titulo + ">?", "Confirmación", "Si", "No");
+            if (confirmation == MessageBoxResult.No)
+                return;
+            try
+            {
+                if (reportSelected != null)
+                {
+                    using (SCPPContext context = new SCPPContext())
+                    {
+                        context.Reporte.Remove(context.Reporte.First(f => f.ArchivoID == reportSelected.ArchivoID));
+                        context.Archivo.Remove(context.Archivo.Find(reportSelected.ArchivoID));
+                        context.SaveChanges();
+
+                        reportsCollection.Remove(reportSelected);
                     }
                 }
                 CustomMessageBox.ShowOK("Archivo eliminado con éxito.", "Éxito.", "Aceptar");
@@ -137,6 +165,47 @@ namespace SCPP.View
             }
         }
 
+
+        private void DownloadReportButton_Click(object sender, RoutedEventArgs e)
+        {
+            reportSelected = ((FrameworkElement)sender).DataContext as Reporte;
+            try
+            {
+                if (reportSelected != null)
+                {
+                    string downloadsPath = new KnownFolder(KnownFolderType.Downloads).Path;
+                    string folder = downloadsPath + "\\PracticasProfesionales\\";
+                    string fullFilePath = folder + reportSelected.Archivo.Titulo;
+
+                    if (!Directory.Exists(folder))
+                        Directory.CreateDirectory(folder);
+
+                    if (File.Exists(fullFilePath))
+                    {
+                        int count = 1;
+
+                        string fileNameOnly = Path.GetFileNameWithoutExtension(fullFilePath);
+                        string extension = Path.GetExtension(fullFilePath);
+                        string path = Path.GetDirectoryName(fullFilePath);
+                        string newFullPath = fullFilePath;
+
+                        while (File.Exists(newFullPath))
+                        {
+                            string tempFileName = string.Format("{0}({1})", fileNameOnly, count++);
+                            newFullPath = Path.Combine(path, tempFileName + extension);
+                        }
+                        fullFilePath = newFullPath;
+                    }
+                    File.WriteAllBytes(fullFilePath, reportSelected.Archivo.Archivo1);
+                }
+                CustomMessageBox.ShowOK("Archivo descargado con éxito.", "Éxito.", "Aceptar");
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
+        }
+
         private void FillTextBoxes()
         {
             DateTime InscrpitionDate = (DateTime)inscription.Fecha;
@@ -170,34 +239,33 @@ namespace SCPP.View
         private void GetDocuments()
         {
             filesCollection = new ObservableCollection<Archivo>();
-            reportsCollection = new ObservableCollection<Archivo>();
+            reportsCollection = new ObservableCollection<Reporte>();
             var expedientID = inscription.Expediente.First().ExpedienteID;
             using (SCPPContext context = new SCPPContext())
             {
                 var filesList = context.Archivo.Where(f => f.ExpedienteID == expedientID)
                     .Include(f => f.Reporte);
+                var reportsList = context.Reporte.Where(r => r.Archivo.ExpedienteID == expedientID).Include(r => r.Archivo);
                 if (filesList != null)
                 {
                     foreach (Archivo file in filesList)
                     {
                         if (file != null)
                         {
-                            if (file.Reporte.Count != 0)
-                                reportsCollection.Add(file);
-                            else
+                            if (file.Reporte.Count == 0)
                                 filesCollection.Add(file);
                         }
                     }
                 }
+                if (reportsList != null)
+                {
+                    foreach (Reporte report in reportsList)
+                    {
+                        if (report != null)
+                            reportsCollection.Add(report);
+                    }
+                }
             }
-
-            /*
-             * Esto debería funcionar pero no lo hace porque Archivo.Reporte no es un objeto, es un ObservableCollection
-             *
-            KindColumn.Binding = new Binding("Reporte.Tiporeporte");
-            HoursColumn.Binding = new Binding("Reporte.Horasreportadas");
-             *
-             */
 
             FilesGrid.ItemsSource = filesCollection;
             ReportsGrid.ItemsSource = reportsCollection;
@@ -313,5 +381,6 @@ namespace SCPP.View
             mainWindow?.ChangeView(new EntregarReporte(inscription));
             return;
         }
+
     }
 }

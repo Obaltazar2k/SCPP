@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using SCPP.DataAcces;
 using System.Linq;
+using System.Data.Entity;
 
 namespace SCPP.View
 {
@@ -31,7 +32,11 @@ namespace SCPP.View
             Inscripción inscripcion;
             using (SCPPContext context = new SCPPContext())
             {
-                inscripcion = context.Inscripción.FirstOrDefault(u => u.Matriculaestudiante == matricula);
+                inscripcion = context.Inscripción
+                    .Include(i => i.Proyecto)
+                    .Include(i => i.Proyecto.Organización)
+                    .Include(i => i.Expediente)
+                    .FirstOrDefault(u => u.Matriculaestudiante == matricula);
             }
             var mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow?.ChangeView(new EntregarReporte(inscripcion));

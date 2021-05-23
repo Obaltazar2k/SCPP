@@ -272,11 +272,11 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button
-                                    Click="DownloadFileButton_Click"
+                                    Click="DownloadReportButton_Click"
                                     Background="#04539c"
                                     BorderBrush="#04539c"
                                     Style="{DynamicResource PrimaryButton }"
-                                    x:Name="DownloadFileButton">
+                                    x:Name="DownloadReportButton">
                                     <materialDesign:PackIcon
                                         Height="20"
                                         Kind="Download"
@@ -285,14 +285,14 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Nombre de reporte" IsReadOnly="True" Width="Auto" Binding="{Binding Titulo}" />
-                    <DataGridTextColumn Header="Fecha" IsReadOnly="True" Width="Auto" Binding="{Binding Fechaentrega}" />
-                    <DataGridTextColumn x:Name="KindColumn" Header="Tipo" IsReadOnly="True" Width="Auto"  />
-                    <DataGridTextColumn x:Name="HoursColumn" Header="Horas" IsReadOnly="True" Width="Auto"  />
+                    <DataGridTextColumn Header="Nombre de reporte" IsReadOnly="True" Width="Auto" Binding="{Binding Archivo.Titulo}" />
+                    <DataGridTextColumn Header="Fecha" IsReadOnly="True" Width="Auto" Binding="{Binding Archivo.Fechaentrega}" />
+                    <DataGridTextColumn x:Name="KindColumn" Header="Tipo" IsReadOnly="True" Width="Auto" Binding="{Binding Tiporeporte}"  />
+                    <DataGridTextColumn x:Name="HoursColumn" Header="Horas" IsReadOnly="True" Width="Auto" Binding="{Binding Horasreportadas}" />
                     <DataGridTemplateColumn Header="Validado" Width="Auto" x:Name="ReportValidationColumn">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate x:Name="ReportDataTemplate">
-                                <CheckBox HorizontalAlignment="Center" Checked="OnChecked" Unchecked="OnChecked" IsChecked="{Binding Validado}" x:Name="ReportValidationCheckbox" />
+                                <CheckBox HorizontalAlignment="Center" Checked="OnChecked" Unchecked="OnChecked" IsChecked="{Binding Archivo.Validado}" x:Name="ReportValidationCheckbox" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -300,7 +300,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button
-                                    Click="DeleteFileButton_Click"
+                                    Click="DeleteReportButton_Click"
                                     Background="Red"
                                     BorderBrush="Red"
                                     Style="{DynamicResource PrimaryButton }"
