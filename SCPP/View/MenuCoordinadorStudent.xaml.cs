@@ -45,5 +45,12 @@ namespace SCPP.View
             mainWindow?.ChangeView(new ValidarInscripcion());
             return;
         }
+
+        private void UnassignProjectButton_Click(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new DesasignarProyectoEstudiante());
+            return;
+        }
     }
 }
