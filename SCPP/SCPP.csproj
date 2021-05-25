@@ -226,6 +226,9 @@
     <Compile Include="View\EscogerProyecto.xaml.cs">
       <DependentUpon>EscogerProyecto.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\GenerarOficioAsignacion.xaml.cs">
+      <DependentUpon>GenerarOficioAsignacion.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\GenerarReporte.xaml.cs">
       <DependentUpon>GenerarReporte.xaml</DependentUpon>
     </Compile>
@@ -349,6 +352,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\EscogerProyecto.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GenerarOficioAsignacion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -499,6 +506,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Utilities\DocTemplates\AsignDocTemplate.docx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -523,10 +531,10 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
-    <COMReference Include="Microsoft.Office.Interop.Excel">
-      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>9</VersionMinor>
+    <COMReference Include="Microsoft.Office.Interop.Word">
+      <Guid>{00020905-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>8</VersionMajor>
+      <VersionMinor>7</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>primary</WrapperTool>
       <Isolated>False</Isolated>
@@ -567,6 +575,7 @@
     </Content>
     <Resource Include="Utilities\Imágenes\LoginImage.jpg" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
