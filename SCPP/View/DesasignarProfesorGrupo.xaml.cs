@@ -30,8 +30,8 @@ namespace SCPP.View
             catch (EntityException)
             {
                 CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
-                    "Fallo en conexión con la base de datos", "Aceptar");
-                Loaded += ReturnToLogin;
+                   "Fallo en conexión con la base de datos", "Aceptar");
+                Restarter.RestarSCPP();
             }           
         }
 
@@ -85,8 +85,8 @@ namespace SCPP.View
             catch (EntityException)
             {
                 CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
-                    "Fallo en conexión con la base de datos", "Aceptar");
-                ReturnToLogin(new object(), new RoutedEventArgs());
+                   "Fallo en conexión con la base de datos", "Aceptar");
+                Restarter.RestarSCPP();
             }
         }
         private void GetGroups()
@@ -154,16 +154,9 @@ namespace SCPP.View
             catch (EntityException)
             {
                 CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
-                    "Fallo en conexión con la base de datos", "Aceptar");
-                ReturnToLogin(new object(), new RoutedEventArgs());
+                   "Fallo en conexión con la base de datos", "Aceptar");
+                Restarter.RestarSCPP();
             }
-        }
-
-        public void ReturnToLogin(object sender, RoutedEventArgs e)
-        {
-            var mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow?.ChangeView(new IniciarSesion());
-            return;
         }
     }
 }

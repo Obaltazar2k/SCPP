@@ -58,6 +58,8 @@ namespace SCPP.View
             }
             catch (EntityException)
             {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                   "Fallo en conexión con la base de datos", "Aceptar");
                 Restarter.RestarSCPP();
             }
         }
@@ -110,18 +112,13 @@ namespace SCPP.View
             IQueryable<Estudiante> studentsInDB = null;
             using (SCPPContext context = new SCPPContext())
             {
-                studentsInDB = context.Grupo.Join(
-                        context.Inscripción,
-                        g => g.GrupoID,
-                        i => i.GrupoID,
-                        (g, i) => new { group = g, inscription = i })
-                        .Join(
-                        context.Estudiante,
-                        j => j.inscription.Matriculaestudiante,
-                        s => s.Matricula,
-                        (j, s) => new { join = j, student = s })
-                        .Where(q => q.join.inscription.Periodo.Equals(period) && q.student.Estado.Equals("Inscrito"))
-                        .Select(q => q.student);
+                studentsInDB = context.Estudiante.Join(
+                                context.Inscripción,
+                                s => s.Matricula,
+                                i => i.Matriculaestudiante,
+                                (s, i) => new { student = s, inscription = i})
+                                .Where(j => j.inscription.Periodo.Equals(period) && j.student.Estado.Equals("Inscrito"))
+                                .Select(j => j.student);
 
                 if (studentsInDB != null)
                 {
@@ -151,6 +148,8 @@ namespace SCPP.View
             }
             catch (EntityException)
             {
+                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
+                    "Fallo en conexión con la base de datos", "Aceptar");
                 Restarter.RestarSCPP();
             }
         }

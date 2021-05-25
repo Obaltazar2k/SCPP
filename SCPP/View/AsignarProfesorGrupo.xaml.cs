@@ -32,8 +32,8 @@ namespace SCPP.View
             catch (EntityException)
             {
                 CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
-                    "Fallo en conexión con la base de datos", "Aceptar");
-                Loaded += ReturnToLogin;
+                   "Fallo en conexión con la base de datos", "Aceptar");
+                Restarter.RestarSCPP();
             }           
         }
 
@@ -75,8 +75,8 @@ namespace SCPP.View
             catch(EntityException)
             {
                 CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
-                    "Fallo en conexión con la base de datos", "Aceptar");
-                ReturnToLogin(new object(), new RoutedEventArgs());
+                   "Fallo en conexión con la base de datos", "Aceptar");
+                Restarter.RestarSCPP();
             }            
         }
 
@@ -100,30 +100,6 @@ namespace SCPP.View
             using (SCPPContext context = new SCPPContext())
             {
                 var groupList = context.Grupo.Where(p => p.Rfcprofesor == null && p.Periodo == _period && p.Estado.Equals("Disponible"));
-                /*var groupAssginedList = context.Grupo.Where(g => g.Periodo != null && g.Periodo.Equals(_period));
-
-                if (groupList != null)
-                {
-                    if (groupAssginedList != null)
-                    {
-                        foreach (Grupo grupo in groupList)
-                        {
-                            bool alreadyAssigned = false;
-                            foreach (Grupo grupoAsignado in groupAssginedList)
-                            {
-                                Console.WriteLine(grupoAsignado.Nrc);
-                                if (grupo != null && (grupo.Nrc.Equals(grupoAsignado.Nrc)))
-                                {
-                                    alreadyAssigned = true;
-                                }
-                            }
-
-                            if (alreadyAssigned == false)
-                            {
-                                groupsCollection.Add(grupo);
-                            }
-                        }
-                    }*/
                     foreach (Grupo grupo in groupList)
                     {
                         if (grupo != null)
@@ -164,13 +140,6 @@ namespace SCPP.View
             DataGrid dataGrid = sender as DataGrid;
             profesorSelected = (Profesor)dataGrid.SelectedItems[0];
             CheckSelecctions();
-        }
-
-        public void ReturnToLogin(object sender, RoutedEventArgs e)
-        {
-            var mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow?.ChangeView(new IniciarSesion());
-            return;
         }
     }
 }
