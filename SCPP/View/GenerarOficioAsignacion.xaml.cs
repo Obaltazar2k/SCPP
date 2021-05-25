@@ -83,7 +83,9 @@ namespace SCPP.View
             foreach (var student in selectedStudents)
             {
                 Inscripción inscripcion;
-                string fullFilePath = folder + "Asignacion_" + student.Nombre + student.Apellidopaterno + student.Apellidomaterno + ".docx";
+                string studentFullName = student.Nombre + student.Apellidopaterno + student.Apellidomaterno;
+                studentFullName = String.Concat(studentFullName.Where(c => !Char.IsWhiteSpace(c)));
+                string fullFilePath = folder + "Asignacion_" + studentFullName + ".docx";
                 if (File.Exists(fullFilePath))
                 {
                     File.Delete(fullFilePath);
