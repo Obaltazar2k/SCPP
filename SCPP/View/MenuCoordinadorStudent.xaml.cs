@@ -52,5 +52,12 @@ namespace SCPP.View
             mainWindow?.ChangeView(new DesasignarProyectoEstudiante());
             return;
         }
+
+        private void GenerateAssignDocButton_Click(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new GenerarOficioAsignacion());
+            return;
+        }
     }
 }
