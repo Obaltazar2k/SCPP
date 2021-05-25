@@ -60,9 +60,8 @@ namespace SCPP.View
             catch (EntityException)
             {
                 CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
-                    "Fallo en conexión con la base de datos", "Aceptar");
-
-                ReturnToLogin(new object(), new RoutedEventArgs());
+                   "Fallo en conexión con la base de datos", "Aceptar");
+                Restarter.RestarSCPP();
             }
 
         }
@@ -74,13 +73,6 @@ namespace SCPP.View
                 NavigationService.GoBack();
             else
                 CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");
-        }
-
-        private void ReturnToLogin(object sender, RoutedEventArgs e)
-        {
-            var mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow?.ChangeView(new IniciarSesion());
-            return;
         }
 
         private bool VerificateFields()
