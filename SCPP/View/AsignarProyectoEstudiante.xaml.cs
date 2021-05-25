@@ -89,7 +89,9 @@ namespace SCPP.View
                     MessageBoxResult result = CustomMessageBox.ShowYesNo("La asignación ha sido realizada con éxito.", "Asignación", "Generar oficio de asignación", "Finalizar");
                     if (result == MessageBoxResult.Yes)
                     {
-                        //extend CU Generar oficio de asignación
+                        var mainWindow = (MainWindow)Application.Current.MainWindow;
+                        mainWindow?.ChangeView(new GenerarOficioAsignacion(studentSelected));
+                        return;
                     }
                     else
                     {

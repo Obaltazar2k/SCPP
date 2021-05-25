@@ -14,6 +14,7 @@ using WPFCustomMessageBox;
 using Microsoft.Office.Interop.Word;
 using Word = Microsoft.Office.Interop.Word;
 using Shape = Microsoft.Office.Interop.Word.Shape;
+using System.Data.Entity;
 
 namespace SCPP.View
 {
@@ -29,9 +30,36 @@ namespace SCPP.View
         private ObservableCollection<Estudiante> studentsCollection;
         public GenerarOficioAsignacion()
         {
-            InitializeComponent();
-            GetSesion();
-            GetStudents();
+            try
+            {
+                InitializeComponent();
+                GetSesion();
+                GetStudents();
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
+            
+        }
+
+        public GenerarOficioAsignacion(Estudiante student)
+        {
+            try
+            {
+                InitializeComponent();
+                GetSesion();
+                GetStudents();
+                var studentSelection = (from i in studentsCollection
+                                        where i.Matricula == student.Matricula
+                                        select i).FirstOrDefault();
+                if (studentSelection != null)
+                    StudentList.SelectedItem = studentSelection;
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -45,14 +73,35 @@ namespace SCPP.View
         private void GenerateDocButton_Click(object sender, RoutedEventArgs e)
         {
             string downloadsPath = new KnownFolder(KnownFolderType.Downloads).Path;
-            string folder = downloadsPath + "\\PracticasProfesionales\\";
+            string folder = downloadsPath + @"\OficiosAsignacion_" + period + @"\";
             
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+
             foreach (var student in selectedStudents)
             {
-                string fullFilePath = folder + "Asignacion_" + student.Nombre + student.Apellidopaterno + student.Apellidomaterno;
-                CreateAssignDocument(@"D:\Usuario\Omar\Descargas", student);
+                Inscripción inscripcion;
+                string fullFilePath = folder + "Asignacion_" + student.Nombre + student.Apellidopaterno + student.Apellidomaterno + ".docx";
+                if (File.Exists(fullFilePath))
+                {
+                    File.Delete(fullFilePath);
+                }
+                using (SCPPContext context = new SCPPContext())
+                {
+                    inscripcion = context.Inscripción
+                        .Include(i => i.Proyecto)
+                        .Include(i => i.Proyecto.Organización)
+                        .Include(i => i.Proyecto.Responsableproyecto)
+                        .Include(i => i.Expediente)
+                        .Include(i => i.Grupo)
+                        .FirstOrDefault(i => i.Matriculaestudiante.Equals(student.Matricula));
+                }
+                string projectName = inscripcion.Proyecto.Nombre;
+                var organization = inscripcion.Proyecto.Organización;
+                var responsible = inscripcion.Proyecto.Responsableproyecto;
+                CreateAssignDocument(fullFilePath, student, projectName, organization, responsible);
             }
-            
+            CustomMessageBox.Show("Oficio(s) generados exitosamente");
         }
 
         private void GetStudents()
@@ -71,7 +120,7 @@ namespace SCPP.View
                         j => j.inscription.Matriculaestudiante,
                         s => s.Matricula,
                         (j, s) => new { join = j, student = s })
-                        .Where(q => q.join.inscription.Periodo.Equals(period) && q.join.inscription.GrupoID != null && q.student.Estado.Equals("Inscrito"))
+                        .Where(q => q.join.inscription.Periodo.Equals(period) && q.student.Estado.Equals("Inscrito"))
                         .Select(q => q.student);
 
                 if (studentsInDB != null)
@@ -150,7 +199,7 @@ namespace SCPP.View
             findObject.Text = findText;
             findObject.Replacement.ClearFormatting();
             findObject.Replacement.Text = replaceWithText;
-            object missing = System.Reflection.Missing.Value;
+            object missing = Missing.Value;
             object replaceAll = WdReplace.wdReplaceAll;
             findObject.Execute(ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref replaceAll, ref missing, ref missing, ref missing, ref missing);
             var shapes = doc.Shapes;
@@ -166,12 +215,12 @@ namespace SCPP.View
                         shape.TextFrame.TextRange.Text = resultingText;
                     }
                 }
-            }
+            }           
         }
 
-        private void CreateAssignDocument(object SaveAs, Estudiante student)
+        private void CreateAssignDocument(object SaveAs, Estudiante student, string projectName, Organización organization, Responsableproyecto responsibleProject)
         {
-            object filename = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\Utilities\\DocTemplates\\AsignDocTemplate.docx"));
+            object filename = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\Utilities\\DocTemplates\\AssignDocTemplate.docx"));
             Word.Application wordApp = new Word.Application();
             object missing = Missing.Value;
             Word.Document myWordDoc = null;
@@ -190,24 +239,29 @@ namespace SCPP.View
                 myWordDoc.Activate();
 
                 //find and replace
-                this.FindAndReplace(wordApp, myWordDoc, "<nombre>", student.Nombre + " " + student.Apellidopaterno + " " + student.Apellidomaterno);
-                this.FindAndReplace(wordApp, myWordDoc, "<matricula>", student.Matricula);
-                this.FindAndReplace(wordApp, myWordDoc, "<nombre_proyecto>", student.Correopersonal);
+                this.FindAndReplace(wordApp, myWordDoc, "<studentName>", student.Nombre + " " + student.Apellidopaterno + " " + student.Apellidomaterno);
+                this.FindAndReplace(wordApp, myWordDoc, "<studentNumber>", student.Matricula);
+                this.FindAndReplace(wordApp, myWordDoc, "<projectName>", projectName);
+                this.FindAndReplace(wordApp, myWordDoc, "<projectManagerName>", responsibleProject.Nombre + " " + responsibleProject.Apellidopaterno + " " + responsibleProject.Apellidomaterno);
+                this.FindAndReplace(wordApp, myWordDoc, "<OrganizationName>", organization.Nombre);
+                this.FindAndReplace(wordApp, myWordDoc, "<OrganizationAddress>", organization.Calle + " #" + organization.Numext + " Col." + organization.Colonia);
+                this.FindAndReplace(wordApp, myWordDoc, "<day>", thisDay.Day.ToString());
+                this.FindAndReplace(wordApp, myWordDoc, "<month>", Period.CaclulateMonth(thisDay.Month));
+                this.FindAndReplace(wordApp, myWordDoc, "<year>", thisDay.Year.ToString());
 
                 //Save as
                 myWordDoc.SaveAs2(ref SaveAs, ref missing, ref missing, ref missing,
-                                ref missing, ref missing, ref missing,
-                                ref missing, ref missing, ref missing,
-                                ref missing, ref missing, ref missing,
-                                ref missing, ref missing, ref missing);
+                            ref missing, ref missing, ref missing,
+                            ref missing, ref missing, ref missing,
+                            ref missing, ref missing, ref missing,
+                            ref missing, ref missing, ref missing);
 
                 myWordDoc.Close();
                 wordApp.Quit();
-                MessageBox.Show("File Created!");
             }
             else
             {
-                MessageBox.Show("File not Found!");
+                CustomMessageBox.Show("Plantilla de oficio de asignación no encontrada");
             }
         }
     }
