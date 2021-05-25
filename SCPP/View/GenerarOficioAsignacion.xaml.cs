@@ -104,6 +104,7 @@ namespace SCPP.View
                 CreateAssignDocument(fullFilePath, student, projectName, organization, responsible);
             }
             CustomMessageBox.Show("Oficio(s) generados exitosamente");
+            CancelButton_Click(new object(), new RoutedEventArgs());
         }
 
         private void GetStudents()
