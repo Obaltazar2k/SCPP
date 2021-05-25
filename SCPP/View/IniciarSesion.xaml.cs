@@ -25,8 +25,8 @@ namespace SCPP.View
         public IniciarSesion()
         {
             ITheme theme = _paletteHelper.GetTheme();
-            theme.SetSecondaryColor(System.Windows.Media.Color.FromRgb(4, 156, 51)); //verde
-            theme.SetPrimaryColor(System.Windows.Media.Color.FromRgb(4, 83, 156)); //azul
+            theme.SetPrimaryColor(System.Windows.Media.Color.FromRgb(4, 156, 51)); //verde
+            theme.SetSecondaryColor(System.Windows.Media.Color.FromRgb(4, 83, 156)); //azul
             _paletteHelper.SetTheme(theme);
 
             InitializeComponent();
@@ -140,7 +140,6 @@ namespace SCPP.View
         {
             _user = UserTextBox.Text;
             _password = Encrypt.GetSHA256(PasswordTextBox.Password);
-            Console.WriteLine(_password);
         }
 
         private bool IsCoordinator()

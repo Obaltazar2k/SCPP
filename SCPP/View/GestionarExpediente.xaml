@@ -391,16 +391,6 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
-                    <!--
-                    <DataGridCheckBoxColumn Header="Validado" Width="Auto" Binding="{Binding Validado}" x:Name="FileValidationColumn">
-                        <DataGridCheckBoxColumn.CellStyle>
-                            <Style>
-                                <EventSetter Event="CheckBox.Checked" Handler="OnChecked" />
-                                <EventSetter Event="CheckBox.Unchecked" Handler="OnChecked" />
-                            </Style>
-                        </DataGridCheckBoxColumn.CellStyle>
-                    </DataGridCheckBoxColumn>
-                    -->
                     <DataGridTemplateColumn x:Name="DeleteFileColumn" Header="Eliminar" Width="*" HeaderStyle="{DynamicResource CenterColumnHeader }">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

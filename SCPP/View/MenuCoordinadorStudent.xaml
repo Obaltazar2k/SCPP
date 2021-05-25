@@ -37,7 +37,16 @@
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                 Margin="30 0 30 0"
                 Click="AssignProjectButton_Click" />
-        
+
+        <Button x:Name="UnassignProjectButton"
+                Style="{DynamicResource PrimaryButton }"
+                Grid.Column="2" Grid.Row="3"
+                Grid.ColumnSpan="3"
+                Content="Desasignar proyecto a estudiante"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                Margin="30 0 30 0"
+                Click="UnassignProjectButton_Click" />
+
         <Button x:Name="GetStudentsButton"
                 Style="{DynamicResource PrimaryButton }"
                 Grid.Column="2" Grid.Row="3"

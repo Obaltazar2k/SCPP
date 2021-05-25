@@ -46,10 +46,10 @@ namespace SCPP.View
             return;
         }
 
-        private void GenerateAssignDocButton_Click(object sender, RoutedEventArgs e)
+        private void UnassignProjectButton_Click(object sender, RoutedEventArgs e)
         {
             var mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow?.ChangeView(new GenerarOficioAsignacion());
+            mainWindow?.ChangeView(new DesasignarProyectoEstudiante());
             return;
         }
     }
