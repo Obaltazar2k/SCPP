@@ -131,6 +131,8 @@
           <Property Name="Tiporeporte" Type="varchar" MaxLength="50" />
           <Property Name="ReporteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ArchivoID" Type="int" Nullable="false" />
+          <Property Name="Calificacion" Type="float" />
+          <Property Name="Comentario" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="Responsableproyecto">
           <Key>
@@ -511,6 +513,8 @@
           <Property Name="ReporteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ArchivoID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Archivo" Relationship="Self.FK_Reporte_Archivo" FromRole="Reporte" ToRole="Archivo" />
+          <Property Name="Calificacion" Type="Double" />
+          <Property Name="Comentario" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Responsableproyecto">
           <Key>
@@ -881,6 +885,8 @@
           <EntitySetMapping Name="Reporte">
             <EntityTypeMapping TypeName="SCPPModel.Reporte">
               <MappingFragment StoreEntitySet="Reporte">
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+                <ScalarProperty Name="Calificacion" ColumnName="Calificacion" />
                 <ScalarProperty Name="Horasreportadas" ColumnName="Horasreportadas" />
                 <ScalarProperty Name="Tiporeporte" ColumnName="Tiporeporte" />
                 <ScalarProperty Name="ReporteID" ColumnName="ReporteID" />

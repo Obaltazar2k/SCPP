@@ -18,6 +18,8 @@ namespace SCPP.DataAcces
         public string Tiporeporte { get; set; }
         public int ReporteID { get; set; }
         public int ArchivoID { get; set; }
+        public Nullable<double> Calificacion { get; set; }
+        public string Comentario { get; set; }
     
         public virtual Archivo Archivo { get; set; }
     }

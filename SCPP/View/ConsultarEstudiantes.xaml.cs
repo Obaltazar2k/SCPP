@@ -17,6 +17,7 @@ namespace SCPP.View
     /// </summary>
     public partial class ConsultarEstudiantes : Page
     {
+        private static Sesion userSesion;
         private readonly List<String> filters = new List<String> { "Ninguno", "Activo", "No activo" };
         private string _user;
         private bool isCordinator;
@@ -33,6 +34,7 @@ namespace SCPP.View
                 ComboBoxFilter.ItemsSource = filters;
                 DataContext = this;
                 GetSesion();
+                ChangeComponentsVisibility();
                 GetStudents();
                 ComboBoxFilter.SelectedItem = "Activo";
             }
@@ -48,6 +50,16 @@ namespace SCPP.View
                 NavigationService.GoBack();
             else
                 CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");
+        }
+
+        private void ChangeComponentsVisibility()
+        {
+            if (userSesion.Kind == "Profesor")
+            {
+                CancelButton.SetValue(Grid.ColumnProperty, 3);
+                ShowReportsButton.Visibility = Visibility.Visible;
+                ShowReportsButton.IsEnabled = false;
+            }
         }
 
         private void ComboBoxFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -118,7 +130,7 @@ namespace SCPP.View
 
         private void GetSesion()
         {
-            Sesion userSesion = Sesion.GetSesion;
+            userSesion = Sesion.GetSesion;
             _user = userSesion.Username;
         }
 
@@ -158,6 +170,7 @@ namespace SCPP.View
                 ComboBoxFilter.SelectedItem = "Ninguno";
                 ComboBoxFilter.SelectedItem = selectedFilter;
                 ManageButton.IsEnabled = false;
+                ShowReportsButton.IsEnabled = false;
             }
             catch (EntityException)
             {
@@ -250,6 +263,14 @@ namespace SCPP.View
             }
         }
 
+        private void ShowReportsButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigated += NavigationService_Navigated;
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new VerReportes(studentSelected));
+            return;
+        }
+
         private void StudentsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -257,7 +278,10 @@ namespace SCPP.View
                 DataGrid dataGrid = sender as DataGrid;
                 studentSelected = (Estudiante)dataGrid.SelectedItems[0];
                 if (studentSelected != null)
+                {
                     ManageButton.IsEnabled = true;
+                    ShowReportsButton.IsEnabled = true;
+                }
             }
             catch (ArgumentOutOfRangeException)
             {
