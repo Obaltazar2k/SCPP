@@ -140,7 +140,8 @@
                 Margin=" 10 0 10 0"
                 materialDesign:HintAssist.Hint="Comentario"
                 TextWrapping="Wrap"
-                Style="{DynamicResource TextBox}"/>
+                Style="{DynamicResource TextBox}"
+                x:Name="TextBoxComments"/>
 
 
             <Button
@@ -154,14 +155,34 @@
                 x:Name="CancelButton" />
 
             <Button
-                Click="CancelButton_Click"
+                Click="GradeButton_Click"
                 Content="Calificar"
                 Grid.Column="3"
                 Grid.Row="10"
                 HorizontalAlignment="Right"
                 Margin="15 5"
-                Style="{DynamicResource PrimaryButton }"
-                x:Name="GradeReportButton" />
+                x:Name="GradeReportButton" >
+            <Button.Style>
+                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedAccentButton}">
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="Foreground" Value="#FFFF" />
+                    <Setter Property="Background" Value="#049c33" />
+                    <Setter Property="BorderBrush" Value="#049c33" />
+                    <Setter Property="BorderThickness" Value="3" />
+                    <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="10" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=ScoreTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxComments, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                </Style>
+            </Button.Style>
+            </Button>
+            
         </Grid>
     </Grid>
 </Page>

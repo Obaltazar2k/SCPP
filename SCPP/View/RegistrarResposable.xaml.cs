@@ -2,6 +2,7 @@
 using SCPP.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Entity.Core;
 using System.Linq;
 using System.Text;
@@ -24,9 +25,12 @@ namespace SCPP.View
     /// </summary>
     public partial class RegistrarResposable : Page
     {
+        private ObservableCollection<Organización> OrganizationsCollection { get; set; }
+
         public RegistrarResposable()
         {
             InitializeComponent();
+            FillComboBoxOrganizations();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -85,6 +89,8 @@ namespace SCPP.View
 
         private Responsableproyecto RegisterNewResposable()
         {
+            var organization = (Organización)ComboBoxOrganizacion.SelectedItem;
+
             Responsableproyecto responsable = new Responsableproyecto
             {
                 Nombre = TextBoxName.Text,
@@ -92,7 +98,8 @@ namespace SCPP.View
                 Apellidomaterno = TextBoxMothersLastName.Text,
                 Correopersonal = TextBoxEMail.Text,
                 Telefono = TextBoxPhone.Text,
-                Activo = 1
+                Activo = 1,
+                OrganizaciónID = organization.OrganizaciónID
             };
 
             try
@@ -125,6 +132,29 @@ namespace SCPP.View
                 && FieldsVerificator.VerificateName(TextBoxName.Text)
                 && FieldsVerificator.VerificateName(TextBoxMothersLastName.Text)
                 && FieldsVerificator.VerificateName(TextBoxLastName.Text);
+        }
+
+        private void FillComboBoxOrganizations()
+        {
+            OrganizationsCollection = new ObservableCollection<Organización>();
+            using(SCPPContext context = new SCPPContext())
+            {
+                var organizationsList = context.Organización.OrderByDescending(s => s.Nombre);
+                if(organizationsList != null)
+                {
+                    foreach(Organización organizacion in organizationsList)
+                    {
+                        if(organizacion != null)
+                            OrganizationsCollection.Add(organizacion);
+                    }
+                }
+            }
+            ComboBoxOrganizacion.ItemsSource = OrganizationsCollection;
+        }
+
+        private void ComboBoxOrganizacion_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

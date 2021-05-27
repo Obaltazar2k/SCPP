@@ -90,6 +90,30 @@ namespace SCPP.Utilities
             }
         }
 
+        public static bool VerificateGrade(string calificacion)
+        {
+            double average = 0;
+            bool IsDouble = false;
+
+            try
+            {
+                average = Convert.ToDouble(calificacion);
+                IsDouble = true;
+            }
+            catch(Exception)
+            {
+            }
+
+            Regex rgx = new Regex(@"^((\d+)((\.\d{1,2})?))$");
+            if(rgx.IsMatch(calificacion) && average <= 10 && IsDouble)
+                return true;
+            else
+            {
+                CustomMessageBox.ShowOK("Ingresa una calificacion del 1 al 10", "Error de formato de calificacion", "Aceptar");
+                return false;
+            }
+        }
+
         public static bool VerificateNRC(string Nrc)
         {
 

@@ -103,6 +103,20 @@
             VerticalAlignment="Bottom"
             Width="Auto" />
 
+        <Label Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2"
+               HorizontalAlignment="Left" VerticalAlignment="Bottom"
+               Margin="10 0"
+               Content="Seleccione la organización del resposable: " />
+
+        <ComboBox
+            Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2"
+            VerticalAlignment="Bottom"
+            Margin="10 0 15 0"
+            materialDesign:TextFieldAssist.UnderlineBrush="#04539c"
+            x:Name="ComboBoxOrganizacion"
+            SelectionChanged="ComboBoxOrganizacion_SelectionChanged"
+            ItemsSource="{Binding Organización}" DisplayMemberPath="Nombre" SelectedValuePath="OrganizaciónID" />
+
 
 
 
