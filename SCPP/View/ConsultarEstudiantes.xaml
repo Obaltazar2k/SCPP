@@ -124,6 +124,17 @@
             x:Name="CancelButton" />
 
         <Button 
+            Click="ShowReportsButton_Click"
+            Content="Ver reportes"
+            Grid.Column="4" 
+            Grid.Row="9" 
+            HorizontalAlignment="Right"
+            Margin="15 5"
+            Style="{DynamicResource PrimaryButton}"
+            Visibility="Hidden"
+            x:Name="ShowReportsButton" />
+
+        <Button 
             Click="ManageButton_Click"
             Content="Gestionar"
             Grid.Column="5" 

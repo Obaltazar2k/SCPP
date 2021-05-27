@@ -202,6 +202,9 @@
     <Compile Include="View\AsociarEstudianteGrupo.xaml.cs">
       <DependentUpon>AsociarEstudianteGrupo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\CalificarReporte.xaml.cs">
+      <DependentUpon>CalificarReporte.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ConsultarEstudiantes.xaml.cs">
       <DependentUpon>ConsultarEstudiantes.xaml</DependentUpon>
     </Compile>
@@ -313,6 +316,9 @@
     <Compile Include="View\ValidarInscripcion.xaml.cs">
       <DependentUpon>ValidarInscripcion.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\VerReportes.xaml.cs">
+      <DependentUpon>VerReportes.xaml</DependentUpon>
+    </Compile>
     <Page Include="View\AsignarProfesorGrupo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -323,6 +329,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AsociarEstudianteGrupo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CalificarReporte.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -479,6 +489,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ValidarInscripcion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\VerReportes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
