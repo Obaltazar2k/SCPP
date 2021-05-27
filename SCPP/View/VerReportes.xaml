@@ -52,11 +52,11 @@
             VerticalAlignment="Stretch"
             x:Name="ReportsList">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Nombre de reporte" IsReadOnly="True" Width="Auto" Binding="{Binding Archivo.Titulo}" />
-                <DataGridTextColumn Header="Fecha" IsReadOnly="True" Width="Auto" Binding="{Binding Archivo.Fechaentrega}" />
-                <DataGridTextColumn x:Name="KindColum" Header="Tipo" IsReadOnly="True" Width="Auto" Binding="{Binding Tiporeporte}" />
-                <DataGridTextColumn x:Name="HoursColumn" Header="Horas" IsReadOnly="True" Width="Auto" Binding="{Binding Horasreportadas}" />
-                <DataGridTextColumn x:Name="ScoreColum" Header="Calificación" IsReadOnly="True" Width="Auto" Binding="{Binding Calificacion}" />
+                <DataGridTextColumn Header="Nombre de reporte" IsReadOnly="True" Width="160" Binding="{Binding Archivo.Titulo}" />
+                <DataGridTextColumn Header="Fecha" IsReadOnly="True" Width="*" Binding="{Binding Archivo.Fechaentrega}" />
+                <DataGridTextColumn x:Name="KindColum" Header="Tipo" IsReadOnly="True" Width="*" Binding="{Binding Tiporeporte}" />
+                <DataGridTextColumn x:Name="HoursColumn" Header="Horas" IsReadOnly="True" Width="*" Binding="{Binding Horasreportadas}" />
+                <DataGridTextColumn x:Name="ScoreColum" Header="Calificación" IsReadOnly="True" Width="*" Binding="{Binding Calificacion}" />
             </DataGrid.Columns>
             <DataGrid.Resources>
                 <Style TargetType="DataGridCell">
