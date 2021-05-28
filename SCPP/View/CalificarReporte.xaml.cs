@@ -21,12 +21,21 @@ namespace SCPP.View
     /// </summary>
     public partial class CalificarReporte : Page
     {
-        Reporte actualReporte;
-        public CalificarReporte(Reporte reporte)
+        private Estudiante student;
+        private Reporte actualReporte;
+        private Inscripción inscription;
+        private Expediente expediente;
+        private ObservableCollection<Reporte> reportsCollection;
+
+        public CalificarReporte(Estudiante student)
         {
             InitializeComponent();
-            this.actualReporte = reporte;
-            FillTextBoxes();
+            this.student = student;
+            reportsCollection = new ObservableCollection<Reporte>();
+            GetStudentActualInscription();
+            GetStudentActualExpediente();
+            GetReports();
+            
         }
 
         private void FileButton_Click(object sender, RoutedEventArgs e)
@@ -78,7 +87,7 @@ namespace SCPP.View
                 CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");
         }
   
-        private void FillTextBoxes()
+        private void FillTextBoxes(Reporte actualReporte)
         {
             KindTextBox.Text = actualReporte.Tiporeporte;
             HoursTextBox.Text = actualReporte.Horasreportadas.ToString();
@@ -133,7 +142,56 @@ namespace SCPP.View
                 NavigationService.GoBack();
             else
                 CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");
+        }
 
+        private void ReportsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                DataGrid dataGrid = sender as DataGrid;
+                actualReporte = (Reporte)dataGrid.SelectedItems[0];
+                FillTextBoxes(actualReporte);
+            }
+            catch(ArgumentOutOfRangeException)
+            {
+                // Catch necesario al seleccionar de la tabla y dar clic en registrar
+            }
+        }
+
+        private void GetStudentActualInscription()
+        {
+            using(SCPPContext context = new SCPPContext())
+            {
+                inscription = context.Inscripción.FirstOrDefault(i => i.Matriculaestudiante == student.Matricula && i.Estatus.Equals("Cursando"));
+            }
+        }
+
+        private void GetStudentActualExpediente()
+        {
+            using(SCPPContext context = new SCPPContext())
+            {
+                expediente = context.Expediente.FirstOrDefault(i => i.InscripciónID == inscription.InscripciónID);
+            }
+        }
+
+        private void GetReports()
+        {
+
+            using(SCPPContext context = new SCPPContext())
+            {
+                var reportsList = context.Reporte.Where(r => r.Archivo.ExpedienteID == expediente.ExpedienteID).Include(r => r.Archivo);
+                if(reportsList != null)
+                {
+                    foreach(Reporte report in reportsList)
+                    {
+                        if(report != null)
+                            reportsCollection.Add(report);
+                    }
+                }
+            }
+
+            ReportsList.ItemsSource = reportsCollection;
+            DataContext = this;
         }
     }
 }
