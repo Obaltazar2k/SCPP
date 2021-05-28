@@ -81,9 +81,9 @@ namespace SCPP.View
 
         private void GradeReportButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigated += NavigationService_Navigated;
-            var mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow?.ChangeView(new CalificarReporte(reportSelected));
+            //NavigationService.Navigated += NavigationService_Navigated;
+            //var mainWindow = (MainWindow)Application.Current.MainWindow;
+            //mainWindow?.ChangeView(new CalificarReporte(reportSelected));
             return;
         }
         private void NavigationService_Navigated(object sender, NavigationEventArgs e)

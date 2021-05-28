@@ -267,7 +267,7 @@ namespace SCPP.View
         {
             NavigationService.Navigated += NavigationService_Navigated;
             var mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow?.ChangeView(new VerReportes(studentSelected));
+            mainWindow?.ChangeView(new CalificarReporte(studentSelected));
             return;
         }
 
