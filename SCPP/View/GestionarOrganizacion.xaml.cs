@@ -3,12 +3,10 @@ using SCPP.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Entity;
 using System.Data.Entity.Core;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using WPFCustomMessageBox;
@@ -27,19 +25,21 @@ namespace SCPP.View
         private bool isModifying = false;
         private string _user;
 
-        public GestionarOrganizacion()
-        {
-            InitializeComponent();
-        }
-
         public GestionarOrganizacion(Organización organization)
         {
-            InitializeComponent();
-            actualOrganization = organization;
-            ComboBoxSector.ItemsSource = sectorsList;
-            FillTextBoxes();
-            GetSesion();
-            GetProjects();
+            try
+            {
+                InitializeComponent();
+                actualOrganization = organization;
+                ComboBoxSector.ItemsSource = sectorsList;
+                FillTextBoxes();
+                GetSesion();
+                GetProjects();
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -85,8 +85,7 @@ namespace SCPP.View
             }
             catch (EntityException)
             {
-                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
-                     "Fallo en conexión con la base de datos", "Aceptar");
+                Restarter.RestarSCPP();
             }
         }
 
@@ -181,15 +180,22 @@ namespace SCPP.View
 
         private void SaveChangesButton_Click(object sender, RoutedEventArgs e)
         {
-            if (VerificateFields())
+            try
             {
-                using (SCPPContext context = new SCPPContext())
+                if (VerificateFields())
                 {
-                    var organizationUpdated = UpdateOrganization();
-                    OrganizationUpdatedMessage(organizationUpdated);
+                    using (SCPPContext context = new SCPPContext())
+                    {
+                        var organizationUpdated = UpdateOrganization();
+                        OrganizationUpdatedMessage(organizationUpdated);
+                    }
+                    FillTextBoxes();
+                    ItsNotModifying();
                 }
-                FillTextBoxes();
-                ItsNotModifying();
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
             }
         }
 
@@ -226,7 +232,9 @@ namespace SCPP.View
         private bool VerificateFields()
         {
             return FieldsVerificator.VerificateEmail(TextBoxEmail.Text)
-                && FieldsVerificator.VerificatePhone(TextBoxPhone.Text);
+                && FieldsVerificator.VerificatePhone(TextBoxPhone.Text)
+                && FieldsVerificator.VerificatePostalCode(TextBoxPostcode.Text)
+                && FieldsVerificator.VerificateNumext(TextBoxNumext.Text);
         }
     }
 }

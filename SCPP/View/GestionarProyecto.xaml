@@ -171,7 +171,6 @@
         </TextBox>
 
         <ComboBox
-            DisplayMemberPath="Nombre" 
             Grid.Column="4" 
             Grid.ColumnSpan="2"
             Grid.Row="2" 
@@ -185,7 +184,19 @@
             VerticalAlignment="Center"
             VerticalContentAlignment="Center"
             Visibility="Hidden"
-            x:Name="ComboBoxResponsable" />
+            x:Name="ComboBoxResponsable">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel>
+                        <TextBlock Text="{Binding Nombre}"/>
+                        <TextBlock Text=" "/>
+                        <TextBlock Text="{Binding Apellidopaterno}"/>
+                        <TextBlock Text=" "/>
+                        <TextBlock Text="{Binding Apellidomaterno}"/>
+                    </WrapPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
         <materialDesign:PackIcon
             Foreground="{Binding ElementName=TextBoxOrganization, Path=BorderBrush}"
@@ -277,7 +288,8 @@
             Grid.Row="6" 
             Grid.RowSpan="4"      
             HorizontalAlignment="Stretch"
-            IsReadOnly="True" 
+            IsReadOnly="True"
+            IsEnabled="False"
             Margin="15 15"
             VerticalAlignment="Stretch"
             x:Name="StudentsList">

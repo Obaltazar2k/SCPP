@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using WPFCustomMessageBox;
 using System.Windows.Input;
-
+using System.Data.Entity.Core;
 
 namespace SCPP.View
 {
@@ -25,11 +25,18 @@ namespace SCPP.View
 
         public ConsultarProyectos()
         {
-            InitializeComponent();
-            ComboBoxFilter.ItemsSource = filters;
-            DataContext = this;
-            GetProjects();
-            ComboBoxFilter.SelectedItem = "Activo";
+            try
+            {
+                InitializeComponent();
+                ComboBoxFilter.ItemsSource = filters;
+                DataContext = this;
+                GetProjects();
+                ComboBoxFilter.SelectedItem = "Activo";
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -74,11 +81,18 @@ namespace SCPP.View
 
         private void NavigationService_Navigated(object sender, NavigationEventArgs e)
         {
-            GetProjects();
-            var selectedFilter = ComboBoxFilter.SelectedItem;
-            ComboBoxFilter.SelectedItem = "Ninguno";
-            ComboBoxFilter.SelectedItem = selectedFilter;
-            ManageButton.IsEnabled = false;
+            try
+            {
+                GetProjects();
+                var selectedFilter = ComboBoxFilter.SelectedItem;
+                ComboBoxFilter.SelectedItem = "Ninguno";
+                ComboBoxFilter.SelectedItem = selectedFilter;
+                ManageButton.IsEnabled = false;
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
 
@@ -107,36 +121,43 @@ namespace SCPP.View
 
         private void SetFilter()
         {
-            var filter = (String)ComboBoxFilter.SelectedItem;
-            using (SCPPContext context = new SCPPContext())
+            try
             {
-                projectsCollectionFiltered = new ObservableCollection<Proyecto>();
-                switch (filter)
+                var filter = (String)ComboBoxFilter.SelectedItem;
+                using (SCPPContext context = new SCPPContext())
                 {
-                    case "Ninguno":
-                        ProjectList.ItemsSource = projectsCollection;
-                        break;
+                    projectsCollectionFiltered = new ObservableCollection<Proyecto>();
+                    switch (filter)
+                    {
+                        case "Ninguno":
+                            ProjectList.ItemsSource = projectsCollection;
+                            break;
 
-                    case "Activo":
-                        foreach (Proyecto project in projectsCollection)
-                        {
-                            if (project.Activo == 1)
-                                projectsCollectionFiltered.Add(project);
-                        }
-                        ProjectList.ItemsSource = projectsCollectionFiltered;
-                        break;
+                        case "Activo":
+                            foreach (Proyecto project in projectsCollection)
+                            {
+                                if (project.Activo == 1)
+                                    projectsCollectionFiltered.Add(project);
+                            }
+                            ProjectList.ItemsSource = projectsCollectionFiltered;
+                            break;
 
-                    case "No activo":
-                        foreach (Proyecto project in projectsCollection)
-                        {
-                            if (project.Activo != 1)
-                                projectsCollectionFiltered.Add(project);
-                        }
-                        ProjectList.ItemsSource = projectsCollectionFiltered;
-                        break;
+                        case "No activo":
+                            foreach (Proyecto project in projectsCollection)
+                            {
+                                if (project.Activo != 1)
+                                    projectsCollectionFiltered.Add(project);
+                            }
+                            ProjectList.ItemsSource = projectsCollectionFiltered;
+                            break;
+                    }
                 }
+                DataContext = this;
             }
-            DataContext = this;
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
         private void SpecificSearch(string searchText)
@@ -163,8 +184,15 @@ namespace SCPP.View
 
         private void TextBoxSearch_KeyUp(object sender, KeyEventArgs e)
         {
-            string searchText = TextBoxSearch.Text;
-            SpecificSearch(searchText);
+            try
+            {
+                string searchText = TextBoxSearch.Text;
+                SpecificSearch(searchText);
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
     }
 }

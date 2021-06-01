@@ -42,6 +42,18 @@ namespace SCPP.Utilities
             }
         }
 
+        public static bool VerificateNumext (string numext)
+        {
+            Regex rgx = new Regex("^[0-9]+$");
+            if (rgx.IsMatch(numext))
+                return true;
+            else
+            {
+                CustomMessageBox.ShowOK("Asegurese de introducir un número exterior valido.", "Error de formato de número exterior", "Aceptar");
+                return false;
+            }
+        }
+
         public static bool VerificateWorkerNumber(string workerNumber)
         {
             Regex rgx = new Regex("^[0-9]+$");
@@ -50,6 +62,18 @@ namespace SCPP.Utilities
             else
             {
                 CustomMessageBox.ShowOK("Asegurese de ingresar un numero de trabajador válido", "Error de formato de RFC", "Aceptar");
+                return false;
+            }
+        }
+
+        public static bool VerificatePostalCode(string postalCode)
+        {
+            Regex rgx = new Regex(@"^\d{5}$");
+            if (rgx.IsMatch(postalCode))
+                return true;
+            else
+            {
+                CustomMessageBox.ShowOK("Asegurese de introducir un código postal valido.", "Error de formato de código postal", "Aceptar");
                 return false;
             }
         }

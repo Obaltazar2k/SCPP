@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using WPFCustomMessageBox;
 using SCPP.DataAcces;
+using System.Data.Entity.Core;
 
 namespace SCPP.View
 {
@@ -22,23 +23,37 @@ namespace SCPP.View
         
         public AsociarEstudianteGrupo()
         {
-            InitializeComponent();
-            DataContext = this;
-            GetSesion();
-            GetStudents();
-            FillComboBox(_user);
+            try
+            {
+                InitializeComponent();
+                DataContext = this;
+                GetSesion();
+                GetStudents();
+                FillComboBox(_user);
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
         private ObservableCollection<Grupo> groupsCollection { get; set; }
         private void AgreeButton_Click(object sender, RoutedEventArgs e)
         {
-            if (VerificateGroupCapacity())
+            try
             {
-                ChangeStudentsGroups();
-                ConfirmedAssociationMessage();
+                if (VerificateGroupCapacity())
+                {
+                    ChangeStudentsGroups();
+                    ConfirmedAssociationMessage();
+                }
+                else
+                    CustomMessageBox.ShowOK("No hay suficiente espacio en el grupo.", "Error al asignar estudiantes a grupo", "Aceptar");
             }
-            else
-                CustomMessageBox.ShowOK("No hay suficiente espacio en el grupo.", "Error al asignar estudiantes a grupo", "Aceptar");
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
 
         }
 
