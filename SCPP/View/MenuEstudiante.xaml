@@ -53,14 +53,14 @@
             </materialDesign:PopupBox>
         </Grid>
 
-        <Button x:Name="SubirReporteButton"
+        <Button x:Name="GestionarExpedienteButton"
                 Style="{DynamicResource PrimaryButton }"
                 Grid.Column="2" Grid.Row="4"
                 Grid.ColumnSpan="3"
-                Content="Subir reporte"
+                Content="Gestionar expediente"
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                 Margin="30 0 30 0"
-                Click="SubirReporteButton_Click"
+                Click="GestionarExpedienteButton_Click"
         ></Button>
 
         <Button x:Name="EscogerProyectoButton"
