@@ -72,6 +72,12 @@ namespace SCPP.View
         {
             fileSelected = ((FrameworkElement)sender).DataContext as Archivo;
 
+            if (fileSelected.Validado == 1)
+            {
+                CustomMessageBox.Show("No se puede eliminar un archivo validado por el docente.");
+                return;
+            }
+
             MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que deseas eliminar el archivo <" + fileSelected.Titulo + ">?", "Confirmación", "Si", "No");
             if (confirmation == MessageBoxResult.No)
                 return;
@@ -100,6 +106,12 @@ namespace SCPP.View
         private void DeleteReportButton_Click(object sender, RoutedEventArgs e)
         {
             reportSelected = ((FrameworkElement)sender).DataContext as Reporte;
+
+            if (reportSelected.Archivo.Validado == 1)
+            {
+                CustomMessageBox.Show("No se puede eliminar un archivo validado por el docente.");
+                return;
+            }
 
             MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que deseas eliminar el reporte <" + reportSelected.Archivo.Titulo + ">?", "Confirmación", "Si", "No");
             if (confirmation == MessageBoxResult.No)
@@ -329,6 +341,59 @@ namespace SCPP.View
             }
         }
 
+
+        private void ReportsGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            NavigationService.Navigated += NavigationService_Navigated;
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new CalificarReporte(reportSelected));
+            return;
+        }
+
+        private void ReportsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                DataGrid dataGrid = sender as DataGrid;
+                var report = (Reporte)dataGrid.SelectedItems[0];
+                if (report != null)
+                {
+                    reportSelected = report;
+                }
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                // Catch necesario al seleccionar de la tabla y dar clic en registrar
+            }
+        }
+
+        private void ReportValidationCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (pageIsLoad && userSesion.Kind != "Student")
+            {
+                reportSelected = ((FrameworkElement)sender).DataContext as Reporte;
+                try
+                {
+                    if (reportSelected != null)
+                    {
+                        using (SCPPContext context = new SCPPContext())
+                        {
+                            var fileInDB = context.Archivo.Find(reportSelected.ArchivoID);
+                            if (fileInDB.Validado == 1)
+                                fileInDB.Validado = 0;
+                            else
+                                fileInDB.Validado = 1;
+                            context.SaveChanges();
+                        }
+                    }
+                }
+                catch (EntityException)
+                {
+                    Restarter.RestarSCPP();
+                }
+            }
+        }
+
         private void UploadFileButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog
@@ -391,53 +456,6 @@ namespace SCPP.View
             NavigationService.Navigated += NavigationService_Navigated;
             var mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow?.ChangeView(new EntregarReporte(inscription));
-            return;
-        }
-
-        private void ReportValidationCheckbox_Checked(object sender, RoutedEventArgs e)
-        {
-            if (pageIsLoad && userSesion.Kind != "Student")
-            {
-                reportSelected = ((FrameworkElement)sender).DataContext as Reporte;
-                try
-                {
-                    if (reportSelected != null)
-                    {
-                        using (SCPPContext context = new SCPPContext())
-                        {
-                            var fileInDB = context.Archivo.Find(reportSelected.ArchivoID);
-                            if (fileInDB.Validado == 1)
-                                fileInDB.Validado = 0;
-                            else
-                                fileInDB.Validado = 1;
-                            context.SaveChanges();
-                        }
-                    }
-                }
-                catch (EntityException)
-                {
-                    Restarter.RestarSCPP();
-                }
-            }
-        }
-
-        private void ReportsGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            reportSelected = ((FrameworkElement)sender).DataContext as Reporte;
-
-            NavigationService.Navigated += NavigationService_Navigated;
-            var mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow?.ChangeView(new CalificarReporte(reportSelected));
-            return;
-        }
-
-        private void SeeReportButton_Click(object sender, RoutedEventArgs e)
-        {
-            reportSelected = ((FrameworkElement)sender).DataContext as Reporte;
-
-            NavigationService.Navigated += NavigationService_Navigated;
-            var mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow?.ChangeView(new CalificarReporte(reportSelected));
             return;
         }
     }
