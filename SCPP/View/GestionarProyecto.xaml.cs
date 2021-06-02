@@ -3,13 +3,10 @@ using SCPP.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Entity;
 using System.Data.Entity.Core;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
 using System.Windows.Navigation;
 using WPFCustomMessageBox;
 
@@ -28,19 +25,103 @@ namespace SCPP.View
         private bool isModifying = false;
         private Responsableproyecto actualResponsableProyecto;
 
-        public GestionarProyecto()
-        {
-            InitializeComponent();
-        }
-
         public GestionarProyecto(Proyecto project)
         {
-            InitializeComponent();
-            actualProject = project;
-            ComboBoxCapacidad.ItemsSource = numOfStudents;
-            FillComboBoxOrganizations();
-            FillTextBoxes();
-            GetStudents();
+            try
+            {
+                InitializeComponent();
+                actualProject = project;
+                ComboBoxCapacidad.ItemsSource = numOfStudents;
+                FillComboBoxOrganizations();
+                FillTextBoxes();
+                GetStudents();
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (isModifying)
+            {
+                FillTextBoxes();
+                ItsNotModifying();
+            }
+            else
+            {
+                ReturnToPreviousList(new object(), new RoutedEventArgs());
+            }
+        }
+
+        private void ComboBoxOrganization_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                var organization = (Organización)ComboBoxOrganization.SelectedItem;
+                responsablesCollection = new ObservableCollection<Responsableproyecto>();
+                using (SCPPContext context = new SCPPContext())
+                {
+                    var responsablesList = context.Responsableproyecto.Where(r => r.OrganizaciónID == organization.OrganizaciónID);
+                    if (responsablesList != null)
+                    {
+                        foreach (Responsableproyecto responsableProyecto in responsablesList)
+                        {
+                            if (responsableProyecto != null)
+                                responsablesCollection.Add(responsableProyecto);
+                        }
+                    }
+                }
+                ComboBoxResponsable.ItemsSource = responsablesCollection;
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
+        }
+
+        private void DeleteOrganizationButton_Click(object sender, RoutedEventArgs e)
+        {
+            bool deleteDone = false;
+            try
+            {
+                MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que desea eliminar el PROYECTO " + actualProject.Nombre + "?", "Confirmación", "Si", "No");
+
+                if (confirmation == MessageBoxResult.Yes)
+                {
+                    Proyecto project;
+                    using (SCPPContext context = new SCPPContext())
+                    {
+                        project = context.Proyecto.FirstOrDefault(p => p.Clave == actualProject.Clave);
+                        project.Activo = 0;
+                        context.SaveChanges();
+                    }
+                    actualProject = project;
+                    deleteDone = true;
+                }
+                else
+                    return;
+
+                if (deleteDone == true)
+                {
+                    MessageBoxResult result = CustomMessageBox.ShowOK("El registro ha sido eliminado con éxito.", "Eliminación", "Finalizar");
+                    ReturnToPreviousList(new object(), new RoutedEventArgs());
+                }
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
+        }
+
+
+        private void EditOrganizationButton_Click(object sender, RoutedEventArgs e)
+        {
+            ComboBoxCapacidad.Text = TextBoxCapacidad.Text;
+            ComboBoxResponsable.Text = TextBoxResponsable.Text;
+            ComboBoxOrganization.Text = TextBoxOrganization.Text;
+            ItsModifying();
         }
 
         private void FillComboBoxOrganizations()
@@ -127,62 +208,6 @@ namespace SCPP.View
             DataContext = studentsCollection;
         }
 
-        private void EditOrganizationButton_Click(object sender, RoutedEventArgs e)
-        {
-            ComboBoxCapacidad.Text = TextBoxCapacidad.Text;
-            ComboBoxResponsable.Text = TextBoxResponsable.Text;
-            ComboBoxOrganization.Text = TextBoxOrganization.Text;
-            ItsModifying();
-        }
-
-        private void DeleteOrganizationButton_Click(object sender, RoutedEventArgs e)
-        {
-            bool deleteDone = false;
-            try
-            {
-                MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que desea eliminar el PROYECTO " + actualProject.Nombre + "?", "Confirmación", "Si", "No");
-
-                if (confirmation == MessageBoxResult.Yes)
-                {
-                    Proyecto project;
-                    using (SCPPContext context = new SCPPContext())
-                    {
-                        project = context.Proyecto.FirstOrDefault(p => p.Clave == actualProject.Clave);
-                        project.Activo = 0;
-                        context.SaveChanges();
-                    }
-                    actualProject = project;
-                    deleteDone = true;
-                }
-                else
-                    return;
-
-                if (deleteDone == true)
-                {
-                    MessageBoxResult result = CustomMessageBox.ShowOK("El registro ha sido eliminado con éxito.", "Eliminación", "Finalizar");
-                    ReturnToPreviousList(new object(), new RoutedEventArgs());
-                }
-            }
-            catch (EntityException)
-            {
-                CustomMessageBox.ShowOK("Ocurrió un error en la conexión con la base de datos. Por favor intentelo más tarde.",
-                     "Fallo en conexión con la base de datos", "Aceptar");
-            }
-        }
-
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (isModifying)
-            {
-                FillTextBoxes();
-                ItsNotModifying();
-            }
-            else
-            {
-                ReturnToPreviousList(new object(), new RoutedEventArgs());
-            }
-        }
-
         private void ItsModifying()
         {
             isModifying = true;
@@ -215,6 +240,11 @@ namespace SCPP.View
             ComboBoxOrganization.Visibility = Visibility.Hidden;
         }
 
+        private void ProjectUpdatedMessage(object projectUpdated)
+        {
+            CustomMessageBox.ShowOK("El registro se ha cambiado con éxito", "Cambio exitoso", "Finalizar");
+        }
+
         private void ReturnToPreviousList(object v, RoutedEventArgs routedEventArgs)
         {
             if (NavigationService.CanGoBack)
@@ -225,18 +255,20 @@ namespace SCPP.View
 
         private void SaveChangesButton_Click(object sender, RoutedEventArgs e)
         {
-            using (SCPPContext context = new SCPPContext())
+            try
             {
-                var projectUpdated = UpdateProject();
-                ProjectUpdatedMessage(projectUpdated);
+                using (SCPPContext context = new SCPPContext())
+                {
+                    var projectUpdated = UpdateProject();
+                    ProjectUpdatedMessage(projectUpdated);
+                }
+                FillTextBoxes();
+                ItsNotModifying();
             }
-            FillTextBoxes();
-            ItsNotModifying();
-        }
-
-        private void ProjectUpdatedMessage(object projectUpdated)
-        {
-            CustomMessageBox.ShowOK("El registro se ha cambiado con éxito", "Cambio exitoso", "Finalizar");
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
         private object UpdateProject()
@@ -266,25 +298,6 @@ namespace SCPP.View
             }
             actualProject = project;
             return project;
-        }
-
-        private void ComboBoxOrganization_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var organization = (Organización)ComboBoxOrganization.SelectedItem;
-            responsablesCollection = new ObservableCollection<Responsableproyecto>();
-            using (SCPPContext context = new SCPPContext())
-            {
-                var responsablesList = context.Responsableproyecto.Where(r => r.OrganizaciónID == organization.OrganizaciónID);
-                if (responsablesList != null)
-                {
-                    foreach (Responsableproyecto responsableProyecto in responsablesList)
-                    {
-                        if (responsableProyecto != null)
-                            responsablesCollection.Add(responsableProyecto);
-                    }
-                }
-            }
-            ComboBoxResponsable.ItemsSource = responsablesCollection;
         }
     }
 }

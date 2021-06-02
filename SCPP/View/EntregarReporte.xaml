@@ -10,7 +10,7 @@
       Title="EntregarReporte">
 
 
-    <Grid Margin="20 10">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
@@ -19,19 +19,24 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="*"/>
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
 
+        <Grid Height="60" Grid.ColumnSpan="6" VerticalAlignment="Top" Background="#04539c">
+            <Label Content="Entregar reporte" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Foreground="White"/>
+        </Grid>
+
         <ComboBox
             Grid.Column="1" 
             Grid.ColumnSpan="2"
-            Grid.Row="1"
+            Grid.Row="2"
             HorizontalAlignment="Stretch"
             Margin=" 10 0 10 0"
             materialDesign:HintAssist.Hint="Tipo de reporte"
@@ -42,7 +47,7 @@
         <TextBox
             Grid.Column="1" 
             Grid.ColumnSpan="2"
-            Grid.Row="2"
+            Grid.Row="3"
             HorizontalAlignment="Stretch"
             KeyDown="TextBoxHours_KeyDown"
             Margin=" 10 0 10 0"
@@ -54,7 +59,7 @@
         <TextBox
             Grid.Column="1" 
             Grid.ColumnSpan="2"
-            Grid.Row="3"
+            Grid.Row="4"
             HorizontalAlignment="Stretch"
             IsReadOnly="True"
             Margin=" 10 0 10 0"
@@ -67,7 +72,7 @@
         <Button
             Click="UploadReportButton_Click"
             Grid.Column="3" 
-            Grid.Row="3"
+            Grid.Row="4"
             HorizontalAlignment="Left"
             Margin="10 10 10 10"
             Style="{DynamicResource PrimaryButton }"
@@ -81,7 +86,7 @@
         </Button>
 
         <Button x:Name="CancelButton"
-                Grid.Column="1" Grid.Row="4" Margin="15 5"
+                Grid.Column="1" Grid.Row="5" Margin="15 5"
                 Content="Cancelar"
                 HorizontalAlignment="Right"
                 Click="CancelButton_Click"
@@ -89,7 +94,7 @@
                 VerticalAlignment="Bottom"/>
 
         <Button x:Name="SendButton"
-                Grid.Column="2" Grid.Row="4" Margin="15 5"
+                Grid.Column="2" Grid.Row="5" Margin="15 5"
                 Content="Entregar"
                 HorizontalAlignment="Left"
                 Click="SendButton_Click"

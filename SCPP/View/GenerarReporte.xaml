@@ -8,7 +8,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Generar reporte">
 
-    <Grid Margin="20 10">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
@@ -19,6 +19,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
@@ -27,18 +28,22 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4"
+        <Grid Height="60" Grid.ColumnSpan="7" VerticalAlignment="Top" Background="#04539c">
+            <Label Content="Generar reporte" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Foreground="White"/>
+        </Grid>
+
+        <Label Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4"
                HorizontalAlignment="Left" VerticalAlignment="Top"
                FontSize="14"
                FontWeight="Bold"
                Content="Selecciona la ruta en la que se guardara el reporte." />
 
         <TextBox
-            Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4"
+            Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="4"
             VerticalAlignment="Bottom"
             Margin="0 0 0 0"
             materialDesign:HintAssist.Hint="Ruta de archivo"
@@ -49,20 +54,20 @@
             x:Name="SelectPathButton"
             Style="{DynamicResource PrimaryButton }"
             Content="Seleccionar ruta"
-            Grid.Column="5" Grid.Row="4"
+            Grid.Column="5" Grid.Row="5"
             Margin="0 0 0 0"
             Click="SelectPathButton_Clicked"
             VerticalContentAlignment="Center" HorizontalAlignment="Center" />
 
         <Button x:Name="CancelButton"
-                Grid.Column="4" Grid.Row="8" Margin="15 5"
+                Grid.Column="4" Grid.Row="9" Margin="15 5"
                 Content="Cancelar"
                 HorizontalAlignment="Right"
                 Click="CancelButton_Click"
                 Style="{DynamicResource SecundaryButton }" />
 
         <Button x:Name="GenerateReportButton"
-                Grid.Column="5" Grid.Row="8" Margin="15 5"
+                Grid.Column="5" Grid.Row="9" Margin="15 5"
                 Content="Generar reporte"
                 HorizontalAlignment="Left"
                 Click="GenerateReportButton_Clicked">

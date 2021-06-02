@@ -8,13 +8,21 @@
       d:DesignHeight="605" d:DesignWidth="1080"
       Title="GestionarExpediente">
 
-    <Grid Margin="20 10">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <Grid Margin="20 10" Grid.Column="0">
+        <Grid Height="60" Grid.ColumnSpan="8" VerticalAlignment="Top" Background="#04539c">
+            <Label Content="Gestionar expediente" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Foreground="White"/>
+        </Grid>
+
+        <Grid Margin="20 10" Grid.Column="0" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -179,7 +187,7 @@
             x:Name="PeriodTextBox" />
         </Grid>
 
-        <Grid Margin="20 10" Grid.Column="1">
+        <Grid Margin="20 10" Grid.Column="1" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />

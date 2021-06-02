@@ -8,20 +8,21 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="EscogerProyecto">
 
-    <Grid Margin="20 10">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition />
             <ColumnDefinition />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition />
             <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="50"/>
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
@@ -32,44 +33,63 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
+        <Grid Height="60" Grid.ColumnSpan="7" VerticalAlignment="Top" Background="#04539c">
+            <Label Content="Escoger proyecto" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Foreground="White"/>
+        </Grid>
+
         <Button x:Name="AddButton"
-                Grid.Column="3" Grid.Row="4"
+                Grid.Column="3" Grid.Row="5"
                 Content="{materialDesing:PackIcon Kind=Add}"
                 HorizontalAlignment="Center"
+                IsEnabled="False"
                 Click="AddButton_Click"
-                Style="{DynamicResource PrimaryButton }" />
+                Style="{DynamicResource PrimaryButton }"/>
         <Button x:Name="RemoveButton"
-                Grid.Column="3" Grid.Row="5"
+                Grid.Column="3" Grid.Row="6"
                 Content="{materialDesing:PackIcon Kind=Remove}"
                 HorizontalAlignment="Center"
+                IsEnabled="False"
                 Click="RemoveButton_Click"
                 Style="{DynamicResource PrimaryButton }" />
-        <Button x:Name="CancelButton"
-                Grid.Column="5" Grid.Row="9" Margin="15 5"
+
+        <StackPanel Orientation="Horizontal"
+                    Grid.Column="5"
+                    Grid.ColumnSpan="2"
+                    Grid.Row="10"
+                    Margin="0">
+            <Button x:Name="CancelButton"
+                Margin="30 5 15 5"
                 Content="Cancelar"
-                HorizontalAlignment="Right"
                 Click="CancelButton_Click"
                 Style="{DynamicResource SecundaryButton }" />
-        <Button x:Name="AgreeButton"
-                Grid.Column="6" Grid.Row="9" Margin="15 5"
+            <Button x:Name="AgreeButton"
+                Margin="15 5 0 5"
                 Content="Aceptar"
-                HorizontalAlignment="Left"
                 IsEnabled="False" Click="AgreeButton_Click"
                 Style="{DynamicResource PrimaryButton }" />
+        </StackPanel>
 
-        <DataGrid Name="ProjectsList" Margin="15 15"
+        <DataGrid Name="ProjectsList" Margin="20 10 10 10 "
                   AutoGenerateColumns="False"
+                  BorderThickness="3"
                   ItemsSource="{Binding}"
-                  Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="8"
+                  Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="8"
                   SelectionChanged="ProjectsList_SelectionChanged"
                   SelectionMode="Extended"
                   IsReadOnly="True"
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserResizeColumns="False"
-                  CanUserReorderColumns="False" CanUserSortColumns="False">
+                  CanUserReorderColumns="False" CanUserSortColumns="False"
+                  PreviewMouseLeftButtonDown="ProjectsList_PreviewMouseLeftButtonDown">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Clave" IsReadOnly="True" Width="Auto" Binding="{Binding Clave}" />
                 <DataGridTextColumn Header="Nombre" IsReadOnly="True" Width="Auto" Binding="{Binding Nombre}" />
-                <DataGridTextColumn Header="Descripción" IsReadOnly="True" Width="Auto" Binding="{Binding Descripcion}" />
+                <DataGridTemplateColumn Header="Descripción" IsReadOnly="True" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Descripcion}" Height="Auto" Width="Auto" TextWrapping="Wrap" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
             <DataGrid.Resources>
                 <Style TargetType="DataGridCell">
@@ -85,19 +105,27 @@
             </DataGrid.Resources>
         </DataGrid>
 
-        <DataGrid Name="ChoosenProjectsList" Margin="15 15"
+        <DataGrid Name="ChoosenProjectsList" Margin="10 10 20 10"
                   AutoGenerateColumns="False"
+                  BorderThickness="3"
                   ItemsSource="{Binding}"
-                  Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="8"
+                  Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="8"
                   SelectionChanged= "ChoosenProjectsList_SelectionChanged"
                   SelectionMode="Extended"
                   IsReadOnly="True"
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserResizeColumns="False"
-                  CanUserReorderColumns="False" CanUserSortColumns="False">
+                  CanUserReorderColumns="False" CanUserSortColumns="False"
+                  PreviewMouseLeftButtonDown="ChoosenProjectsList_PreviewMouseLeftButtonDown">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Clave" IsReadOnly="True" Width="Auto" Binding="{Binding Clave}" />
                 <DataGridTextColumn Header="Nombre" IsReadOnly="True" Width="Auto" Binding="{Binding Nombre}" />
-                <DataGridTextColumn Header="Descripción" IsReadOnly="True" Width="Auto" Binding="{Binding Descripcion}" />
+                <DataGridTemplateColumn Header="Descripción" IsReadOnly="True" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Descripcion}" Height="Auto" Width="Auto" TextWrapping="Wrap" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
             <DataGrid.Resources>
                 <Style TargetType="DataGridCell">

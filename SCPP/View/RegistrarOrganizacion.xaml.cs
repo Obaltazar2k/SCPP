@@ -6,9 +6,11 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using WPFCustomMessageBox;
 using SCPP.DataAcces;
+using SCPP.Utilities;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using System.Collections.Generic;
+using System.Data.Entity.Core;
 
 namespace SCPP.View
 {
@@ -19,47 +21,11 @@ namespace SCPP.View
     {
         private readonly List<string> sectorsList = new List<string> { "Transporte", "Comunicaciones", "Comercial", "Turístico" , "Sanitario" , 
             "Educativo" , "Artes" , "Financiero" , "Administrativo", "Tecnológico" };
+
         public RegistrarOrganizacion()
         {
             InitializeComponent();
             ComboBoxSector.ItemsSource = sectorsList;
-        }
-
-        public void OrganizationRegisteredMessage(object organization)
-        {
-            MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("El registro se ha realizado con éxito", "Registro exitoso",
-                "Gestionar organizacion",
-                "Finalizar");
-            if (confirmation == MessageBoxResult.Yes)
-            {
-                throw new NotImplementedException();
-            }
-            else
-            {
-                CancelButton_Click(new object(), new RoutedEventArgs());
-            }
-        }
-
-        public object RegisterNewOrganization()
-        {
-            var organization = new Organización
-            {
-                Calle = StreetTextBox.Text,
-                Codigopostal = PostcodeTextBox.Text,
-                Colonia = SuburbTextBox.Text,
-                Correo = EmailTextBox.Text,
-                Nombre = NameTextBox.Text,
-                Numext = Int32.Parse(NumextTextBox.Text),
-                Telefono = PhoneTextBox.Text,
-                Activo = 1,
-                Sector = ComboBoxSector.Text
-            };
-            using (SCPPContext context = new SCPPContext())
-            {
-                context.Organización.Add(organization);
-                context.SaveChanges();
-            }
-            return organization;
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -90,31 +56,20 @@ namespace SCPP.View
                 e.Handled = true;
         }
 
-        private bool NumextValidation()
+        public void OrganizationRegisteredMessage(Organización organizationRegistered)
         {
-            int numext;
-            if (Int32.TryParse(NumextTextBox.Text, out numext))
+            MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("El registro se ha realizado con éxito", "Registro exitoso",
+                "Gestionar organizacion",
+                "Finalizar");
+            if (confirmation == MessageBoxResult.Yes)
             {
-                return true;
+                var mainWindow = (MainWindow)Application.Current.MainWindow;
+                mainWindow?.ChangeView(new GestionarOrganizacion(organizationRegistered));
+                return;
             }
             else
             {
-                CustomMessageBox.ShowOK("Asegurese de introducir un número exterior valido.", "Error de formato de número exterior", "Aceptar");
-                return false;
-            }
-        }
-
-        private bool PostcodeValidation()
-        {
-            int postcode;
-            if (Int32.TryParse(PostcodeTextBox.Text, out postcode) && PostcodeTextBox.Text.Length == 5)
-            {
-                return true;
-            }
-            else
-            {
-                CustomMessageBox.ShowOK("Asegurese de introducir un código postal valido.", "Error de formato de código postal", "Aceptar");
-                return false;
+                CancelButton_Click(new object(), new RoutedEventArgs());
             }
         }
 
@@ -129,7 +84,7 @@ namespace SCPP.View
                         var organization = context.Organización.FirstOrDefault(s => s.Nombre == NameTextBox.Text);
                         if (organization == null)
                         {
-                            var organizationRegistered = RegisterNewOrganization();
+                            Organización organizationRegistered =(Organización) RegisterNewOrganization();
                             OrganizationRegisteredMessage(organizationRegistered);
                         }
                         else
@@ -137,14 +92,40 @@ namespace SCPP.View
                     }
                 }
             }
-            catch (Exception ex)
+            catch (EntityException)
             {
-                CustomMessageBox.ShowOK(ex.ToString(), "Error", "Aceptar");
+                Restarter.RestarSCPP();            
             }
         }
+
+        public object RegisterNewOrganization()
+        {
+            var organization = new Organización
+            {
+                Calle = StreetTextBox.Text,
+                Codigopostal = PostcodeTextBox.Text,
+                Colonia = SuburbTextBox.Text,
+                Correo = EmailTextBox.Text,
+                Nombre = NameTextBox.Text,
+                Numext = Int32.Parse(NumextTextBox.Text),
+                Telefono = PhoneTextBox.Text,
+                Activo = 1,
+                Sector = ComboBoxSector.Text
+            };
+            using (SCPPContext context = new SCPPContext())
+            {
+                context.Organización.Add(organization);
+                context.SaveChanges();
+            }
+            return organization;
+        }
+
         private bool VerificateFields()
         {
-            return EmailValidation() && NumextValidation() && PostcodeValidation();
+            return FieldsVerificator.VerificateEmail(EmailTextBox.Text)
+                && FieldsVerificator.VerificatePhone(PhoneTextBox.Text)
+                && FieldsVerificator.VerificatePostalCode(PostcodeTextBox.Text)
+                && FieldsVerificator.VerificateNumext(NumextTextBox.Text);
         }
     }
 }

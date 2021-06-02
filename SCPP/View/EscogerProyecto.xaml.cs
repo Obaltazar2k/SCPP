@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using WPFCustomMessageBox;
 using SCPP.DataAcces;
+using System.Data.Entity.Core;
 
 namespace SCPP.View
 {
@@ -25,9 +26,16 @@ namespace SCPP.View
         
         public EscogerProyecto()
         {
-            InitializeComponent();
-            GetSesion();
-            GetProyects();
+            try
+            {
+                InitializeComponent();
+                GetSesion();
+                GetProyects();
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -50,22 +58,29 @@ namespace SCPP.View
 
         private void AgreeButton_Click(object sender, RoutedEventArgs e)
         {
-            if (CheckChoosenProjects())
+            try
             {
-                MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que desea escoger estos proyectos?", "Confirmacion", "Si", "No");
-                if (confirmation == MessageBoxResult.Yes)
+                if (CheckChoosenProjects())
                 {
-                    CreateProjectsSelection();
-                    ConfirmedChoosenProjectsMessage();
+                    MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que desea escoger estos proyectos?", "Confirmacion", "Si", "No");
+                    if (confirmation == MessageBoxResult.Yes)
+                    {
+                        CreateProjectsSelection();
+                        ConfirmedChoosenProjectsMessage();
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
                 else
                 {
-                    return;
+                    CustomMessageBox.ShowOK("Debes elegir 3 proyectos", "Error", "Aceptar");
                 }
             }
-            else
+            catch (EntityException)
             {
-                CustomMessageBox.ShowOK("Debes elegir 3 proyectos", "Error", "Aceptar");
+                Restarter.RestarSCPP();
             }
         }
 
@@ -105,6 +120,12 @@ namespace SCPP.View
                 return true;
             }
             return false;
+        }
+
+        private void ChoosenProjectsList_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            AddButton.IsEnabled = false;
+            ProjectsList.SelectedItems.Clear();
         }
 
         private void ChoosenProjectsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -154,7 +175,7 @@ namespace SCPP.View
             projectsCollection = new ObservableCollection<Proyecto>();
             using (SCPPContext context = new SCPPContext())
             {
-                var proyectsList = context.Proyecto.Where(p => p.Inscripción.Count < 1);
+                var proyectsList = context.Proyecto.Where(p => p.Inscripción.Count < p.Noestudiantes);
                 if (proyectsList != null)
                 {
                     foreach (Proyecto proyecto in proyectsList)
@@ -180,6 +201,12 @@ namespace SCPP.View
                 var student = context.Estudiante.FirstOrDefault(s => s.Matricula.Equals(_user));
                 return student.Matricula;
             }
+        }
+
+        private void ProjectsList_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            RemoveButton.IsEnabled = false;
+            ChoosenProjectsList.SelectedItems.Clear();
         }
 
         private void ProjectsList_SelectionChanged(object sender, SelectionChangedEventArgs e)

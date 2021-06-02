@@ -9,33 +9,43 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="GestionarEstudiante">
 
-    <Grid Margin="20 10">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
-        </Grid.ColumnDefinitions>
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="auto" />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition Height="*" />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition Height="auto" />
-            <RowDefinition />
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Label 
+        <Grid Height="60" VerticalAlignment="Top" Background="#04539c">
+            <Label Content="Gestionar profesor" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Foreground="White"/>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="20 10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="auto" />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition Height="*" />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition Height="auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Label 
             Content="Numero de trabajador:" 
             Grid.Column="0"    
             Grid.ColumnSpan="3"
@@ -44,7 +54,7 @@
             VerticalAlignment="Bottom"
             x:Name="InstructionsLabel"/>
 
-        <TextBox
+            <TextBox
             Grid.Column="3" 
             Grid.Row="1"
             Grid.ColumnSpan="2"
@@ -57,8 +67,8 @@
             VerticalContentAlignment="Center" 
             x:Name="TextBoxNumeroTrabajador"/>
 
-        <materialDesign:PackIcon
-            Foreground="#04539c"
+            <materialDesign:PackIcon
+            Foreground="{Binding ElementName=TextBoxName, Path=BorderBrush}"
             Grid.Row="3"
             Height="Auto"
             HorizontalAlignment="Right"
@@ -67,7 +77,7 @@
             VerticalAlignment="Bottom"
             Width="Auto" />
 
-        <TextBox
+            <TextBox
             Grid.Column="1" 
             Grid.ColumnSpan="2"
             Grid.Row="3"
@@ -80,7 +90,7 @@
             VerticalContentAlignment="Center" 
             x:Name="TextBoxName"/>
 
-        <TextBox
+            <TextBox
             Grid.Column="1" 
             Grid.ColumnSpan="2"
             Grid.Row="4"
@@ -93,7 +103,7 @@
             VerticalContentAlignment="Center" 
             x:Name="TextBoxApellidoPaterno"/>
 
-        <TextBox
+            <TextBox
             Grid.Column="1" 
             Grid.ColumnSpan="2"
             Grid.Row="5"
@@ -106,8 +116,8 @@
             VerticalContentAlignment="Center" 
             x:Name="TextBoxApellidoMaterno"/>
 
-        <materialDesign:PackIcon
-            Foreground="#04539c"
+            <materialDesign:PackIcon
+            Foreground="{Binding ElementName=TextBoxEmail, Path=BorderBrush}"
             Grid.Column="3"
             Grid.Row="3"
             Height="Auto"
@@ -117,7 +127,7 @@
             VerticalAlignment="Bottom"
             Width="Auto" />
 
-        <TextBox
+            <TextBox
             Grid.Column="4" 
             Grid.ColumnSpan="2"
             Grid.Row="3"
@@ -129,10 +139,10 @@
             VerticalAlignment="Bottom"
             VerticalContentAlignment="Center" 
             x:Name="TextBoxEmail">
-        </TextBox>
+            </TextBox>
 
-        <materialDesign:PackIcon
-            Foreground="#04539c"
+            <materialDesign:PackIcon
+            Foreground="{Binding ElementName=TextBoxPhone, Path=BorderBrush}"
             Grid.Column="3"
             Grid.Row="4"
             Height="Auto"
@@ -142,7 +152,7 @@
             VerticalAlignment="Bottom"
             Width="Auto" />
 
-        <TextBox
+            <TextBox
             Grid.Column="4" 
             Grid.ColumnSpan="2"
             Grid.Row="4"
@@ -155,10 +165,10 @@
             VerticalAlignment="Bottom"
             VerticalContentAlignment="Center" 
             x:Name="TextBoxPhone">
-        </TextBox>
+            </TextBox>
 
-        <materialDesign:PackIcon
-            Foreground="#04539c"
+            <materialDesign:PackIcon
+            Foreground="{Binding ElementName=TextBoxStatus, Path=BorderBrush}"
             Grid.Column="3"
             Grid.Row="5"
             Height="Auto"
@@ -168,7 +178,7 @@
             VerticalAlignment="Bottom"
             Width="Auto" />
 
-       <TextBox
+            <TextBox
             Grid.Column="4" 
             Grid.ColumnSpan="2"
             Grid.Row="5"
@@ -180,9 +190,9 @@
             VerticalAlignment="Bottom"
             VerticalContentAlignment="Center" 
             x:Name="TextBoxStatus">
-        </TextBox>
+            </TextBox>
 
-        <ComboBox
+            <ComboBox
             Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2"
             VerticalAlignment="Bottom"
             Margin="10 0 10 0"
@@ -193,7 +203,7 @@
             x:Name="ComboBoxState" 
             Visibility="Hidden"/>
 
-        <Button 
+            <Button 
             Click="EditProfesorButton_Click"
             Grid.Column="6" 
             Grid.Row="1"
@@ -201,14 +211,14 @@
             Margin="10 10 10 10"
             Style="{DynamicResource PrimaryButton }"
             x:Name="EditStudentButton">
-            <materialDesign:PackIcon
+                <materialDesign:PackIcon
                 Height="Auto"
                 Kind="UserEdit"
                 Margin="0 0 5 0"
                 Width="Auto" />
-        </Button>
+            </Button>
 
-        <Button 
+            <Button 
             Click="DeleteProfesorButton_Click"
             Background="Red"
             BorderBrush="Red"
@@ -218,16 +228,16 @@
             Margin="10 10 10 10"
             Style="{DynamicResource PrimaryButton }"
             x:Name="DeleteProfesorButton">
-            <materialDesign:PackIcon
+                <materialDesign:PackIcon
                 Grid.Column="0" 
                 Height="Auto"
                 Kind="Delete"
                 Margin="0 0 5 0"
                 Width="Auto" />
-        </Button>
+            </Button>
 
 
-        <DataGrid 
+            <DataGrid 
             AutoGenerateColumns = "False" 
             BorderThickness="3"
             CanUserAddRows="False" 
@@ -245,32 +255,32 @@
             Margin="15 15"
             VerticalAlignment="Stretch"
             x:Name="GroupsList">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Nrc" IsReadOnly="True" Width="130"
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Nrc" IsReadOnly="True" Width="130"
                                     Binding="{Binding Nrc }" />
-                <DataGridTextColumn Header="Bloque" IsReadOnly="True" Width="*"
+                    <DataGridTextColumn Header="Bloque" IsReadOnly="True" Width="*"
                                     Binding="{Binding Bloque }" />
-                <DataGridTextColumn Header="Sección" IsReadOnly="True" Width="*"
+                    <DataGridTextColumn Header="Sección" IsReadOnly="True" Width="*"
                                     Binding="{Binding Seccion }" />
-                <DataGridTextColumn Header="Cupo" IsReadOnly="True" Width="*"
+                    <DataGridTextColumn Header="Cupo" IsReadOnly="True" Width="*"
                                     Binding="{Binding Cupo }" />
-            </DataGrid.Columns>
-            <DataGrid.Resources>
-                <Style TargetType="DataGridCell">
-                    <Style.Triggers>
-                        <Trigger Property="IsReadOnly" Value="True">
-                            <Setter Property="IsTabStop" Value="False"/>
-                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#049c33" />
-                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#04539c" />
-                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
-            </DataGrid.Resources>
-        </DataGrid>
+                </DataGrid.Columns>
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridCell">
+                        <Style.Triggers>
+                            <Trigger Property="IsReadOnly" Value="True">
+                                <Setter Property="IsTabStop" Value="False"/>
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#049c33" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#04539c" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
+                </DataGrid.Resources>
+            </DataGrid>
 
-        <Button 
+            <Button 
             Click="CancelButton_Click"
             Content="Cancelar"
             Grid.Column="6" 
@@ -279,7 +289,7 @@
             Style="{DynamicResource SecundaryButton }"
             x:Name="CancelButton" />
 
-        <Button 
+            <Button 
             Click="SaveChanges_Click"
             Content="Guardar"
             Grid.Column="5" 
@@ -288,37 +298,38 @@
             Visibility="Hidden"
             Margin="15 5"
             x:Name="SaveChangesButton">
-            <Button.Style>
-                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedAccentButton}">
-                    <Setter Property="FontSize" Value="14" />
-                    <Setter Property="Foreground" Value="#FFFF" />
-                    <Setter Property="Background" Value="#049c33" />
-                    <Setter Property="BorderBrush" Value="#049c33" />
-                    <Setter Property="BorderThickness" Value="3" />
-                    <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="10" />
-                    <Setter Property="HorizontalAlignment" Value="Center" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxName, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                            <Setter Property="IsEnabled" Value="False" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxApellidoPaterno, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                            <Setter Property="IsEnabled" Value="False" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxApellidoMaterno, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                            <Setter Property="IsEnabled" Value="False" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxPhone, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                            <Setter Property="IsEnabled" Value="False" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxEmail, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                            <Setter Property="IsEnabled" Value="False" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxStatus, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                            <Setter Property="IsEnabled" Value="False" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedAccentButton}">
+                        <Setter Property="FontSize" Value="14" />
+                        <Setter Property="Foreground" Value="#FFFF" />
+                        <Setter Property="Background" Value="#049c33" />
+                        <Setter Property="BorderBrush" Value="#049c33" />
+                        <Setter Property="BorderThickness" Value="3" />
+                        <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="10" />
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxName, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxApellidoPaterno, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxApellidoMaterno, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxPhone, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxEmail, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxStatus, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
     </Grid>
 </Page>

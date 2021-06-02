@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using WPFCustomMessageBox;
 using System.Windows.Input;
-
+using System.Data.Entity.Core;
 
 namespace SCPP.View
 {
@@ -25,11 +25,18 @@ namespace SCPP.View
 
         public ConsultarOrganizaciones()
         {
-            InitializeComponent();
-            ComboBoxFilter.ItemsSource = filters;
-            DataContext = this;
-            GetOrganizations();
-            ComboBoxFilter.SelectedItem = "Activo";
+            try
+            {
+                InitializeComponent();
+                ComboBoxFilter.ItemsSource = filters;
+                DataContext = this;
+                GetOrganizations();
+                ComboBoxFilter.SelectedItem = "Activo";
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -74,11 +81,18 @@ namespace SCPP.View
 
         private void NavigationService_Navigated(object sender, NavigationEventArgs e)
         {
-            GetOrganizations();
-            var selectedFilter = ComboBoxFilter.SelectedItem;
-            ComboBoxFilter.SelectedItem = "Ninguno";
-            ComboBoxFilter.SelectedItem = selectedFilter;
-            ManageButton.IsEnabled = false;
+            try
+            {
+                GetOrganizations();
+                var selectedFilter = ComboBoxFilter.SelectedItem;
+                ComboBoxFilter.SelectedItem = "Ninguno";
+                ComboBoxFilter.SelectedItem = selectedFilter;
+                ManageButton.IsEnabled = false;
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
         private void OrganizationList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -106,36 +120,43 @@ namespace SCPP.View
 
         private void SetFilter()
         {
-            var filter = (String)ComboBoxFilter.SelectedItem;
-            using (SCPPContext context = new SCPPContext())
+            try
             {
-                organizationCollectionFiltered = new ObservableCollection<Organización>();
-                switch (filter)
+                var filter = (String)ComboBoxFilter.SelectedItem;
+                using (SCPPContext context = new SCPPContext())
                 {
-                    case "Ninguno":
-                        OrganizationList.ItemsSource = organizationCollection;
-                        break;
+                    organizationCollectionFiltered = new ObservableCollection<Organización>();
+                    switch (filter)
+                    {
+                        case "Ninguno":
+                            OrganizationList.ItemsSource = organizationCollection;
+                            break;
 
-                    case "Activo":
-                        foreach (Organización organization in organizationCollection)
-                        {
-                            if (organization.Activo == 1)
-                                organizationCollectionFiltered.Add(organization);
-                        }
-                        OrganizationList.ItemsSource = organizationCollectionFiltered;
-                        break;
+                        case "Activo":
+                            foreach (Organización organization in organizationCollection)
+                            {
+                                if (organization.Activo == 1)
+                                    organizationCollectionFiltered.Add(organization);
+                            }
+                            OrganizationList.ItemsSource = organizationCollectionFiltered;
+                            break;
 
-                    case "No activo":
-                        foreach (Organización organization in organizationCollection)
-                        {
-                            if (organization.Activo != 1)
-                                organizationCollectionFiltered.Add(organization);
-                        }
-                        OrganizationList.ItemsSource = organizationCollectionFiltered;
-                        break;
+                        case "No activo":
+                            foreach (Organización organization in organizationCollection)
+                            {
+                                if (organization.Activo != 1)
+                                    organizationCollectionFiltered.Add(organization);
+                            }
+                            OrganizationList.ItemsSource = organizationCollectionFiltered;
+                            break;
+                    }
                 }
+                DataContext = this;
             }
-            DataContext = this;
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
         private void SpecificSearch(string searchText)
@@ -164,8 +185,15 @@ namespace SCPP.View
 
         private void TextBoxSearch_KeyUp(object sender, KeyEventArgs e)
         {
-            string searchText = TextBoxSearch.Text;
-            SpecificSearch(searchText);
+            try
+            {
+                string searchText = TextBoxSearch.Text;
+                SpecificSearch(searchText);
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
 
         }
     }
