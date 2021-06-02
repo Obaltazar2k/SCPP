@@ -26,33 +26,75 @@ namespace SCPP.View
         private Inscripción inscription;
         private Expediente expediente;
         private ObservableCollection<Reporte> reportsCollection;
+        private bool isReportSelectedQualified;
 
         public CalificarReporte(Estudiante student)
         {
-            InitializeComponent();
-            this.student = student;
-            reportsCollection = new ObservableCollection<Reporte>();
-            GetStudentActualInscription();
-            GetStudentActualExpediente();
-            GetReports();
+            try
+            {
+                InitializeComponent();
+                this.student = student;
+                reportsCollection = new ObservableCollection<Reporte>();
+                GetStudentActualInscription();
+                GetStudentActualExpediente();
+                GetReports();
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
             
+        }
+
+        private void CalificacionRegisteredMessage()
+        {
+            MessageBoxResult selection = CustomMessageBox.ShowOK("Calificacion registrada con exito", "Calificacion registrada",
+                "Aceptar");
+
+            if (NavigationService.CanGoBack)
+                NavigationService.GoBack();
+            else
+                CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(NavigationService.CanGoBack)
+                NavigationService.GoBack();
+            else
+                CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");
+        }
+
+        private void ChangeComponentsVisibility()
+        {
+            if (isReportSelectedQualified)
+            {
+                GradeReportButton.Visibility = Visibility.Hidden;
+                CancelButton.SetValue(Grid.ColumnProperty, 3);
+            }
+            else
+            {
+                GradeReportButton.Visibility = Visibility.Visible;
+                CancelButton.SetValue(Grid.ColumnProperty, 2);
+                ScoreTextBox.IsReadOnly = false;
+                TextBoxComments.IsReadOnly = false;
+            }
         }
 
         private void FileButton_Click(object sender, RoutedEventArgs e)
         {
-           
             try
             {
-                if(actualReporte != null)
+                if (actualReporte != null)
                 {
                     string downloadsPath = new KnownFolder(KnownFolderType.Downloads).Path;
                     string folder = downloadsPath + "\\PracticasProfesionales\\";
                     string fullFilePath = folder + actualReporte.Archivo.Titulo;
 
-                    if(!Directory.Exists(folder))
+                    if (!Directory.Exists(folder))
                         Directory.CreateDirectory(folder);
 
-                    if(File.Exists(fullFilePath))
+                    if (File.Exists(fullFilePath))
                     {
                         int count = 1;
 
@@ -61,7 +103,7 @@ namespace SCPP.View
                         string path = Path.GetDirectoryName(fullFilePath);
                         string newFullPath = fullFilePath;
 
-                        while(File.Exists(newFullPath))
+                        while (File.Exists(newFullPath))
                         {
                             string tempFileName = string.Format("{0}({1})", fileNameOnly, count++);
                             newFullPath = Path.Combine(path, tempFileName + extension);
@@ -72,91 +114,23 @@ namespace SCPP.View
                 }
                 CustomMessageBox.ShowOK("Archivo descargado con éxito.", "Éxito.", "Aceptar");
             }
-            catch(EntityException)
+            catch (EntityException)
             {
                 Restarter.RestarSCPP();
             }
-
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            if(NavigationService.CanGoBack)
-                NavigationService.GoBack();
-            else
-                CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");
-        }
-  
+
         private void FillTextBoxes(Reporte actualReporte)
         {
             KindTextBox.Text = actualReporte.Tiporeporte;
             HoursTextBox.Text = actualReporte.Horasreportadas.ToString();
             DateTextBox.Text = actualReporte.Archivo.Fechaentrega.ToString();
             FileButton.Content = actualReporte.Archivo.Titulo;
-        }
-
-        private void GradeButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if(VerificateFields())
-                {
-                    using(SCPPContext context = new SCPPContext())
-                    {
-                        var studentUptdated = UpdateReport();
-                        CalificacionRegisteredMessage();
-                    }
-                }
-            }
-            catch(EntityException)
-            {
-                Restarter.RestarSCPP();
-            }
-        }
-
-        private object UpdateReport()
-        {
-            Reporte reporte;
-            using(SCPPContext context = new SCPPContext())
-            {
-                reporte = context.Reporte.FirstOrDefault(s => s.ReporteID == actualReporte.ReporteID);
-                reporte.Calificacion = Convert.ToDouble(ScoreTextBox.Text);
-                reporte.Comentario = TextBoxComments.Text;
-                context.SaveChanges();
-            }
-            return reporte;
-        }
-
-        private bool VerificateFields()
-        {
-            return FieldsVerificator.VerificateGrade(ScoreTextBox.Text);
-               
-        }
-
-        private void CalificacionRegisteredMessage()
-        {
-            MessageBoxResult selection = CustomMessageBox.ShowOK("Calificacion registrada con exito", "Calificacion registrada",
-                "Aceptar");
-
-            if(NavigationService.CanGoBack)
-                NavigationService.GoBack();
-            else
-                CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");
-        }
-
-        private void ReportsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
-            {
-                DataGrid dataGrid = sender as DataGrid;
-                actualReporte = (Reporte)dataGrid.SelectedItems[0];
-                FillTextBoxes(actualReporte);
-            }
-            catch(ArgumentOutOfRangeException)
-            {
-                // Catch necesario al seleccionar de la tabla y dar clic en registrar
-            }
-        }
+            ScoreTextBox.Text = actualReporte.Calificacion.ToString();
+            TextBoxComments.Text = actualReporte.Comentario;
+            FileButton.Visibility = Visibility.Visible;
+        }    
 
         private void GetStudentActualInscription()
         {
@@ -192,6 +166,74 @@ namespace SCPP.View
 
             ReportsList.ItemsSource = reportsCollection;
             DataContext = this;
+        }
+
+        private void GradeButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (VerificateFields())
+                {
+                    MessageBoxResult confirmation = CustomMessageBox.ShowYesNo("¿Seguro que desea guardar la calificación?", "Confirmacion", "Si", "No");
+                    if (confirmation == MessageBoxResult.Yes)
+                    {
+                        UpdateReport();
+                        CalificacionRegisteredMessage();
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
+        }
+
+        private void isReportQualified (Reporte actualReporte)
+        {
+            if (actualReporte.Calificacion != null)
+                isReportSelectedQualified = true;
+            else
+            {
+                isReportSelectedQualified = false;
+            }
+        }
+
+        private void ReportsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                DataGrid dataGrid = sender as DataGrid;
+                actualReporte = (Reporte)dataGrid.SelectedItems[0];
+                isReportQualified(actualReporte);
+                ChangeComponentsVisibility();
+                FillTextBoxes(actualReporte);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                // Catch necesario al seleccionar de la tabla y dar clic en registrar
+            }
+        }
+
+        private void UpdateReport()
+        {
+            Reporte reporte;
+            using (SCPPContext context = new SCPPContext())
+            {
+                reporte = context.Reporte.FirstOrDefault(s => s.ReporteID == actualReporte.ReporteID);
+                reporte.Calificacion = Convert.ToDouble(ScoreTextBox.Text);
+                reporte.Comentario = TextBoxComments.Text;
+                context.SaveChanges();
+            }
+        }
+
+        private bool VerificateFields()
+        {
+            return FieldsVerificator.VerificateGrade(ScoreTextBox.Text);
+
         }
     }
 }

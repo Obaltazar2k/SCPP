@@ -30,7 +30,7 @@
         </Grid.RowDefinitions>
 
         <materialDesign:ColorZone Mode="Custom" Background="#04539c" Grid.Column="0"
-                                  Grid.Row="0" Grid.ColumnSpan="6" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                  Grid.Row="0" Grid.ColumnSpan="6" Height="60" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <TextBlock Text="Universidad Veracruzana" HorizontalAlignment="Center"
                        Foreground="#FFFFFF"
                        FontSize="23" VerticalAlignment="Center" Margin="0 10 0 10">

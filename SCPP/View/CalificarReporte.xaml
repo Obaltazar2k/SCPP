@@ -9,40 +9,50 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="CalificarReporte">
 
-    <Grid Margin="20 10">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <Grid Margin="20 10">
+        <Grid Height="60" VerticalAlignment="Top" Background="#04539c">
+            <Label Content="Calificar reporte" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Foreground="White"/>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="20 10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
 
-            <Label
+            <Grid Margin="20 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Label
                 Content="Reporte:"
                 Grid.ColumnSpan="1"
                 Grid.Row="5"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"/>
 
-            <TextBox
+                <TextBox
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
                 Grid.Row="6"
@@ -55,7 +65,7 @@
                 VerticalContentAlignment="Center"
                 x:Name="KindTextBox" />
 
-            <TextBox
+                <TextBox
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
                 Grid.Row="7"
@@ -68,7 +78,7 @@
                 VerticalContentAlignment="Center"
                 x:Name="HoursTextBox" />
 
-            <TextBox
+                <TextBox
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
                 Grid.Row="8"
@@ -81,7 +91,7 @@
                 VerticalContentAlignment="Center"
                 x:Name="DateTextBox" />
 
-            <Button
+                <Button
                 Click="FileButton_Click"
                 Content="Archivo"
                 FontSize="12"
@@ -90,40 +100,42 @@
                 Grid.ColumnSpan="3"
                 Grid.Row="9"
                 HorizontalAlignment="Stretch"
-                HorizontalContentAlignment="Left"
+                HorizontalContentAlignment="Center"
                 Margin=" 10 0 10 0"
                 Style="{DynamicResource MaterialDesignFlatButton}"
                 VerticalAlignment="Bottom"
                 VerticalContentAlignment="Center"
+                Visibility="Hidden"
                 x:Name="FileButton"/>
-        </Grid>
+            </Grid>
 
-        <Grid Margin="20 10" Grid.Column="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+            <Grid Margin="20 10" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
 
-            <TextBox
+                <TextBox
                 Grid.Column="0"
                 Grid.ColumnSpan="4"
                 Grid.Row="6"
                 HorizontalAlignment="Stretch"
+                IsReadOnly="True"
                 Margin=" 10 0 10 0"
                 materialDesign:HintAssist.Hint="Calificación"
                 Style="{DynamicResource TextBox}"
@@ -131,12 +143,13 @@
                 VerticalContentAlignment="Center"
                 x:Name="ScoreTextBox" />
 
-            <TextBox
+                <TextBox
                 AcceptsReturn="True"
                 Grid.Column="0"
                 Grid.ColumnSpan="4"
                 Grid.Row="7"
                 Grid.RowSpan="2"
+                IsReadOnly="True"
                 Margin=" 10 0 10 0"
                 materialDesign:HintAssist.Hint="Comentario"
                 TextWrapping="Wrap"
@@ -144,7 +157,7 @@
                 x:Name="TextBoxComments"/>
 
 
-            <Button
+                <Button
                 Click="CancelButton_Click"
                 Content="Cancelar"
                 Grid.Column="2"
@@ -154,7 +167,7 @@
                 Style="{DynamicResource SecundaryButton }"
                 x:Name="CancelButton" />
 
-            <Button
+                <Button
                 Click="GradeButton_Click"
                 Content="Calificar"
                 Grid.Column="3"
@@ -162,28 +175,25 @@
                 HorizontalAlignment="Right"
                 Margin="15 5"
                 x:Name="GradeReportButton" >
-            <Button.Style>
-                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedAccentButton}">
-                    <Setter Property="FontSize" Value="14" />
-                    <Setter Property="Foreground" Value="#FFFF" />
-                    <Setter Property="Background" Value="#049c33" />
-                    <Setter Property="BorderBrush" Value="#049c33" />
-                    <Setter Property="BorderThickness" Value="3" />
-                    <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="10" />
-                    <Setter Property="HorizontalAlignment" Value="Center" />
-                    <Style.Triggers>
-                            <DataTrigger Binding="{Binding Text.Length, ElementName=ScoreTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                            <Setter Property="IsEnabled" Value="False" />
-                        </DataTrigger>
-                            <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxComments, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                                <Setter Property="IsEnabled" Value="False" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                </Style>
-            </Button.Style>
-            </Button>
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedAccentButton}">
+                            <Setter Property="FontSize" Value="14" />
+                            <Setter Property="Foreground" Value="#FFFF" />
+                            <Setter Property="Background" Value="#049c33" />
+                            <Setter Property="BorderBrush" Value="#049c33" />
+                            <Setter Property="BorderThickness" Value="3" />
+                            <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="10" />
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text.Length, ElementName=ScoreTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
 
-            <DataGrid 
+                <DataGrid 
             AutoGenerateColumns = "False" 
             BorderThickness="3"
             CanUserAddRows="False" 
@@ -203,27 +213,28 @@
             SelectionMode="Single"
             VerticalAlignment="Stretch"
             x:Name="ReportsList">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Nombre de reporte" IsReadOnly="True" Width="160" Binding="{Binding Archivo.Titulo}" />
-                    <DataGridTextColumn Header="Fecha" IsReadOnly="True" Width="*" Binding="{Binding Archivo.Fechaentrega}" />
-                    <DataGridTextColumn x:Name="KindColum" Header="Tipo" IsReadOnly="True" Width="*" Binding="{Binding Tiporeporte}" />
-                    <DataGridTextColumn x:Name="HoursColumn" Header="Horas" IsReadOnly="True" Width="*" Binding="{Binding Horasreportadas}" />
-                    <DataGridTextColumn x:Name="ScoreColum" Header="Calificación" IsReadOnly="True" Width="*" Binding="{Binding Calificacion}" />
-                </DataGrid.Columns>
-                <DataGrid.Resources>
-                    <Style TargetType="DataGridCell">
-                        <Style.Triggers>
-                            <Trigger Property="IsReadOnly" Value="True">
-                                <Setter Property="IsTabStop" Value="False" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#049c33" />
-                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#04539c" />
-                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
-                </DataGrid.Resources>
-            </DataGrid>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Nombre de reporte" IsReadOnly="True" Width="160" Binding="{Binding Archivo.Titulo}" />
+                        <DataGridTextColumn Header="Fecha" IsReadOnly="True" Width="*" Binding="{Binding Archivo.Fechaentrega}" />
+                        <DataGridTextColumn x:Name="KindColum" Header="Tipo" IsReadOnly="True" Width="*" Binding="{Binding Tiporeporte}" />
+                        <DataGridTextColumn x:Name="HoursColumn" Header="Horas" IsReadOnly="True" Width="*" Binding="{Binding Horasreportadas}" />
+                        <DataGridTextColumn x:Name="ScoreColum" Header="Calificación" IsReadOnly="True" Width="*" Binding="{Binding Calificacion}" />
+                    </DataGrid.Columns>
+                    <DataGrid.Resources>
+                        <Style TargetType="DataGridCell">
+                            <Style.Triggers>
+                                <Trigger Property="IsReadOnly" Value="True">
+                                    <Setter Property="IsTabStop" Value="False" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#049c33" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#04539c" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
+                    </DataGrid.Resources>
+                </DataGrid>
 
+            </Grid>
         </Grid>
     </Grid>
 </Page>
