@@ -38,11 +38,11 @@
 
         <TextBox
             Grid.Column="1" 
-            Grid.ColumnSpan="4"
+            Grid.ColumnSpan="6"
             Grid.Row="2"
             HorizontalAlignment="Stretch"
             KeyUp="TextBoxSearch_KeyUp"
-            Margin=" 35 0 10 0"
+            Margin=" 35 0 35 0"
             materialDesign:HintAssist.Hint="Realice una busqueda especifica"
             Style="{DynamicResource TextBox}"
             VerticalContentAlignment="Center" 

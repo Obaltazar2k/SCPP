@@ -48,10 +48,17 @@ namespace SCPP.View
 
         public CalificarReporte(Reporte report)
         {
-            InitializeComponent();
-            this.actualReporte = report;
-            ChangeInitializeComponentsVisibility();
-            FillTextBoxes(actualReporte);
+            try
+            {
+                InitializeComponent();
+                this.actualReporte = report;
+                ChangeInitializeComponentsVisibility();
+                FillTextBoxes(actualReporte);
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
         }
 
         private void CalificacionRegisteredMessage()
@@ -59,10 +66,13 @@ namespace SCPP.View
             MessageBoxResult selection = CustomMessageBox.ShowOK("Calificacion registrada con exito", "Calificacion registrada",
                 "Aceptar");
 
-            if (NavigationService.CanGoBack)
+            reportsCollection.Clear();
+            GetReports();
+
+            /*if (NavigationService.CanGoBack)
                 NavigationService.GoBack();
             else
-                CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");
+                CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");*/
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -80,6 +90,8 @@ namespace SCPP.View
                 if (GradeReportButton.Visibility != Visibility.Hidden)
                     GradeReportButton.Visibility = Visibility.Hidden;
                 CancelButton.SetValue(Grid.ColumnProperty, 6);
+                ScoreTextBox.IsReadOnly = true;
+                TextBoxComments.IsReadOnly = true;
             }
             else
             {
@@ -246,6 +258,7 @@ namespace SCPP.View
                 reporte = context.Reporte.FirstOrDefault(s => s.ReporteID == actualReporte.ReporteID);
                 reporte.Calificacion = Convert.ToDouble(ScoreTextBox.Text);
                 reporte.Comentario = TextBoxComments.Text;
+                reporte.Archivo.Validado = 1;
                 context.SaveChanges();
             }
         }

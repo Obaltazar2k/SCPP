@@ -141,7 +141,9 @@ namespace SCPP.View
                 "Aceptar");
             if(selection == MessageBoxResult.Yes)
             {
-                Console.WriteLine("Extiende el CU de administrar Profesor");
+                var mainWindow = (MainWindow)Application.Current.MainWindow;
+                mainWindow?.ChangeView(new GestionarProfesor(teacher));
+                return;
             }
             if(selection == MessageBoxResult.No)
             {
