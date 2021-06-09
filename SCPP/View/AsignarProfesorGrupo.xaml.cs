@@ -67,9 +67,7 @@ namespace SCPP.View
                 if (assignDone == true)
                 {
                     MessageBoxResult result = CustomMessageBox.Show("La asignación ha sido realizada con éxito.");
-                    var mainWindow = (MainWindow)Application.Current.MainWindow;
-                    mainWindow?.ChangeView(new MenuCoordinador());
-                    return;
+                    CancelButton_Click(new object(), new RoutedEventArgs());
                 }
             }
             catch(EntityException)

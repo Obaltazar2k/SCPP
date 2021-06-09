@@ -46,15 +46,33 @@ namespace SCPP.View
             
         }
 
+        public CalificarReporte(Reporte report)
+        {
+            try
+            {
+                InitializeComponent();
+                this.actualReporte = report;
+                ChangeInitializeComponentsVisibility();
+                FillTextBoxes(actualReporte);
+            }
+            catch (EntityException)
+            {
+                Restarter.RestarSCPP();
+            }
+        }
+
         private void CalificacionRegisteredMessage()
         {
             MessageBoxResult selection = CustomMessageBox.ShowOK("Calificacion registrada con exito", "Calificacion registrada",
                 "Aceptar");
 
-            if (NavigationService.CanGoBack)
+            reportsCollection.Clear();
+            GetReports();
+
+            /*if (NavigationService.CanGoBack)
                 NavigationService.GoBack();
             else
-                CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");
+                CustomMessageBox.ShowOK("No hay entrada a la cual volver.", "Error al navegar hacía atrás", "Aceptar");*/
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -69,16 +87,30 @@ namespace SCPP.View
         {
             if (isReportSelectedQualified)
             {
-                GradeReportButton.Visibility = Visibility.Hidden;
-                CancelButton.SetValue(Grid.ColumnProperty, 3);
+                if (GradeReportButton.Visibility != Visibility.Hidden)
+                    GradeReportButton.Visibility = Visibility.Hidden;
+                CancelButton.SetValue(Grid.ColumnProperty, 6);
+                ScoreTextBox.IsReadOnly = true;
+                TextBoxComments.IsReadOnly = true;
             }
             else
             {
-                GradeReportButton.Visibility = Visibility.Visible;
-                CancelButton.SetValue(Grid.ColumnProperty, 2);
+                if (GradeReportButton.Visibility == Visibility.Hidden)
+                    GradeReportButton.Visibility = Visibility.Visible;
+                CancelButton.SetValue(Grid.ColumnProperty, 5);
                 ScoreTextBox.IsReadOnly = false;
                 TextBoxComments.IsReadOnly = false;
             }
+        }
+
+        private void ChangeInitializeComponentsVisibility()
+        {
+            TitleLabel.Content = "Ver reporte";
+            GridTable.Visibility = Visibility.Hidden;
+            GridReport.SetValue(Grid.RowProperty, 1);
+            GridReport.SetValue(Grid.RowSpanProperty, 2);
+            GradeReportButton.Visibility = Visibility.Collapsed;
+            CancelButton.SetValue(Grid.ColumnProperty, 6);
         }
 
         private void FileButton_Click(object sender, RoutedEventArgs e)
@@ -130,7 +162,7 @@ namespace SCPP.View
             ScoreTextBox.Text = actualReporte.Calificacion.ToString();
             TextBoxComments.Text = actualReporte.Comentario;
             FileButton.Visibility = Visibility.Visible;
-        }    
+        }
 
         private void GetStudentActualInscription()
         {
@@ -226,6 +258,7 @@ namespace SCPP.View
                 reporte = context.Reporte.FirstOrDefault(s => s.ReporteID == actualReporte.ReporteID);
                 reporte.Calificacion = Convert.ToDouble(ScoreTextBox.Text);
                 reporte.Comentario = TextBoxComments.Text;
+                reporte.Archivo.Validado = 1;
                 context.SaveChanges();
             }
         }

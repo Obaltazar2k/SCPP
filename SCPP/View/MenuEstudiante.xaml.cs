@@ -118,5 +118,23 @@ namespace SCPP.View
             mainWindow?.ChangeView(new EntregarReporte(inscripcion));
             return;
         }
+
+        private void GestionarExpedienteButton_Click(object sender, RoutedEventArgs e)
+        {
+            string matricula = userSesion.Username;
+            Inscripción inscripcion;
+            using (SCPPContext context = new SCPPContext())
+            {
+                inscripcion = context.Inscripción
+                    .Include(i => i.Proyecto)
+                    .Include(i => i.Proyecto.Organización)
+                    .Include(i => i.Expediente)
+                    .Include(i => i.Grupo)
+                    .FirstOrDefault(i => i.Matriculaestudiante.Equals(matricula));
+            }
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.ChangeView(new GestionarExpediente(inscripcion));
+            return;
+        }
     }
 }

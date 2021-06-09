@@ -33,7 +33,7 @@ namespace SCPP.View
             inscriptionsCollection = new ObservableCollection<Inscripción>();
             using (SCPPContext context = new SCPPContext())
             {
-                var inscriptions = context.Inscripción.Include(i => i.Estudiante).Include(i => i.Proyecto).Where(i => i.Periodo.Equals(periodo));
+                var inscriptions = context.Inscripción.Include(i => i.Estudiante).Include(i => i.Proyecto).Include(i => i.Grupo).Where(i => i.Periodo.Equals(periodo));
 
                 if (inscriptions != null)
                 {

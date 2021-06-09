@@ -134,7 +134,9 @@ namespace SCPP.View
             }
             if (confirmation == MessageBoxResult.No)
             {
-                Console.WriteLine("Extiende CU Gestionar estudiante");
+                var mainWindow = (MainWindow)Application.Current.MainWindow;
+                mainWindow?.ChangeView(new GestionarEstudiante(student));
+                return;
             }
             if (confirmation == MessageBoxResult.Cancel)
             {
@@ -149,7 +151,8 @@ namespace SCPP.View
                 && FieldsVerificator.VerificatePromedio(TextBoxPromedio.Text)
                 && FieldsVerificator.VerificateName(TextBoxNombre.Text)
                 && FieldsVerificator.VerificateName(TextBoxApellidoPaterno.Text)
-                && FieldsVerificator.VerificateName(TextBoxApellidoMaterno.Text);
+                && FieldsVerificator.VerificateName(TextBoxApellidoMaterno.Text)
+                && FieldsVerificator.VerificatePhone(TextBoxTelefono.Text);
         }
     }
 }

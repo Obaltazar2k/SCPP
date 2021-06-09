@@ -69,6 +69,7 @@ namespace SCPP.View
                     {
                         grupo = context.Grupo.FirstOrDefault(s => s.Rfcprofesor == profesorSelected.Numtrabajador && s.Nrc == groupSelected.Nrc);
                         grupo.Estado = "Disponible";
+                        grupo.Rfcprofesor = null;
                         context.SaveChanges();
                         desassignDone = true;
                     }
@@ -77,9 +78,7 @@ namespace SCPP.View
                 if (desassignDone == true)
                 {
                     MessageBoxResult result = CustomMessageBox.Show("La desasignación ha sido realizada con éxito.");
-                    var mainWindow = (MainWindow)Application.Current.MainWindow;
-                    mainWindow?.ChangeView(new MenuCoordinador());
-                    return;
+                    CancelButton_Click(new object(), new RoutedEventArgs());
                 }
             }
             catch (EntityException)

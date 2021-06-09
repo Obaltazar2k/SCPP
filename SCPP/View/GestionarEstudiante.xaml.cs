@@ -281,6 +281,9 @@ namespace SCPP.View
         private bool VerificateFields()
         {
             return FieldsVerificator.VerificateEmail(TextBoxEmail.Text)
+                && FieldsVerificator.VerificateName(TextBoxName.Text)
+                && FieldsVerificator.VerificateName(TextBoxApellidoPaterno.Text)
+                && FieldsVerificator.VerificateName(TextBoxApellidoMaterno.Text)
                 && FieldsVerificator.VerificatePhone(TextBoxPhone.Text);
         }
     }
