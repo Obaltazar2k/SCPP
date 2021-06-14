@@ -1,0 +1,383 @@
+﻿<Page x:Class="SCPP.View.GestionarProyecto"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SCPP.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="GestionarProyecto">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Height="60" VerticalAlignment="Top" Background="#04539c">
+            <Label Content="Gestionar proyecto" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Foreground="White"/>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="20 10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="auto" />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition Height="*" />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition Height="auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <materialDesign:PackIcon
+            Foreground="{Binding ElementName=TextBoxName, Path=BorderBrush}"
+            Grid.Row="2"
+            Height="Auto"
+            HorizontalAlignment="Right"
+            Kind="Book"
+            Margin="3"
+            VerticalAlignment="Bottom"
+            Width="Auto" />
+
+            <TextBox
+            Grid.Column="1" 
+            Grid.ColumnSpan="2"
+            Grid.Row="2"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin=" 10 0 10 0"
+            materialDesign:HintAssist.Hint="Nombre"
+            Style="{DynamicResource TextBox}"
+            VerticalAlignment="Bottom"
+            VerticalContentAlignment="Center" 
+            x:Name="TextBoxName"/>
+
+            <materialDesign:PackIcon
+            Foreground="{Binding ElementName=TextBoxDescription, Path=BorderBrush}"
+            Grid.Row="3"
+            Height="Auto"
+            HorizontalAlignment="Right"
+            Kind="Text"
+            Margin="3"
+            VerticalAlignment="Bottom"
+            Width="Auto" />
+
+            <TextBox
+            Grid.Column="1" 
+            Grid.ColumnSpan="2"
+            Grid.Row="3"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin=" 10 0 10 0"
+            materialDesign:HintAssist.Hint="Descripción"
+            Style="{DynamicResource TextBox}"
+            VerticalAlignment="Bottom"
+            VerticalContentAlignment="Center" 
+            x:Name="TextBoxDescription">
+            </TextBox>
+
+            <materialDesign:PackIcon
+            Foreground="{Binding ElementName=TextBoxCapacidad, Path=BorderBrush}"
+            Grid.Row="4"
+            Height="Auto"
+            HorizontalAlignment="Right"
+            Kind="AccountGroup"
+            Margin="3"
+            VerticalAlignment="Bottom"
+            Width="Auto" />
+
+            <TextBox
+            Grid.Column="1" 
+            Grid.ColumnSpan="2"
+            Grid.Row="4"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin="10,0,10,0"
+            materialDesign:HintAssist.Hint="Capacidad"
+            Style="{DynamicResource TextBox}"
+            VerticalAlignment="Top"
+            VerticalContentAlignment="Center" 
+            x:Name="TextBoxCapacidad">
+            </TextBox>
+
+            <ComboBox
+            Grid.Column="1" 
+            Grid.ColumnSpan="2"
+            Grid.Row="4" 
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin="10,0,10,0"
+            VerticalAlignment="Center"
+            VerticalContentAlignment="Center"
+            materialDesign:HintAssist.Hint="Capacidad"
+            materialDesign:TextFieldAssist.UnderlineBrush="#04539c"
+            Visibility="Hidden"
+            x:Name="ComboBoxCapacidad" />
+
+            <materialDesign:PackIcon
+            Foreground="{Binding ElementName=TextBoxActividades, Path=BorderBrush}"
+            Grid.Row="5"
+            Height="Auto"
+            HorizontalAlignment="Right"
+            Kind="ClipboardList"
+            Margin="3"
+            VerticalAlignment="Bottom"
+            Width="Auto" />
+
+
+            <TextBox
+            Grid.Column="1" 
+            Grid.ColumnSpan="2"
+            Grid.Row="5"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin="10,0,10,0"
+            materialDesign:HintAssist.Hint="Actividades"
+            Style="{DynamicResource TextBox}"
+            VerticalAlignment="Top"
+            VerticalContentAlignment="Center" 
+            x:Name="TextBoxActividades">
+            </TextBox>
+
+            <materialDesign:PackIcon
+            Foreground="{Binding ElementName=TextBoxResponsable, Path=BorderBrush}"
+            Grid.Column="3"
+            Grid.Row="2"
+            Height="Auto"
+            HorizontalAlignment="Right"
+            Kind="Person"
+            Margin="3"
+            VerticalAlignment="Bottom"
+            Width="Auto" />
+
+            <TextBox
+            Grid.Column="4" 
+            Grid.ColumnSpan="2"
+            Grid.Row="2"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin="10,0,10,0"
+            materialDesign:HintAssist.Hint="Responsable"
+            Style="{DynamicResource TextBox}"
+            VerticalAlignment="Top"
+            VerticalContentAlignment="Center" 
+            x:Name="TextBoxResponsable">
+            </TextBox>
+
+            <ComboBox
+            Grid.Column="4" 
+            Grid.ColumnSpan="2"
+            Grid.Row="2" 
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            ItemsSource="{Binding Responsableproyecto}" 
+            Margin="10,0,10,0"
+            materialDesign:HintAssist.Hint="Responsable"
+            materialDesign:TextFieldAssist.UnderlineBrush="#04539c"
+            SelectedValuePath="ResponsableproyectoID"
+            VerticalAlignment="Center"
+            VerticalContentAlignment="Center"
+            Visibility="Hidden"
+            x:Name="ComboBoxResponsable">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBlock Text="{Binding Nombre}"/>
+                            <TextBlock Text=" "/>
+                            <TextBlock Text="{Binding Apellidopaterno}"/>
+                            <TextBlock Text=" "/>
+                            <TextBlock Text="{Binding Apellidomaterno}"/>
+                        </WrapPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <materialDesign:PackIcon
+            Foreground="{Binding ElementName=TextBoxOrganization, Path=BorderBrush}"
+            Grid.Column="3"
+            Grid.Row="3"
+            Height="Auto"
+            HorizontalAlignment="Right"
+            Kind="Domain"
+            Margin="3"
+            VerticalAlignment="Bottom"
+            Width="Auto" />
+
+            <TextBox
+            Grid.Column="4" 
+            Grid.ColumnSpan="2"
+            Grid.Row="3"
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin="10,0,10,0"
+            materialDesign:HintAssist.Hint="Organización"
+            Style="{DynamicResource TextBox}"
+            VerticalAlignment="Top"
+            VerticalContentAlignment="Center" 
+            x:Name="TextBoxOrganization">
+            </TextBox>
+
+            <ComboBox
+            SelectionChanged="ComboBoxOrganization_SelectionChanged"
+            Grid.Column="4" 
+            Grid.ColumnSpan="2"
+            Grid.Row="3" 
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            Margin="10,0,10,0"
+            VerticalAlignment="Center"
+            VerticalContentAlignment="Center"
+            materialDesign:HintAssist.Hint="Organización"
+            materialDesign:TextFieldAssist.UnderlineBrush="#04539c"
+            ItemsSource="{Binding Organización}" 
+            DisplayMemberPath="Nombre" 
+            SelectedValuePath="OrganizaciónID"
+            Visibility="Hidden"
+            x:Name="ComboBoxOrganization" />
+
+            <Button 
+            Click="EditOrganizationButton_Click"
+            Grid.Column="6" 
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            Margin="10 10 10 10"
+            Style="{DynamicResource PrimaryButton }"
+            x:Name="EditOrganizationButton">
+                <materialDesign:PackIcon
+                Height="Auto"
+                Kind="Edit"
+                Margin="0 0 5 0"
+                Width="Auto" />
+            </Button>
+
+            <Button 
+            Click="DeleteOrganizationButton_Click"
+            Background="Red"
+            BorderBrush="Red"
+            Grid.Column="7" 
+            Grid.Row="1"
+            HorizontalAlignment="Left"
+            Margin="10 10 10 10"
+            Style="{DynamicResource PrimaryButton }"
+            x:Name="DeleteOrganizationButton">
+                <materialDesign:PackIcon
+                Grid.Column="0" 
+                Height="Auto"
+                Kind="Delete"
+                Margin="0 0 5 0"
+                Width="Auto" />
+            </Button>
+
+            <DataGrid 
+            AutoGenerateColumns = "False" 
+            BorderThickness="3"
+            CanUserAddRows="False" 
+            CanUserDeleteRows="False" 
+            CanUserReorderColumns="False" 
+            CanUserResizeColumns="False"
+            CanUserResizeRows="False" 
+            CanUserSortColumns="True"
+            Grid.Column="0"
+            Grid.ColumnSpan="8" 
+            Grid.Row="6" 
+            Grid.RowSpan="4"      
+            HorizontalAlignment="Stretch"
+            IsReadOnly="True"
+            IsEnabled="False"
+            Margin="15 15"
+            VerticalAlignment="Stretch"
+            x:Name="StudentsList">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Matrícula" IsReadOnly="True" Width="130"
+                                    Binding="{Binding Matricula }" />
+                    <DataGridTextColumn Header="Nombre" IsReadOnly="True" Width="130"
+                                    Binding="{Binding Nombre }" />
+                    <DataGridTextColumn Header="Apellido paterno" IsReadOnly="True" Width="*"
+                                    Binding="{Binding Apellidopaterno }" />
+                    <DataGridTextColumn Header="Apellido materno" IsReadOnly="True" Width="*"
+                                    Binding="{Binding Apellidomaterno }" />
+                </DataGrid.Columns>
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridCell">
+                        <Style.Triggers>
+                            <Trigger Property="IsReadOnly" Value="True">
+                                <Setter Property="IsTabStop" Value="False"/>
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#049c33" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#04539c" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White" />
+                </DataGrid.Resources>
+            </DataGrid>
+
+            <Button 
+            Click="CancelButton_Click"
+            Content="Cancelar"
+            Grid.Column="6" 
+            Grid.Row="10" 
+            HorizontalAlignment="Right"
+            Style="{DynamicResource SecundaryButton }"
+            x:Name="CancelButton" />
+
+            <Button 
+            Click="SaveChangesButton_Click"
+            Content="Guardar"
+            Grid.Column="5" 
+            Grid.Row="10" 
+            HorizontalAlignment="Left"
+            Margin="15 5"
+            Visibility="Hidden"
+            x:Name="SaveChangesButton">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedAccentButton}">
+                        <Setter Property="FontSize" Value="14" />
+                        <Setter Property="Foreground" Value="#FFFF" />
+                        <Setter Property="Background" Value="#049c33" />
+                        <Setter Property="BorderBrush" Value="#049c33" />
+                        <Setter Property="BorderThickness" Value="3" />
+                        <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="10" />
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxName, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxDescription, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=ComboBoxCapacidad, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=TextBoxActividades, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=ComboBoxResponsable, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=ComboBoxOrganization, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+    </Grid>
+</Page>

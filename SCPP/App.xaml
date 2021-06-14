@@ -2,8 +2,121 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:SCPP"
-             StartupUri="MainWindow.xaml">
+             xmlns:materialDesign="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+             StartupUri="View/MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+            <ResourceDictionary.MergedDictionaries>
+                <materialDesign:CustomColorTheme BaseTheme="Light" PrimaryColor="#049c33" SecondaryColor="#04539c" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="PrimaryButton" BasedOn="{StaticResource MaterialDesignRaisedAccentButton}" TargetType="{x:Type Button}">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Foreground" Value="#FFFF"/>
+                <Setter Property="Background" Value="#049c33"/>
+                <Setter Property="BorderBrush" Value="#049c33"/>
+                <Setter Property="BorderThickness" Value="3"/>
+                <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="10"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+            </Style>
+
+            <Style x:Key="SecundaryButton" BasedOn="{StaticResource MaterialDesignRaisedAccentButton}" TargetType="{x:Type Button}">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Foreground" Value="#FFFF"/>
+                <Setter Property="Background" Value="#04539c"/>
+                <Setter Property="BorderBrush" Value="#04539c"/>
+                <Setter Property="BorderThickness" Value="3"/>
+                <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="10"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+            </Style>
+
+            <Style x:Key="TextBox" BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}" TargetType="{x:Type TextBox}">
+                <Setter Property="materialDesign:HintAssist.IsFloating" Value="True"/>
+                <Setter Property="materialDesign:HintAssist.Foreground" Value="#04539c"/>
+                <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="#04539c"/>
+            </Style>
+
+            <Style x:Key="PasswordBox" BasedOn="{StaticResource MaterialDesignFloatingHintPasswordBox}" TargetType="{x:Type PasswordBox}">
+                <Setter Property="materialDesign:HintAssist.IsFloating" Value="True"/>
+                <Setter Property="materialDesign:HintAssist.Foreground" Value="#04539c"/>
+                <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="#04539c"/>
+            </Style>
+
+            <ImageBrush x:Key="MenuToggleButton_MouseOver"
+                    ImageSource="/SCPP;component/Utilities/Imágenes/tgBtn_MouseOver.png"/>
+
+            <!--Text font style-->
+            <Style x:Key="FontStyle" TargetType="TextBlock">
+                <Setter Property="VerticalAlignment"
+                    Value="Center"/>
+                <Setter Property="HorizontalAlignment"
+                    Value="Left"/>
+                <Setter Property="Foreground"
+                    Value="White"/>
+                <Setter Property="FontSize"
+                    Value="20"/>
+            </Style>
+
+            <!--Tooltip Style Templete-->
+            <Style TargetType="ToolTip" x:Key="ToolTipeStyle">
+                <Setter Property="Placement" Value="Right"/>
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="Width" Value="140"/>
+                <Setter Property="Margin" Value="20,0,0,0"/>
+                <Setter Property="Background" Value="Gray"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="PlacementRectangle" Value="60,0,0,0"/>
+                <Setter Property="HorizontalOffset" Value="147"/>
+                <Setter Property="VerticalOffset" Value="4"/>
+                <Setter Property="HasDropShadow" Value="True"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            </Style>
+
+            <Style x:Key="MenuToggleButton" TargetType="{x:Type ToggleButton}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Border x:Name="border"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="True">
+
+                            </Border>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter Property="Background"
+                                    TargetName="border"
+                                    Value="{StaticResource MenuToggleButton_MouseOver}"/>
+
+                                    <Setter Property="BorderBrush"
+                                    TargetName="border"
+                                    Value="{StaticResource MenuToggleButton_MouseOver}"/>
+                                </Trigger>
+
+                                <Trigger Property="IsChecked" Value="true">
+                                    <Setter Property="Background"
+                                    TargetName="border"
+                                    Value="{StaticResource MenuToggleButton_MouseOver}"/>
+                                    <Setter Property="BorderBrush"
+                                    TargetName="border"
+                                    Value="{StaticResource MenuToggleButton_MouseOver}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="CenterColumnHeader" TargetType="DataGridColumnHeader"  BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
