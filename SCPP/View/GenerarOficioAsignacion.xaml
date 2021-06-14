@@ -45,7 +45,8 @@
             Margin=" 35 0 35 0"
             materialDesign:HintAssist.Hint="Realice una busqueda especifica"
             Style="{DynamicResource TextBox}"
-            VerticalContentAlignment="Center" 
+            VerticalContentAlignment="Center"
+            Visibility="Hidden"
             x:Name="TextBoxSearch">
         </TextBox>
 

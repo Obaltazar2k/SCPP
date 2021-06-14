@@ -28,6 +28,7 @@ namespace SCPP.View
         private string period = Period.GetPeriod();
         private ObservableCollection<Estudiante> selectedStudents = null;
         private ObservableCollection<Estudiante> studentsCollection;
+        public bool isFromRegisterStudent = false;
         public GenerarOficioAsignacion()
         {
             try
@@ -47,6 +48,7 @@ namespace SCPP.View
         {
             try
             {
+                isFromRegisterStudent = true;
                 InitializeComponent();
                 GetSesion();
                 GetStudents();
@@ -64,6 +66,8 @@ namespace SCPP.View
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
+            if (isFromRegisterStudent)
+                NavigationService.RemoveBackEntry();
             if (NavigationService.CanGoBack)
                 NavigationService.GoBack();
             else
